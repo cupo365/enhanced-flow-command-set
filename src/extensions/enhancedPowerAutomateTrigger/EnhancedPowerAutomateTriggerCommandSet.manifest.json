@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/command-set-extension-manifest.schema.json",
+
+  "id": "543ef5be-c9cb-4b7b-bdaf-592c7be1493a",
+  "alias": "EnhancedPowerAutomateTriggerCommandSet",
+  "componentType": "Extension",
+  "extensionType": "ListViewCommandSet",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+
+  "items": {
+    "TRIGGER_FLOW": {
+      "title": { "default": "Trigger flow" },
+      "iconImageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAQVQTFRFAAAAAnZ6AnZ6Ao+VAaKoAnZ6AnZ6AoSJAaCmAaKoAnZ6AnZ6AoCFAZ2jAaKoAaKoAaKoAnZ6AnZ6An2CAZ+lAaKoAamvAnZ6AnZ6AnZ6AnyBApieAquyAcDIAMTMAnZ6AnZ6AnZ6Anp+ApmfAamvAcLKAMTMAMTMAMTMAnZ6Anh9A5CXAqeuAb3FAMTMAaKoAaKoAqWrAb7GAcPLAaKoAaKoAaKoAqSqAre/AcPLAsDJAaKoAaKoAaKoAaOpArnBAMPLA7/IAaKoAaKoAaKpA7C5AMTMAsDKAaKoAaKoArK6AMPMA8DKAaKoAMLKAMTMAsHKAaKoAaKoBK22BLO8A7fAN2SN5EI1gwAAAFd0Uk5TAEpVOAHr///zcF7z////9DdW+f//7UYEjvz////ZIgiA/v//////yiYFvP///78FvP//twiA/v//wB4Ejvz//9IbVvn//+U8XvP/7y7r//BjSlVVVTcACWJL1gAAAKRJREFUeJxlz0WyQjEURdGHPTy4fdyCu7u7f2T+Q+GeAB04vbUrlUok6XsK5WcqtQga+T2tTi+CwfiyycwsVlFsdtjhZIy53Ager0+W//xkFgiGUMKRaCwOJ5I8lUbJZHNwvsA5LyKUynClSuY1cr3RJLfacKcrSb3+gDwcweMJHZjOyPMFvFyR1xtcsIV3e9x4EA84kk9n8dDLP+16o90fPz/HnsNOFwINf3vQAAAAAElFTkSuQmCC",
+      "type": "command"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://mkvj.sharepoint.com/sites/mkvj/Shared%20Documents/Forms/AllItems.aspx",
+      "customActions": {
+        "543ef5be-c9cb-4b7b-bdaf-592c7be1493a": {
+          "location": "ClientSideExtension.ListViewCommandSet.CommandBar",
+          "properties": {
+            "configListTitle": "Enhanced Power Automate Trigger Configuration"
+          }
+        }
+      }
+    },
+    "enhancedPowerAutomateTrigger": {
+      "pageUrl": "https://mkvj.sharepoint.com/sites/mkvj/Shared%20Documents/Forms/AllItems.aspx",
+      "customActions": {
+        "543ef5be-c9cb-4b7b-bdaf-592c7be1493a": {
+          "location": "ClientSideExtension.ListViewCommandSet.CommandBar",
+          "properties": {
+            "configListTitle": "Enhanced Power Automate Trigger Configuration"
+          }
+        }
+      }
+    }
+  }
+}

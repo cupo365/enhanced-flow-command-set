@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "enhanced-power-automate-trigger-client-side-solution",
+    "id": "6a305bc9-c1e5-4995-a23e-959851d784f6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "cup o'365",
+      "websiteUrl": "https://cupo365.gg",
+      "privacyUrl": "https://cupo365.gg/privacy-policy",
+      "termsOfUseUrl": "https://cup0365.gg/disclaimer",
+      "mpnId": ""
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more files."
+      },
+      "longDescription": {
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more files."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Application Extension - Deployment of custom action",
+        "description": "Deploys a custom action with ClientSideComponentId association",
+        "id": "2f4bcd0a-2956-4803-8024-911265601037",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": [
+            "elements.xml",
+            "ClientSideInstance.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/enhanced-power-automate-trigger.sppkg"
+  }
+}

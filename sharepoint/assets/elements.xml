@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="EnhancedPowerAutomateTrigger"
+        RegistrationId="101"
+        RegistrationType="List"
+        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
+        ClientSideComponentId="543ef5be-c9cb-4b7b-bdaf-592c7be1493a"
+        ClientSideComponentProperties="{&quot;configListTitle&quot;:&quot;Enhanced Power Automate Trigger Configuration&quot;}">
+    </CustomAction>
+</Elements>

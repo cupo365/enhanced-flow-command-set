@@ -1,0 +1,298 @@
+[
+  {
+    "_fields": [
+      {
+        "id": {
+          "_guid": "081c6e4c-5c14-4f20-b23e-1a71ceb6a67c"
+        },
+        "internalName": "DocIcon",
+        "fieldType": "Computed",
+        "isRequired": false,
+        "displayName": "Type",
+        "clientSideComponentId": {
+          "_guid": "00000000-0000-0000-0000-000000000000"
+        },
+        "clientSideComponentProperties": ""
+      },
+      {
+        "id": {
+          "_guid": "5cc6dc79-3710-4374-b433-61cb4a686c12"
+        },
+        "internalName": "FileLeafRef",
+        "fieldType": "Computed",
+        "isRequired": false,
+        "displayName": "Name",
+        "clientSideComponentId": {
+          "_guid": "00000000-0000-0000-0000-000000000000"
+        },
+        "clientSideComponentProperties": ""
+      },
+      {
+        "id": {
+          "_guid": "28cf69c5-fa48-462a-b5cd-27b6f9d2bd5f"
+        },
+        "internalName": "Modified",
+        "fieldType": "DateTime",
+        "isRequired": false,
+        "displayName": "Modified",
+        "clientSideComponentId": {
+          "_guid": "00000000-0000-0000-0000-000000000000"
+        },
+        "clientSideComponentProperties": ""
+      },
+      {
+        "id": {
+          "_guid": "d31655d1-1d5b-4511-95a1-7a09e9b75bf2"
+        },
+        "internalName": "Editor",
+        "fieldType": "User",
+        "isRequired": false,
+        "displayName": "Modified By",
+        "clientSideComponentId": {
+          "_guid": "00000000-0000-0000-0000-000000000000"
+        },
+        "clientSideComponentProperties": ""
+      }
+    ],
+    "_values": [
+      [
+        {
+          "key": "ID",
+          "value": "3"
+        },
+        {
+          "key": "PermMask",
+          "value": "0x7ffffffffffbffff"
+        },
+        {
+          "key": "FSObjType",
+          "value": "0"
+        },
+        {
+          "key": "HTML_x0020_File_x0020_Type",
+          "value": ""
+        },
+        {
+          "key": "UniqueId",
+          "value": "{31F780FB-D925-455F-AFCE-715063227FB3}"
+        },
+        {
+          "key": "ProgId",
+          "value": ""
+        },
+        {
+          "key": "NoExecute",
+          "value": "1"
+        },
+        {
+          "key": "ContentTypeId",
+          "value": "0x0101005E37CFFF409B57499A850DC76B339584"
+        },
+        {
+          "key": "FileRef",
+          "value": "/sites/mkvj/Shared Documents/Lorem ipsum dolor sit amet 1.docx"
+        },
+        {
+          "key": "SMTotalSize",
+          "value": "20626"
+        },
+        {
+          "key": "File_x0020_Size",
+          "value": "19709"
+        },
+        {
+          "key": "MediaServiceFastMetadata",
+          "value": "{}"
+        },
+        {
+          "key": "_CommentFlags",
+          "value": ""
+        },
+        {
+          "key": "File_x0020_Type",
+          "value": "docx"
+        },
+        {
+          "key": "File_x0020_Type.mapapp",
+          "value": "ms-word"
+        },
+        {
+          "key": "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon",
+          "value": "SharePoint.OpenDocuments"
+        },
+        {
+          "key": "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico",
+          "value": "icdocx.png"
+        },
+        {
+          "key": "serverurl.progid",
+          "value": "1https://mkvj.sharepoint.com/sites/mkvj/_layouts/15/Doc.aspx?sourcedoc=%7B31F780FB-D925-455F-AFCE-715063227FB3%7D&file=Lorem%20ipsum%20dolor%20sit%20amet%201.docx&action=default&mobileredirect=true"
+        },
+        {
+          "key": "ServerRedirectedEmbedUrl",
+          "value": "https://mkvj.sharepoint.com/sites/mkvj/_layouts/15/Doc.aspx?sourcedoc={31f780fb-d925-455f-afce-715063227fb3}&action=interactivepreview"
+        },
+        {
+          "key": "File_x0020_Type.progid",
+          "value": "SharePoint.OpenDocuments.3"
+        },
+        {
+          "key": "File_x0020_Type.url",
+          "value": "FALSE"
+        },
+        {
+          "key": "FileLeafRef",
+          "value": "Lorem ipsum dolor sit amet 1.docx"
+        },
+        {
+          "key": "CheckoutUser",
+          "value": ""
+        },
+        {
+          "key": "CheckedOutUserId",
+          "value": ""
+        },
+        {
+          "key": "IsCheckedoutToLocal",
+          "value": "0"
+        },
+        {
+          "key": "_ComplianceFlags",
+          "value": ""
+        },
+        {
+          "key": "_ShortcutUrl",
+          "value": ""
+        },
+        {
+          "key": "_ShortcutUrl.desc",
+          "value": ""
+        },
+        {
+          "key": "_ShortcutSiteId",
+          "value": ""
+        },
+        {
+          "key": "_ShortcutWebId",
+          "value": ""
+        },
+        {
+          "key": "_ShortcutUniqueId",
+          "value": ""
+        },
+        {
+          "key": "Created_x0020_Date.ifnew",
+          "value": "1"
+        },
+        {
+          "key": "Modified",
+          "value": "3/27/2022 6:12 AM"
+        },
+        {
+          "key": "Modified.",
+          "value": "2022-03-27T13:12:48Z"
+        },
+        {
+          "key": "Modified.FriendlyDisplay",
+          "value": "1|0|6|3"
+        },
+        {
+          "key": "Editor",
+          "value": [
+            {
+              "id": "11",
+              "title": "Len de Waart",
+              "email": "adm_lwa@mkvj.onmicrosoft.com",
+              "sip": "adm_lwa@mkvj.onmicrosoft.com",
+              "picture": ""
+            }
+          ]
+        },
+        {
+          "key": "ItemChildCount",
+          "value": "0"
+        },
+        {
+          "key": "FolderChildCount",
+          "value": "0"
+        },
+        {
+          "key": "A2ODMountCount",
+          "value": ""
+        },
+        {
+          "key": "_StubFile",
+          "value": "0"
+        },
+        {
+          "key": "_ExpirationDate",
+          "value": ""
+        },
+        {
+          "key": "owshiddenversion",
+          "value": "1"
+        },
+        {
+          "key": "ContentVersion",
+          "value": "2"
+        },
+        {
+          "key": "DocConcurrencyNumber",
+          "value": "1"
+        },
+        {
+          "key": "_VirusStatus",
+          "value": "0"
+        },
+        {
+          "key": "Restricted",
+          "value": ""
+        },
+        {
+          "key": ".spItemUrl",
+          "value": "https://mkvj.sharepoint.com:443/_api/v2.0/drives/b!ZXkYPD3r_0WGi_r3xd8Kc9t8aj-vNqRCmdUgB4PPy4OKHyIUZP2PRKQYNozEA3tn/items/01V45PYCH3QD3TCJOZL5C27TTRKBRSE75T?version=Published"
+        },
+        {
+          "key": ".fileType",
+          "value": "docx"
+        },
+        {
+          "key": ".hasThumbnail",
+          "value": "True"
+        },
+        {
+          "key": ".hasVideoManifest",
+          "value": "False"
+        },
+        {
+          "key": ".hasPdf",
+          "value": "True"
+        },
+        {
+          "key": ".hasOfficePreview",
+          "value": "True"
+        },
+        {
+          "key": ".hasBxf",
+          "value": "False"
+        },
+        {
+          "key": ".hasGlb",
+          "value": "False"
+        },
+        {
+          "key": ".hasHtml",
+          "value": "False"
+        },
+        {
+          "key": ".ctag",
+          "value": "\"c:{31F780FB-D925-455F-AFCE-715063227FB3},2\""
+        },
+        {
+          "key": ".etag",
+          "value": "\"{31F780FB-D925-455F-AFCE-715063227FB3},1\""
+        }
+      ]
+    ]
+  }
+]
