@@ -1,16 +1,16 @@
-import * as React from "react";
-import { Dialog, DialogType, DialogFooter } from "@fluentui/react/lib/Dialog";
-import { PrimaryButton } from "office-ui-fabric-react";
-import styles from "./BlockingDialog.module.scss";
-import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
-import { stringIsNullOrEmpty } from "@pnp/pnpjs";
-import { IFlowConfig, IFlowResponse } from "../../../../models";
+import { Spinner, SpinnerSize } from "@fluentui/react";
+import { Dialog, DialogFooter, DialogType } from "@fluentui/react/lib/Dialog";
 import {
   ListViewCommandSetContext,
-  RowAccessor,
+  RowAccessor
 } from "@microsoft/sp-listview-extensibility";
+import { stringIsNullOrEmpty } from "@pnp/pnpjs";
+import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
+import { PrimaryButton } from "office-ui-fabric-react";
+import * as React from "react";
+import { IFlowConfig, IFlowResponse } from "../../../../models";
 import { IFlowService } from "../../../../services/FlowService";
-import { Spinner, SpinnerSize } from "@fluentui/react";
+import styles from "./BlockingDialog.module.scss";
 
 export interface IBlockingDialogProps {
   refreshPage(): void;
@@ -35,37 +35,37 @@ export const BlockingDialog: React.FunctionComponent<IBlockingDialogProps> = (
     title: isWaitingForResponse
       ? strings.WaitingForFlowResponseDialogHeader
       : !showResultDialog
-      ? strings.SelectFlowDialogHeader
-      : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
-      ? strings.SuccessDialogHeader
-      : strings.FailedDialogHeader,
+        ? strings.SelectFlowDialogHeader
+        : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
+          ? strings.SuccessDialogHeader
+          : strings.FailedDialogHeader,
     subText: isWaitingForResponse
       ? strings.WaitingForFlowResponseDialogSubText
       : !showResultDialog
-      ? strings.SelectFlowDialogSubText
-      : flowResponse && flowResponse?.statusCode === 202
-      ? strings.InvokedDialogSubText + " " + strings.CloseDialogUserInstruction
-      : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
-      ? !stringIsNullOrEmpty(flowResponse?.message)
-        ? strings.SuccessDialogSubTextWithMessage.replace(
-            "$message",
-            flowResponse?.message
-          ) +
-          " " +
-          strings.CloseDialogUserInstruction
-        : strings.SuccessDialogSubTextWithoutMessage +
-          " " +
-          strings.CloseDialogUserInstruction
-      : !stringIsNullOrEmpty(flowResponse?.message)
-      ? strings.FailedDialogSubTextWithMessage.replace(
-          "$message",
-          flowResponse?.message
-        ) +
-        " " +
-        strings.CloseDialogUserInstruction
-      : strings.FailedDialogSubTextWithoutMessage +
-        " " +
-        strings.CloseDialogUserInstruction,
+        ? strings.SelectFlowDialogSubText
+        : flowResponse && flowResponse?.statusCode === 202
+          ? strings.InvokedDialogSubText + " " + strings.CloseDialogUserInstruction
+          : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
+            ? !stringIsNullOrEmpty(flowResponse?.message)
+              ? strings.SuccessDialogSubTextWithMessage.replace(
+                "$message",
+                flowResponse?.message
+              ) +
+              " " +
+              strings.CloseDialogUserInstruction
+              : strings.SuccessDialogSubTextWithoutMessage +
+              " " +
+              strings.CloseDialogUserInstruction
+            : !stringIsNullOrEmpty(flowResponse?.message)
+              ? strings.FailedDialogSubTextWithMessage.replace(
+                "$message",
+                flowResponse?.message
+              ) +
+              " " +
+              strings.CloseDialogUserInstruction
+              : strings.FailedDialogSubTextWithoutMessage +
+              " " +
+              strings.CloseDialogUserInstruction,
   };
 
   const modalProps = {
@@ -78,7 +78,7 @@ export const BlockingDialog: React.FunctionComponent<IBlockingDialogProps> = (
     setIsWaitingForResponse(true);
     await props.flowService
       .invokeFlow(props.context, flowConfig, props.selectedItems)
-      .then((response: IFlowResponse) => {
+      .then((response: IFlowResponse): void => {
         setFlowResponse(response);
         setShowResultDialog(true);
         setIsWaitingForResponse(false);
@@ -110,7 +110,7 @@ export const BlockingDialog: React.FunctionComponent<IBlockingDialogProps> = (
             <PrimaryButton
               text={flowConfig.actionName}
               className={styles.flowButton}
-              onClick={async () => {
+              onClick={async (): Promise<void> => {
                 await onFlowInvoke(flowConfig);
               }}
             />

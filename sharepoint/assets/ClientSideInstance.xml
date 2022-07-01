@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
-    <ClientSideComponentInstance
-        Title="EnhancedPowerAutomateTrigger"
-        Location="ClientSideExtension.ListViewCommandSet.CommandBar"
-        ListTemplateId="101"
-        Properties="{&quot;configListTitle&quot;:&quot;Enhanced Power Automate Trigger Configuration&quot;}"
-        ComponentId="543ef5be-c9cb-4b7b-bdaf-592c7be1493a" />
+  <ClientSideComponentInstance Title="EnhancedPowerAutomateTrigger" Location="ClientSideExtension.ListViewCommandSet.CommandBar" ListTemplateId="100" Properties="{&quot;configListTitle&quot;:&quot;Enhanced Power Automate Trigger Configuration&quot;}" ComponentId="817ae812-ac12-4047-accf-c9766b6a434a" />
 </Elements>

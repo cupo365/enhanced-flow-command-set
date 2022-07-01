@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more files."
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more items."
       },
       "longDescription": {
-        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more files."
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more items."
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -29,13 +29,11 @@
       {
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
-        "id": "2f4bcd0a-2956-4803-8024-911265601037",
+        "id": "4891fcc5-7de8-4336-aea9-0957ffeb83d4",
         "version": "1.0.0.0",
         "assets": {
-          "elementManifests": [
-            "elements.xml",
-            "ClientSideInstance.xml"
-          ]
+          "elementManifests": ["elements.xml", "ClientSideInstance.xml"],
+          "elementFiles": ["triggerConfigListSchema.xml"]
         }
       }
     ]

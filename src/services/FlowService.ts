@@ -1,48 +1,48 @@
 import { ServiceKey } from "@microsoft/sp-core-library";
+import { HttpClient, HttpClientResponse, IHttpClientOptions } from '@microsoft/sp-http';
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
-import { IFlowConfig, IFlowRequestBody, IFlowResponse, ISelectedFile, isFlowConfigValid } from "../models";
-import { HttpClient, IHttpClientOptions, HttpClientResponse } from '@microsoft/sp-http';
+import { IFlowConfig, IFlowRequestBody, IFlowResponse, ISelectedItem, isFlowConfigValid } from "../models";
 
 export interface IFlowService {
   invokeFlow(context: ListViewCommandSetContext, flowConfig: IFlowConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse>;
 }
 
 export default class FlowService implements IFlowService {
-  constructor() {}
+  constructor() { }
 
   public invokeFlow = async (context: ListViewCommandSetContext, flowConfig: IFlowConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse> => {
     try {
       if (!isFlowConfigValid(flowConfig)) {
-        throw new Error("Flow configuration is invalid.");
+        throw "Flow configuration is invalid.";
       }
 
-      switch(flowConfig.trigger.method) {
+      switch (flowConfig.method) {
         case 'GET':
           let httpClientGetOptions: IHttpClientOptions = this._createHttpClientGetOptions();
 
           if (!httpClientGetOptions) {
-            throw new Error("HTTP client options are invalid.");
+            throw "HTTP client options are invalid.";
           }
-          return await context.httpClient.get(flowConfig.trigger.url, HttpClient.configurations.v1, httpClientGetOptions)
+          return await context.httpClient.get(flowConfig.url, HttpClient.configurations.v1, httpClientGetOptions)
             .then(async (response: HttpClientResponse) => {
               return {
                 statusCode: response?.status,
                 message: await this._tryGetMessageFromResponseBody(response)
               };
-          });
+            });
         case 'POST':
           let httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems);
 
           if (!httpClientPostOptions) {
-            throw new Error("HTTP client options are invalid.");
+            throw "HTTP client options are invalid.";
           }
-          return await context.httpClient.post(flowConfig.trigger.url, HttpClient.configurations.v1, httpClientPostOptions)
-          .then(async (response: HttpClientResponse) => {
-            return {
-              statusCode: response?.status,
-              message: await this._tryGetMessageFromResponseBody(response)
-            };
-        });
+          return await context.httpClient.post(flowConfig.url, HttpClient.configurations.v1, httpClientPostOptions)
+            .then(async (response: HttpClientResponse) => {
+              return {
+                statusCode: response?.status,
+                message: await this._tryGetMessageFromResponseBody(response)
+              };
+            });
         default:
           return null;
       }
@@ -53,8 +53,8 @@ export default class FlowService implements IFlowService {
 
   private _tryGetMessageFromResponseBody = async (response: HttpClientResponse): Promise<string> => {
     try {
-      return await response?.json()?.then((result) => {
-        return result?.message;
+      return await response?.json()?.then((result: any): Promise<any> => {
+        return Promise.resolve(result?.message);
       });
     } catch (ex) {
       return null;
@@ -63,17 +63,17 @@ export default class FlowService implements IFlowService {
 
   private _createHttpClientPostOptions = (context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[]): IHttpClientOptions => {
     try {
-      let processedSelectedFiles: ISelectedFile[] = [];
+      let processedSelectedItems: ISelectedItem[] = [];
 
-      selectedItems.forEach((selectedItem: RowAccessor) => {
-        let processedSelectedFile: ISelectedFile = {
+      selectedItems.forEach((selectedItem: RowAccessor): void => {
+        let processedSelectedItem: ISelectedItem = {
           id: parseInt(selectedItem?.getValueByName("ID")),
           fileRef: selectedItem?.getValueByName("FileRef"),
           fileLeafRef: selectedItem?.getValueByName("FileLeafRef"),
           fileType: selectedItem?.getValueByName("File_x0020_Type"),
-          editor: selectedItem?.getValueByName("Editor")[0]?.email
+          uniqueIdentifier: selectedItem?.getValueByName("UniqueId")
         };
-        processedSelectedFiles.push(processedSelectedFile);
+        processedSelectedItems.push(processedSelectedItem);
       });
 
       let requestHeaders: Headers = new Headers();
@@ -83,7 +83,9 @@ export default class FlowService implements IFlowService {
       let requestBody: IFlowRequestBody = {
         site: context.pageContext.site.absoluteUrl,
         tenantUrl: context.pageContext.legacyPageContext?.portalUrl,
-        selectedFiles: processedSelectedFiles
+        listId: context.pageContext.list?.id.toString(),
+        culture: context.pageContext.cultureInfo.currentUICultureName,
+        selectedItems: processedSelectedItems
       };
 
       let httpClientOptions: IHttpClientOptions = {

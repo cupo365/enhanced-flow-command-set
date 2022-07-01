@@ -1,15 +1,15 @@
 import { stringIsNullOrEmpty } from "@pnp/pnpjs";
-import { isTriggerConfigValid, ITriggerConfig } from "./ITriggerConfig";
 
 export interface IFlowConfig {
-  actionName?: string;
-  trigger?: ITriggerConfig;
+  actionName: string;
+  url: string;
+  method: string;
 }
 
 export const isFlowConfigValid = (flowConfig: IFlowConfig): boolean => {
   try {
     if (flowConfig && !stringIsNullOrEmpty(flowConfig?.actionName)
-          && isTriggerConfigValid(flowConfig?.trigger)) {
+      && !stringIsNullOrEmpty(flowConfig?.url) && !stringIsNullOrEmpty(flowConfig?.method)) {
       return true;
     } else {
       return false;

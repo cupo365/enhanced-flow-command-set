@@ -1,0 +1,39 @@
+<List xmlns:ows="Microsoft SharePoint" Title="Enhanced Power Automate Trigger Configuration" EnableContentTypes="FALSE" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/EnhancedPowerAutomateTriggerConfiguration" BaseType="0"
+  xmlns="http://schemas.microsoft.com/sharepoint/" DisableAttachments="TRUE">
+  <MetaData>
+    <ContentTypes></ContentTypes>
+    <Fields>
+      <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="Titel" Required="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" FromBaseType="TRUE" />
+      <Field ID="{a41adbe7-8251-4ffd-9bc9-95299c8f472d}" Type="Text" Name="TriggerURL" DisplayName="Trigger URL" Required="TRUE" StaticName="TriggerURL" />
+      <Field ID="{7b215765-2770-4ce6-992a-ed3cdf084033}" Type="Choice" DisplayName="HTTP Type" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="HTTPType" StaticName="HTTPType" Required="TRUE">
+        <CHOICES>
+          <CHOICE>POST</CHOICE>
+        </CHOICES>
+        <Default>POST</Default>
+      </Field>
+    </Fields>
+    <Views>
+      <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/images/generic.png" Url="AllItems.aspx">
+        <XslLink Default="TRUE">main.xsl</XslLink>
+        <JSLink>clienttemplates.js</JSLink>
+        <RowLimit Paged="TRUE">30</RowLimit>
+        <Toolbar Type="Standard" />
+        <ViewFields>
+          <FieldRef Name="Title"></FieldRef>
+          <FieldRef Name="TriggerURL"></FieldRef>
+          <FieldRef Name="HTTPType"></FieldRef>
+        </ViewFields>
+        <Query>
+          <OrderBy>
+            <FieldRef Name="ID" />
+          </OrderBy>
+        </Query>
+      </View>
+    </Views>
+    <Forms>
+      <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+    </Forms>
+  </MetaData>
+</List>

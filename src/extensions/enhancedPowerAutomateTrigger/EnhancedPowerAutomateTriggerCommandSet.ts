@@ -1,18 +1,15 @@
 import { override } from "@microsoft/decorators";
+import { ServiceScope } from "@microsoft/sp-core-library";
 import {
-  BaseListViewCommandSet,
-  IListViewCommandSetListViewUpdatedParameters,
-  IListViewCommandSetExecuteEventParameters,
-  Command,
+  BaseListViewCommandSet, Command, IListViewCommandSetExecuteEventParameters, IListViewCommandSetListViewUpdatedParameters
 } from "@microsoft/sp-listview-extensibility";
-import * as ReactDOM from "react-dom";
-import * as React from "react";
 import { sp } from "@pnp/sp";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import Dependencies, { inject } from "../../di/DependenciesManager";
-import SPOService, { ISPOService } from "../../services/SPOService";
-
 import { IFlowConfig } from "../../models";
 import FlowService, { FlowServiceKey, IFlowService } from "../../services/FlowService";
+import SPOService, { ISPOService } from "../../services/SPOService";
 import { BlockingDialog } from "./components/BlockingDialog/BlockingDialog";
 
 /**
@@ -48,8 +45,8 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
 
       this._spoService = new SPOService();
 
-      this._spoService.getFlowConfig(this.context.pageContext.legacyPageContext?.portalUrl, this.properties.configListTitle)
-        .then((flowConfigs: IFlowConfig[]) => {
+      this._spoService.getFlowConfig(this.context.pageContext.web?.absoluteUrl, this.properties.configListTitle)
+        .then((flowConfigs: IFlowConfig[]): void => {
           this._flowConfigs = flowConfigs;
 
           const triggerFlowCommand: Command = this.tryGetCommand("TRIGGER_FLOW");
@@ -58,7 +55,7 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
           }
 
           if (!flowConfigs) {
-            throw new Error("Flow configuration is invalid.");
+            throw "Flow configuration is invalid.";
           }
 
           // Create the container for our React component
@@ -68,14 +65,14 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
 
           Dependencies.configure(
             this.context.serviceScope,
-            (rootServiceScope_2) => {
-              return new Promise((resolve, reject) => {
+            (rootServiceScope_2: ServiceScope): Promise<ServiceScope> => {
+              return new Promise((resolve, reject): void => {
                 let usedScope = rootServiceScope_2;
                 let childScope = rootServiceScope_2.startNewChild();
                 childScope.createAndProvide(FlowServiceKey, FlowService);
                 childScope.finish();
                 usedScope = childScope;
-                usedScope.whenFinished(() => {
+                usedScope.whenFinished((): void => {
                   resolve(usedScope);
                 });
               });
@@ -87,8 +84,8 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
 
       return Promise.resolve();
     } catch (ex) {
-      console.log("EnhancedPowerAutomateTriggerCommandSet -> Error while initializing");
-      return Promise.resolve();
+      console.log("EnhancedPowerAutomateTriggerCommandSet -> Failed to initialize");
+      return Promise.reject(ex);
     }
   }
 
@@ -103,8 +100,11 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
       if (triggerFlowCommand) {
         triggerFlowCommand.visible = showButton;
       }
+
+      Promise.resolve();
     } catch (ex) {
       console.log("EnhancedPowerAutomateTriggerCommandSet -> Error on listview update.");
+      Promise.reject(ex);
     }
   }
 
@@ -123,8 +123,11 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
         });
         ReactDOM.render(blockingDialog, this._dialogPlaceHolder);
       }
+
+      Promise.resolve();
     } catch (ex) {
       console.log("EnhancedPowerAutomateTriggerCommandSet -> Error on execute.");
+      Promise.reject(ex);
     }
   }
 

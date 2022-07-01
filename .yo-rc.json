@@ -8,7 +8,7 @@
     "environment": "spo",
     "packageManager": "npm",
     "solutionName": "enhanced-power-automate-trigger",
-    "solutionShortDescription": "Trigger a Power Automate flow from SharePoint while selecting one or more files.",
+    "solutionShortDescription": "Trigger a Power Automate flow from SharePoint while selecting one or more items.",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "componentType": "extension",

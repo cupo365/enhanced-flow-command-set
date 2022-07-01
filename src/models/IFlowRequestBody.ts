@@ -1,7 +1,9 @@
-import { ISelectedFile } from "./ISelectedFile";
+import { ISelectedItem } from "./ISelectedItem";
 
 export interface IFlowRequestBody {
   site: string;
   tenantUrl: string;
-  selectedFiles: ISelectedFile[];
+  listId: string;
+  culture: string;
+  selectedItems: ISelectedItem[];
 }

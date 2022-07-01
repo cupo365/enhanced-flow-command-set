@@ -1,7 +1,7 @@
-export interface ISelectedFile {
+export interface ISelectedItem {
   id: number;
   fileRef: string;
   fileLeafRef: string;
   fileType: string;
-  editor: string;
+  uniqueIdentifier: string;
 }

@@ -1,0 +1,115 @@
+[
+  {
+    "_fields": [
+      {
+        "id": {
+          "_guid": "82642ec8-ef9b-478f-acf9-31f7d45fbc31"
+        },
+        "internalName": "Title",
+        "fieldType": "Computed",
+        "isRequired": false,
+        "displayName": "Title",
+        "clientSideComponentId": {
+          "_guid": "00000000-0000-0000-0000-000000000000"
+        },
+        "clientSideComponentProperties": ""
+      }
+    ],
+    "_values": [
+      [
+        {
+          "key": "ID",
+          "value": "1"
+        },
+        {
+          "key": "PermMask",
+          "value": "0x7fffffffffffffff"
+        },
+        {
+          "key": "FSObjType",
+          "value": "0"
+        },
+        {
+          "key": "UniqueId",
+          "value": "{30758281-57B5-44D2-877F-A837318D093F}"
+        },
+        {
+          "key": "ContentTypeId",
+          "value": "0x01009065A2AE4229A544BB9E5F5DE97BA03F0077E1F74ED448234FAC3198F205C065EC"
+        },
+        {
+          "key": "FileRef",
+          "value": "/sites/I_ontruimingsplannen/Lists/Test/1_.000"
+        },
+        {
+          "key": "Attachments",
+          "value": "0"
+        },
+        {
+          "key": "SMTotalSize",
+          "value": "182"
+        },
+        {
+          "key": "_CommentFlags",
+          "value": ""
+        },
+        {
+          "key": "_CommentCount",
+          "value": ""
+        },
+        {
+          "key": "Title",
+          "value": "Test1"
+        },
+        {
+          "key": "FileLeafRef",
+          "value": "1_.000"
+        },
+        {
+          "key": "Created_x0020_Date",
+          "value": "1;#2022-07-01 17:21:13"
+        },
+        {
+          "key": "Created_x0020_Date.ifnew",
+          "value": "1"
+        },
+        {
+          "key": "File_x0020_Type",
+          "value": ""
+        },
+        {
+          "key": "File_x0020_Type.mapapp",
+          "value": ""
+        },
+        {
+          "key": "HTML_x0020_File_x0020_Type.File_x0020_Type.mapcon",
+          "value": ""
+        },
+        {
+          "key": "HTML_x0020_File_x0020_Type.File_x0020_Type.mapico",
+          "value": ""
+        },
+        {
+          "key": "ItemChildCount",
+          "value": "0"
+        },
+        {
+          "key": "FolderChildCount",
+          "value": "0"
+        },
+        {
+          "key": "ScopeId",
+          "value": "{B16AFEEA-604B-4A51-B5DA-9D1D7AB5FDB3}"
+        },
+        {
+          "key": "owshiddenversion",
+          "value": "1"
+        },
+        {
+          "key": "Restricted",
+          "value": ""
+        }
+      ]
+    ]
+  }
+]
