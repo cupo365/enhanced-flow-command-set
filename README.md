@@ -49,8 +49,8 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 Solution|Author(s)
 --------|---------
-[Document Libraries Enhanced Power Automate Trigger Command Set](sharepoint/solution/releases/doc-enhanced-power-automate-trigger.sppkg) | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
-[Custom Listss Enhanced Power Automate Trigger Command Set](sharepoint/solution/releases/lists-enhanced-power-automate-trigger.sppkg) | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
+Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
+Custom Lists Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
 
 ## Version history
 
