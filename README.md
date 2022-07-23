@@ -47,17 +47,18 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ## Solution
 
-Solution|Author(s)
---------|---------
-Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
-Custom Lists Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg), [website](https://cupo365.gg))
+| Solution                                                       | Author(s)                                     |
+| -------------------------------------------------------------- | --------------------------------------------- |
+| Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info)             |
+| Custom Lists Enhanced Power Automate Trigger Command Set       | cup o'365 ([contact](mailto:info@cupo365.gg)) |
 
 ## Version history
 
-Version|Date|Comments
--------|----|--------
-0.9|April 3, 2022|Pre-release
-1.0|July 1, 2022|Initial release, doc lib and lists compatibility
+| Version | Date          | Comments                                         |
+| ------- | ------------- | ------------------------------------------------ |
+| 0.9.0   | April 3, 2022 | Pre-release                                      |
+| 1.0.0   | July 1, 2022  | Initial release, doc lib and lists compatibility |
+| 1.0.1   | July 24, 2022 | Optimalizations, code and structure refactoring  |
 
 ## Supported languages
 - English
@@ -77,11 +78,11 @@ If it fails, a console message will be written. This message looks like ````Enha
 The web part will call the flow by using the information in the composed flow configuration selected by the user.
 The provisioned configuration list contains the following  fields. Each item in this list represents a flow the user should be able to call from the list/document library:
 
-Name|Type|Description|Example
--------|----|--------|--------
-Title|single line of text|The text that will be shown to the user upon selecting a workflow to trigger|"Start an approval"
-Trigger URL|single line of text|The URL by which the flow can be triggered via an HTTP request|"https://prod-162.westeurope.logic.azure.com:443/workflows/0d63b7042722453cbb6764df2ebfb64a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ida8j_yD_PyXWbJwSJvAEX7JiCh_ruuqWb5LqXrH3Tw"
-HTTP Type|choice|The request method that should be used to trigger the flow. Only POST is a valid entry here since it's the only method in Power Automate that supports request bodies|"POST"
+| Name        | Type                | Description                                                                                                                                                           | Example                                                                                                                                                                                                                               |
+| ----------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Title       | single line of text | The text that will be shown to the user upon selecting a workflow to trigger                                                                                          | "Start an approval"                                                                                                                                                                                                                   |
+| Trigger URL | single line of text | The URL by which the flow can be triggered via an HTTP request                                                                                                        | "https://prod-162.westeurope.logic.azure.com:443/workflows/0d63b7042722453cbb6764df2ebfb64a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ida8j_yD_PyXWbJwSJvAEX7JiCh_ruuqWb5LqXrH3Tw" |
+| HTTP Type   | choice              | The request method that should be used to trigger the flow. Only POST is a valid entry here since it's the only method in Power Automate that supports request bodies | "POST"                                                                                                                                                                                                                                |
 
 If the command set is installed on the site and the user opens a document library or custom list (depending on the installed package) and one or more items are selected, a menu button with the text 'Trigger flow' will become visible in the menu bar (see example below). 
 ![Trigger flow button example](resources/trigger-flow-button.png "Trigger flow button example")
@@ -91,18 +92,18 @@ Upon pressing the menu button, a dialog will appear, displaying choices for ever
 > Note that the web part and its components is SharePoint theme-aware.
 
 If the configured flow uses a POST method, the command set will pass a request body JSON-object to the flow with the following properties:
-Name|Type|Description|Example
--------|----|--------|--------
-site|string|The site on which the command set resides|"https://cupo365.sharepoint.com/sites/mkvj"
-tenantUrl|string|The SharePoint tenant URL|"https://cupo365.sharepoint.com/"
-listId|string|The guid of the SharePoint list from which the web part was invoked|"e74d4d74-e145-42ea-9f74-26aa22565dfa"
-culture|string|The configured language by the user of the web part (culture variant UI name)|"en-US"
-selectedItems|array|An array of selected item objects|-
-id|integer|The ID of the selected item|3
-fileRef|string|the server relative URL|"/sites/mkvj/Shared Documents/Lorem ipsum dolor sit amet 1.docx"
-fileLeafRef|string|The name of the file, including the file extension|"Lorem ipsum dolor sit amet 1.docx"
-fileType|string|The file type|"docx"
-uniqueIdentifier|string|The unique guid of the selected item|"{7e88549e-6d26-4f7f-bdd3-17919a7526e9}"
+| Name             | Type    | Description                                                                   | Example                                                          |
+| ---------------- | ------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| site             | string  | The site on which the command set resides                                     | "https://cupo365.sharepoint.com/sites/mkvj"                      |
+| tenantUrl        | string  | The SharePoint tenant URL                                                     | "https://cupo365.sharepoint.com/"                                |
+| listId           | string  | The guid of the SharePoint list from which the web part was invoked           | "e74d4d74-e145-42ea-9f74-26aa22565dfa"                           |
+| culture          | string  | The configured language by the user of the web part (culture variant UI name) | "en-US"                                                          |
+| selectedItems    | array   | An array of selected item objects                                             | -                                                                |
+| id               | integer | The ID of the selected item                                                   | 3                                                                |
+| fileRef          | string  | the server relative URL                                                       | "/sites/mkvj/Shared Documents/Lorem ipsum dolor sit amet 1.docx" |
+| fileLeafRef      | string  | The name of the file, including the file extension                            | "Lorem ipsum dolor sit amet 1.docx"                              |
+| fileType         | string  | The file type                                                                 | "docx"                                                           |
+| uniqueIdentifier | string  | The unique guid of the selected item                                          | "{7e88549e-6d26-4f7f-bdd3-17919a7526e9}"                         |
 
 An example of the request body is outlined below:
 ````

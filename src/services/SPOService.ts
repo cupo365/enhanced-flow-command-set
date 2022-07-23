@@ -6,7 +6,7 @@ export interface ISPOService {
   getFlowConfig(siteUrl: string, listTitle: string): Promise<IFlowConfig[]>;
 }
 
-export default class SPOService implements ISPOService {
+export class SPOService implements ISPOService {
   constructor() { }
 
   public getFlowConfig = async (

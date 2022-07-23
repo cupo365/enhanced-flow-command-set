@@ -7,7 +7,7 @@ export interface IFlowService {
   invokeFlow(context: ListViewCommandSetContext, flowConfig: IFlowConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse>;
 }
 
-export default class FlowService implements IFlowService {
+export class FlowService implements IFlowService {
   constructor() { }
 
   public invokeFlow = async (context: ListViewCommandSetContext, flowConfig: IFlowConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse> => {

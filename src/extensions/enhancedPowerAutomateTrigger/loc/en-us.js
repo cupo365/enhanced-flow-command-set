@@ -1,5 +1,6 @@
 define([], function () {
   return {
+    TriggerFlowCommandText: "Trigger flow",
     SuccessDialogHeader: "Success!",
     FailedDialogHeader: "Oops...",
     SuccessDialogSubTextWithMessage:

@@ -1,39 +1,43 @@
 import { override } from "@microsoft/decorators";
-import { ServiceScope } from "@microsoft/sp-core-library";
-import {
-  BaseListViewCommandSet, Command, IListViewCommandSetExecuteEventParameters, IListViewCommandSetListViewUpdatedParameters
-} from "@microsoft/sp-listview-extensibility";
+import { Log, ServiceScope } from "@microsoft/sp-core-library";
+import { BaseListViewCommandSet, Command, IListViewCommandSetExecuteEventParameters, IListViewCommandSetListViewUpdatedParameters } from "@microsoft/sp-listview-extensibility";
 import { sp } from "@pnp/sp";
+import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { v4 } from "uuid";
 import Dependencies, { inject } from "../../di/DependenciesManager";
 import { IFlowConfig } from "../../models";
-import FlowService, { FlowServiceKey, IFlowService } from "../../services/FlowService";
-import SPOService, { ISPOService } from "../../services/SPOService";
-import { BlockingDialog } from "./components/BlockingDialog/BlockingDialog";
+import { FlowService, FlowServiceKey, IFlowService, ISPOService, SPOService } from "../../services";
+import { EnhancedPowerAutomateTriggerDialog } from "./components";
 
-/**
- * If your command set uses the ClientSideComponentProperties JSON input,
- * it will be deserialized into the BaseExtension.properties object.
- * You can define an interface to describe it.
- */
 export interface IEnhancedPowerAutomateTriggerCommandSetProps {
   configListTitle: string;
 }
+
+const LOG_SOURCE: string = 'EnhancedPowerAutomateTriggerCommandSet';
+const CONTENT_TYPE_BLACKLIST: string[] = ["0x0120"];
 
 export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListViewCommandSet<IEnhancedPowerAutomateTriggerCommandSetProps> {
   private _flowConfigs: IFlowConfig[];
   private _dialogPlaceHolder: HTMLDivElement = null;
   private _spoService: ISPOService;
-
   @inject(FlowServiceKey) private _flowService: IFlowService;
 
   @override
   public onInit(): Promise<void> {
     try {
-      console.log("EnhancedPowerAutomateTriggerCommandSet -> Initializing...");
+      Log.info(LOG_SOURCE, "Initializing...");
 
-      super.onInit();
+      // Localize command text, since localization via the manifest doesn't appear to work
+      const triggerFlowCommand: Command = this.tryGetCommand('TRIGGER_FLOW');
+      triggerFlowCommand.title = strings.TriggerFlowCommandText;
+
+      // Create the container for our React component
+      let dialogDiv = document.createElement("div");
+      dialogDiv.setAttribute('id', `${LOG_SOURCE}Container`);
+      this._dialogPlaceHolder = document.body.appendChild(dialogDiv);
+
       sp.setup({
         sp: {
           headers: {
@@ -47,21 +51,11 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
 
       this._spoService.getFlowConfig(this.context.pageContext.web?.absoluteUrl, this.properties.configListTitle)
         .then((flowConfigs: IFlowConfig[]): void => {
-          this._flowConfigs = flowConfigs;
-
-          const triggerFlowCommand: Command = this.tryGetCommand("TRIGGER_FLOW");
-          if (triggerFlowCommand) {
-            triggerFlowCommand.visible = false;
-          }
-
           if (!flowConfigs) {
-            throw "Flow configuration is invalid.";
+            throw new Error("Flow configuration is invalid.");
           }
 
-          // Create the container for our React component
-          let dialogDiv = document.createElement("div");
-          dialogDiv.setAttribute('id', 'flowResultDialogContainer');
-          this._dialogPlaceHolder = document.body.appendChild(dialogDiv);
+          this._flowConfigs = flowConfigs;
 
           Dependencies.configure(
             this.context.serviceScope,
@@ -79,63 +73,77 @@ export default class EnhancedPowerAutomateTriggerCommandSet extends BaseListView
             }
           );
 
-          console.log(`EnhancedPowerAutomateTriggerCommandSet -> Initialized! Listening to config list: ${this.properties.configListTitle}`);
+          Log.info(LOG_SOURCE, "Initialized!");
+          Log.verbose(LOG_SOURCE, `Listening to config list: ${this.properties.configListTitle}`);
         });
 
       return Promise.resolve();
     } catch (ex) {
-      console.log("EnhancedPowerAutomateTriggerCommandSet -> Failed to initialize");
+      Log.error(LOG_SOURCE, ex);
       return Promise.reject(ex);
     }
   }
 
   @override
-  public async onListViewUpdated(
+  public onListViewUpdated(
     event: IListViewCommandSetListViewUpdatedParameters
-  ): Promise<void> {
+  ): void {
     try {
-      let showButton: boolean = this._flowConfigs && event?.selectedRows?.length >= 1;
+      let showButton: boolean = false;
+      let selectedContainsBlacklistedItems: boolean[] = [];
+
+      if (event.selectedRows.length > 0) {
+        selectedContainsBlacklistedItems = event.selectedRows.map((selectedItem) => {
+          return CONTENT_TYPE_BLACKLIST.map((blackListedContentType) => selectedItem.getValueByName("ContentTypeId").toLowerCase().startsWith(blackListedContentType.toLowerCase())).includes(true);
+        });
+      }
+
+      showButton = this._flowConfigs && event.selectedRows.length >= 1 && !selectedContainsBlacklistedItems.includes(true);
 
       const triggerFlowCommand: Command = this.tryGetCommand("TRIGGER_FLOW");
       if (triggerFlowCommand) {
         triggerFlowCommand.visible = showButton;
       }
-
-      Promise.resolve();
     } catch (ex) {
-      console.log("EnhancedPowerAutomateTriggerCommandSet -> Error on listview update.");
-      Promise.reject(ex);
+      Log.error(LOG_SOURCE, ex);
     }
   }
 
   @override
-  public async onExecute(
+  public onExecute(
     event: IListViewCommandSetExecuteEventParameters
-  ): Promise<void> {
+  ): void {
     try {
-      if (this._flowConfigs && event.selectedRows.length > 0) {
-        let blockingDialog = React.createElement(BlockingDialog, {
-          refreshPage: this.refreshPage,
-          flowService: this._flowService,
-          selectedItems: event.selectedRows,
-          flowConfigs: this._flowConfigs,
-          context: this.context
-        });
-        ReactDOM.render(blockingDialog, this._dialogPlaceHolder);
+      switch (event.itemId) {
+        case 'TRIGGER_FLOW':
+          this.renderTriggerDialog(event);
+          break;
+        default:
+          throw new Error('Unknown command');
       }
-
-      Promise.resolve();
     } catch (ex) {
-      console.log("EnhancedPowerAutomateTriggerCommandSet -> Error on execute.");
-      Promise.reject(ex);
+      Log.error(LOG_SOURCE, ex);
     }
   }
 
-  private refreshPage(): void {
-    // The dialog is being rendered on its own, despite clearly stating in the ReactDOM.render
-    // it should be rendered in the dialog placeholder container.
-    // To allow the user to still close the dialog and reuse the extension while not having left the page,
-    // the page is refreshed.
-    window.location.reload();
+  private renderTriggerDialog(
+    event: IListViewCommandSetExecuteEventParameters
+  ): void {
+    try {
+      // Use a new id to create a new element every time it opens: otherwise state is maintained from previous dialog
+      // This is probably not the correct way: state should be maintained, but every time the dialog opens the closed state should be reset.
+      const newKey = v4();
+      const dialog = React.createElement(EnhancedPowerAutomateTriggerDialog, {
+        key: newKey,
+        flowService: this._flowService,
+        selectedItems: event.selectedRows,
+        flowConfigs: this._flowConfigs,
+        context: this.context
+      });
+      ReactDOM.render(dialog, this._dialogPlaceHolder);
+
+    } catch (ex) {
+      Log.error(LOG_SOURCE, ex);
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "enhanced-power-automate-trigger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "lib/index.js",
   "description": "Trigger a Power Automate flow from SharePoint while selecting one or more items.",
@@ -29,7 +29,8 @@
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@typescript-eslint/typescript-estree": "^4.18.0",
-    "react-html-parser": "^2.0.2"
+    "react-html-parser": "^2.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.9": "^0.4.47",
@@ -37,6 +38,7 @@
     "@microsoft/sp-module-interfaces": "1.12.1",
     "@microsoft/sp-tslint-rules": "1.12.1",
     "@microsoft/sp-webpart-workbench": "1.12.1",
+    "@types/uuid": "^8.3.4",
     "@types/webpack-env": "1.13.1",
     "ajv": "~5.2.2",
     "eslint": "^7.16.0",

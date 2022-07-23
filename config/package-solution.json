@@ -3,7 +3,7 @@
   "solution": {
     "name": "enhanced-power-automate-trigger-client-side-solution",
     "id": "6a305bc9-c1e5-4995-a23e-959851d784f6",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

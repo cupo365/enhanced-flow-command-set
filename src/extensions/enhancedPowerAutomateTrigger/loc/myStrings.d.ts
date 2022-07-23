@@ -1,4 +1,5 @@
 declare interface IEnhancedPowerAutomateTriggerCommandSetStrings {
+  TriggerFlowCommandText: string;
   SuccessDialogHeader: string;
   FailedDialogHeader: string;
   SuccessDialogSubTextWithMessage: string;
