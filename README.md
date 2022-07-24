@@ -25,7 +25,7 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ![SPFx 1.15.0](https://img.shields.io/badge/SPFx-1.15.0-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
 ![React v16.13.1](https://img.shields.io/badge/React-v16.13.1-green.svg)
-![Typescript v4.5](https://img.shields.io/badge/Typescript-v3.9-green.svg) ![PnP v3.5.1](https://img.shields.io/badge/PnP-v3.5.1-green.svg) 
+![Typescript v4.5](https://img.shields.io/badge/Typescript-v4.5-green.svg) ![PnP v3.5.1](https://img.shields.io/badge/PnP-v3.5.1-green.svg) 
 ![Fluent UI v8.83.0](https://img.shields.io/badge/Fluent%20UI-v8.83.0-green.svg)
 
 ![Compatible with SharePoint Online](https://img.shields.io/badge/SharePoint%20Online-Compatible-green.svg) ![Does not work with SharePoint 2019](https://img.shields.io/badge/SharePoint%20Server%202019-Incompatible-red.svg) ![Does not work with SharePoint 2016 (Feature Pack 2)](https://img.shields.io/badge/SharePoint%20Server%202016%20(Feature%20Pack%202)-Incompatible-red.svg)
