@@ -1,11 +1,12 @@
-import { Dialog, DialogFooter, DialogType, PrimaryButton, Spinner, SpinnerSize } from "@fluentui/react";
+/* eslint-disable @microsoft/spfx/no-async-await */
+import { Dialog, DialogFooter, DialogType, IDialogContentProps, IModalProps, PrimaryButton, Spinner, SpinnerSize } from "@fluentui/react";
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
-import { stringIsNullOrEmpty } from "@pnp/pnpjs";
 import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
 import * as React from "react";
-import { FlowButton, useToggle } from ".";
+import { FlowButton } from ".";
 import { IFlowConfig, IFlowResponse } from "../../../models";
 import { IFlowService } from "../../../services";
+import { stringIsNullOrEmpty, useToggle } from "../../../util";
 import styles from "../styles/EnhancedPowerAutomateTriggerDialog.module.scss";
 
 export interface IEnhancedPowerAutomateTriggerDialogProps {
@@ -23,7 +24,7 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
   const [flowResponse, setFlowResponse] = React.useState<IFlowResponse>(undefined);
   const [isWaitingForResponse, toggleIsWaitingForResponse] = useToggle(false);
 
-  const dialogContentProps = {
+  const dialogContentProps: IDialogContentProps = {
     type: DialogType.normal,
     showCloseButton: !isWaitingForResponse,
     title: isWaitingForResponse
@@ -62,7 +63,7 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
               strings.CloseDialogUserInstruction,
   };
 
-  const modalProps = {
+  const modalProps: IModalProps = {
     isBlocking: true,
     styles: styles,
     dragOptions: null,
@@ -77,14 +78,15 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
       });
   };
 
-  const onCloseDialog = () => {
+  const onCloseDialog = (): void => {
     toggleIsClosedState();
-    setTimeout(() =>
+    setTimeout((): void =>
       // Prevent showing the user the state change while still in dialog closing transition
       setFlowResponse(undefined)
       , 500);
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const renderDialogFooterChildren = () => {
     return (
       <PrimaryButton
@@ -94,6 +96,7 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const renderDialogChildren = () => {
     return (
       <div className="ms-Grid" dir="ltr">

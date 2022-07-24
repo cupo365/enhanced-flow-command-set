@@ -103,8 +103,8 @@ build.task("switch-list-type", {
         );
 
         resolve();
-      } catch (ex) {
-        gutil.log(gutil.colors.red(ex));
+      } catch (err) {
+        gutil.log(gutil.colors.red(err));
 
         reject();
       }

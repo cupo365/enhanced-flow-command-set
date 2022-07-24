@@ -1,4 +1,4 @@
-import { stringIsNullOrEmpty } from "@pnp/pnpjs";
+import { stringIsNullOrEmpty } from "../util";
 
 export interface IFlowConfig {
   actionName: string;
@@ -14,7 +14,7 @@ export const isFlowConfigValid = (flowConfig: IFlowConfig): boolean => {
     } else {
       return false;
     }
-  } catch (ex) {
+  } catch (err) {
     return false;
   }
 };

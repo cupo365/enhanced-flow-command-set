@@ -17,19 +17,22 @@ My colleague [MrAutomate33](https://github.com/mrautomate33) and I have been lon
 <br />
 This SPFx (SharePoint Framework) command set expands on the existing 'trigger a flow' menu button in SharePoint, and allows you to configure one or more HTTP request triggered flows and serve the user with a choice on which flow to execute when selecting one or more items by injecting a menu button upon loading the page. The command set is compatible with both SharePoint document libaries and custom lists.
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.1)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.1)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
 ## Compatibility
 
-![SPFx 1.12.1](https://img.shields.io/badge/SPFx-1.12.1-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
-![React v16.8.8](https://img.shields.io/badge/React-v16.8.8-green.svg)
-![Typescript v3.9](https://img.shields.io/badge/Typescript-v3.9-green.svg)
+![SPFx 1.15.0](https://img.shields.io/badge/SPFx-1.15.0-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
+![React v16.13.1](https://img.shields.io/badge/React-v16.13.1-green.svg)
+![Typescript v4.5](https://img.shields.io/badge/Typescript-v3.9-green.svg) ![PnP v3.5.1](https://img.shields.io/badge/PnP-v3.5.1-green.svg) 
+![Fluent UI v8.83.0](https://img.shields.io/badge/Fluent%20UI-v8.83.0-green.svg)
 
 ![Compatible with SharePoint Online](https://img.shields.io/badge/SharePoint%20Online-Compatible-green.svg) ![Does not work with SharePoint 2019](https://img.shields.io/badge/SharePoint%20Server%202019-Incompatible-red.svg) ![Does not work with SharePoint 2016 (Feature Pack 2)](https://img.shields.io/badge/SharePoint%20Server%202016%20(Feature%20Pack%202)-Incompatible-red.svg)
 
 ![Compatible with SharePoint document libraries](https://img.shields.io/badge/Document%20libraries-Compatible-green.svg) ![Compatible with SharePoint custom lists](https://img.shields.io/badge/Custom%20lists-Compatible-green.svg)
+
+![Compatible with Microsoft Edge](https://img.shields.io/badge/MS%20Edge-Compatible-green.svg) ![Compatible with Google Chrome](https://img.shields.io/badge/Google%20Chrome-Compatible-green.svg) ![Compatible with Mozilla Firefox](https://img.shields.io/badge/Mozilla%20Firefox-Compatible-green.svg)
 
 ## Applies to
 
@@ -41,7 +44,7 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ## Prerequisites
 
-> - Node.js v10/12/14
+> - Node.js v12/14/16
 > - A Power Automate per user or per flow plan that allows you to use the Request (HTTP) connector (see [Power Automate pricing](https://powerautomate.microsoft.com/en-us/pricing/))
 > - (optional) An M365 account. Get your own free Microsoft 365 tenant from [M365 developer program](https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 
@@ -54,11 +57,11 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ## Version history
 
-| Version | Date          | Comments                                         |
-| ------- | ------------- | ------------------------------------------------ |
-| 0.9.0   | April 3, 2022 | Pre-release                                      |
-| 1.0.0   | July 1, 2022  | Initial release, doc lib and lists compatibility |
-| 1.0.1   | July 24, 2022 | Optimalizations, code and structure refactoring  |
+| Version | Date          | Comments                                             |
+| ------- | ------------- | ---------------------------------------------------- |
+| 0.9.0   | April 3, 2022 | Pre-release                                          |
+| 1.0.0   | July 1, 2022  | Initial release, doc lib and lists compatibility     |
+| 1.1.0   | July 24, 2022 | Migration to SPFx 1.15.0 and lots of optimalizations |
 
 ## Supported languages
 - English
@@ -221,6 +224,6 @@ Once the user closes the dialog, the page will be refreshed.
 
 ## Download the web part packages
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.1)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.1)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**

@@ -1,35 +1,41 @@
+/* eslint-disable @microsoft/spfx/no-async-await */
 import { ServiceKey } from "@microsoft/sp-core-library";
-import { Web } from "@pnp/sp";
+import { SPFI } from "@pnp/sp";
+import "@pnp/sp/items/get-all";
 import { IFlowConfig, isFlowConfigValid } from "../models";
+import { getSP } from "./PnPService";
 
 export interface ISPOService {
-  getFlowConfig(siteUrl: string, listTitle: string): Promise<IFlowConfig[]>;
+  getFlowConfig(listTitle: string): Promise<IFlowConfig[]>;
 }
 
 export class SPOService implements ISPOService {
-  constructor() { }
+  private readonly _sp: SPFI;
+
+  public constructor() {
+    this._sp = getSP();
+  }
 
   public getFlowConfig = async (
-    siteUrl: string,
     listTitle: string
   ): Promise<IFlowConfig[]> => {
     try {
-      return await new Web(siteUrl).lists
+      return await this._sp.web.lists
         .getByTitle(listTitle)
         .items.getAll()
-        .then((response: any[]): Promise<IFlowConfig[]> => {
+        .then((response): Promise<IFlowConfig[]> => {
           return new Promise((resolve, reject): void => {
-            let flowConfigs: IFlowConfig[] = [];
+            const flowConfigs: IFlowConfig[] = [];
 
-            response.forEach((triggerConfigListItem: any): void => {
-              let flowConfig: IFlowConfig = {
+            response.forEach((triggerConfigListItem): void => {
+              const flowConfig: IFlowConfig = {
                 actionName: triggerConfigListItem?.Title,
                 url: triggerConfigListItem?.TriggerURL,
                 method: triggerConfigListItem?.HTTPType
               };
 
               if (!isFlowConfigValid(flowConfig)) {
-                throw `Flow configuration for '${flowConfig.actionName}' is invalid.`;
+                throw new Error(`Flow configuration for '${flowConfig.actionName}' is invalid.`);
               }
 
               flowConfigs.push(flowConfig);
@@ -37,13 +43,13 @@ export class SPOService implements ISPOService {
             resolve(flowConfigs);
           });
         });
-    } catch (ex) {
+    } catch (err) {
       return null;
     }
   }
 }
 
-export const SPOServiceKey = ServiceKey.create<ISPOService>(
+export const SPOServiceKey: ServiceKey<ISPOService> = ServiceKey.create<ISPOService>(
   "SPOService:SPOService",
   SPOService
 );

@@ -1,3 +1,4 @@
+/* eslint-disable @microsoft/spfx/no-async-await */
 import { PrimaryButton } from "@fluentui/react";
 import * as React from "react";
 import { IFlowConfig } from "../../../models";

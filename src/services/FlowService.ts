@@ -1,3 +1,4 @@
+/* eslint-disable @microsoft/spfx/no-async-await */
 import { ServiceKey } from "@microsoft/sp-core-library";
 import { HttpClient, HttpClientResponse, IHttpClientOptions } from '@microsoft/sp-http';
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
@@ -8,36 +9,35 @@ export interface IFlowService {
 }
 
 export class FlowService implements IFlowService {
-  constructor() { }
 
   public invokeFlow = async (context: ListViewCommandSetContext, flowConfig: IFlowConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse> => {
     try {
       if (!isFlowConfigValid(flowConfig)) {
-        throw "Flow configuration is invalid.";
+        throw new Error("Flow configuration is invalid.");
       }
 
       switch (flowConfig.method) {
         case 'GET':
-          let httpClientGetOptions: IHttpClientOptions = this._createHttpClientGetOptions();
+          const httpClientGetOptions: IHttpClientOptions = this._createHttpClientGetOptions();
 
           if (!httpClientGetOptions) {
-            throw "HTTP client options are invalid.";
+            throw new Error("HTTP client options are invalid.");
           }
           return await context.httpClient.get(flowConfig.url, HttpClient.configurations.v1, httpClientGetOptions)
-            .then(async (response: HttpClientResponse) => {
+            .then(async (response: HttpClientResponse): Promise<IFlowResponse> => {
               return {
                 statusCode: response?.status,
                 message: await this._tryGetMessageFromResponseBody(response)
               };
             });
         case 'POST':
-          let httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems);
+          const httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems);
 
           if (!httpClientPostOptions) {
-            throw "HTTP client options are invalid.";
+            throw new Error("HTTP client options are invalid.");
           }
           return await context.httpClient.post(flowConfig.url, HttpClient.configurations.v1, httpClientPostOptions)
-            .then(async (response: HttpClientResponse) => {
+            .then(async (response: HttpClientResponse): Promise<IFlowResponse> => {
               return {
                 statusCode: response?.status,
                 message: await this._tryGetMessageFromResponseBody(response)
@@ -46,27 +46,25 @@ export class FlowService implements IFlowService {
         default:
           return null;
       }
-    } catch (ex) {
+    } catch (err) {
       return null;
     }
   }
 
   private _tryGetMessageFromResponseBody = async (response: HttpClientResponse): Promise<string> => {
     try {
-      return await response?.json()?.then((result: any): Promise<any> => {
-        return Promise.resolve(result?.message);
-      });
-    } catch (ex) {
+      return await response?.json()?.then((result): Promise<string> => Promise.resolve(result?.message));
+    } catch (err) {
       return null;
     }
   }
 
   private _createHttpClientPostOptions = (context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[]): IHttpClientOptions => {
     try {
-      let processedSelectedItems: ISelectedItem[] = [];
+      const processedSelectedItems: ISelectedItem[] = [];
 
       selectedItems.forEach((selectedItem: RowAccessor): void => {
-        let processedSelectedItem: ISelectedItem = {
+        const processedSelectedItem: ISelectedItem = {
           id: parseInt(selectedItem?.getValueByName("ID")),
           fileRef: selectedItem?.getValueByName("FileRef"),
           fileLeafRef: selectedItem?.getValueByName("FileLeafRef"),
@@ -76,11 +74,11 @@ export class FlowService implements IFlowService {
         processedSelectedItems.push(processedSelectedItem);
       });
 
-      let requestHeaders: Headers = new Headers();
+      const requestHeaders: Headers = new Headers();
       requestHeaders.append('Content-type', 'application/json');
       requestHeaders.append('Cache-Control', 'no-cache');
 
-      let requestBody: IFlowRequestBody = {
+      const requestBody: IFlowRequestBody = {
         site: context.pageContext.site.absoluteUrl,
         tenantUrl: context.pageContext.legacyPageContext?.portalUrl,
         listId: context.pageContext.list?.id.toString(),
@@ -88,36 +86,36 @@ export class FlowService implements IFlowService {
         selectedItems: processedSelectedItems
       };
 
-      let httpClientOptions: IHttpClientOptions = {
+      const httpClientOptions: IHttpClientOptions = {
         body: JSON.stringify(requestBody),
         headers: requestHeaders
       };
 
       return httpClientOptions;
-    } catch (ex) {
+    } catch (err) {
       return null;
     }
   }
 
   private _createHttpClientGetOptions = (): IHttpClientOptions => {
     try {
-      let requestHeaders: Headers = new Headers();
+      const requestHeaders: Headers = new Headers();
       requestHeaders.append('Content-type', 'application/json');
       requestHeaders.append('Cache-Control', 'no-cache');
 
-      let httpClientOptions: IHttpClientOptions = {
+      const httpClientOptions: IHttpClientOptions = {
         body: null,
         headers: requestHeaders
       };
 
       return httpClientOptions;
-    } catch (ex) {
+    } catch (err) {
       return null;
     }
   }
 }
 
-export const FlowServiceKey = ServiceKey.create<IFlowService>(
+export const FlowServiceKey: ServiceKey<IFlowService> = ServiceKey.create<IFlowService>(
   "FlowService:FlowService",
   FlowService
 );

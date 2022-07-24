@@ -15,6 +15,9 @@ build.rig.getTasks = function () {
   return result;
 };
 
+// Disable deprecated tslint (for PnP)
+build.tslintCmd.enabled = false;
+
 require("./gulpfile-switch-list-type");
 
 build.initialize(require("gulp"));
