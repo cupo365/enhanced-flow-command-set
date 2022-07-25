@@ -21,6 +21,8 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
+> Note: Upon installing the webpart, ensure the webpart is not automatically deployed to all sites. This will prevent the provisioning of the configuration list, and thus the webpart will not work. The webpart should be installed to each single site as a separate app. The modern app catalog is known to automatically deploy command sets to all sites, so deploying the webpart via the classic experience is advised!
+
 ## Compatibility
 
 ![SPFx 1.15.0](https://img.shields.io/badge/SPFx-1.15.0-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
@@ -227,3 +229,5 @@ Once the user closes the dialog, the page will be refreshed.
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
+
+> Note: Upon installing the webpart, ensure the webpart is not automatically deployed to all sites. This will prevent the provisioning of the configuration list, and thus the webpart will not work. The webpart should be installed to each single site as a separate app. The modern app catalog is known to automatically deploy command sets to all sites, so deploying the webpart via the classic experience is advised!
