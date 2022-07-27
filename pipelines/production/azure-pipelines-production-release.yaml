@@ -36,7 +36,7 @@ stages:
           webPartName: Enhanced Power Automate Trigger Command Set # display name of the webpart
           packageName: enhanced-power-automate-trigger # packaged name without .sppkg
           targetEnvironment: production # production | uat | test (default) | development
-          authenticationMethod: certificate # credentials | certificate (default)
+          authenticationMethod: certificate # credentials | certificate (default). Note: the app registration requires the following API permissions (admin consented) minimum: User.Read.All (Graph, application), Sites.FullControl.All (SharePoint, application) 
           certificateThumbprint: "" # the thumbnail of the .cer (only required if authentication method equals certificate)
           certificateSecureFileName: prod # the name of the .pfx certificate private key file, ex: prod (only required if authentication method equals certificate)
           credentialsEmail: "" # email address to login to M365 with (only required if authentication method equals credentials)

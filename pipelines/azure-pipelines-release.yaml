@@ -102,6 +102,7 @@ jobs:
             CREDENTIALS_PASSWORD: $(credentials-password) # the recommended way to use a secret variable is map to an env variable    
 
         # LOGIN USING CERTIFICATE (https://pnp.github.io/cli-microsoft365/user-guide/connecting-office-365/#log-in-using-a-certificate)
+        # Note: the app registration requires the following API permissions (admin consented) minimum: User.Read.All (Graph, application), Sites.FullControl.All (SharePoint, application) 
         # The way environment variables are defined varies based on the OS. Therefore, conditionally execute script based on OS.
         # See also: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#environment-variables
 
