@@ -21,8 +21,6 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
-> Note: Upon installing the webpart, ensure the webpart is not automatically deployed to all sites. This will prevent the provisioning of the configuration list, and thus the webpart will not work. The webpart should be installed to each single site as a separate app. The modern app catalog is known to automatically deploy command sets to all sites, so deploying the webpart via the classic experience is advised!
-
 ## Compatibility
 
 ![SPFx 1.15.0](https://img.shields.io/badge/SPFx-1.15.0-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
@@ -54,16 +52,17 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 | Solution                                                       | Author(s)                                     |
 | -------------------------------------------------------------- | --------------------------------------------- |
-| Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info))            |
+| Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg)) |
 | Custom Lists Enhanced Power Automate Trigger Command Set       | cup o'365 ([contact](mailto:info@cupo365.gg)) |
 
 ## Version history
 
-| Version | Date          | Comments                                             |
-| ------- | ------------- | ---------------------------------------------------- |
-| 0.9.0   | April 3, 2022 | Pre-release                                          |
-| 1.0.0   | July 1, 2022  | Initial release, doc lib and lists compatibility     |
-| 1.1.0   | July 24, 2022 | Migration to SPFx 1.15.0 and lots of optimalizations |
+| Version                                                                                     | Date          | Comments                                                                                   |
+| ------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------ |
+| [0.9.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v0.9.0) | April 3, 2022 | Pre-release                                                                                |
+| [1.0.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.0) | July 1, 2022  | Initial release, doc lib and lists compatibility                                           |
+| [1.1.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0) | July 24, 2022 | Migration to SPFx 1.15.0 and lots of optimalizations                                       |
+| [1.2.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.2.0) | July 27, 2022 | Customizable list and folder whitelisting and content type and file extension blacklisting |
 
 ## Supported languages
 - English
@@ -83,11 +82,16 @@ If it fails, a console message will be written. This message looks like ````Enha
 The web part will call the flow by using the information in the composed flow configuration selected by the user.
 The provisioned configuration list contains the following  fields. Each item in this list represents a flow the user should be able to call from the list/document library:
 
-| Name        | Type                | Description                                                                                                                                                           | Example                                                                                                                                                                                                                               |
-| ----------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Title       | single line of text | The text that will be shown to the user upon selecting a workflow to trigger                                                                                          | "Start an approval"                                                                                                                                                                                                                   |
-| Trigger URL | single line of text | The URL by which the flow can be triggered via an HTTP request                                                                                                        | "https://prod-162.westeurope.logic.azure.com:443/workflows/0d63b7042722453cbb6764df2ebfb64a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ida8j_yD_PyXWbJwSJvAEX7JiCh_ruuqWb5LqXrH3Tw" |
-| HTTP Type   | choice              | The request method that should be used to trigger the flow. Only POST is a valid entry here since it's the only method in Power Automate that supports request bodies | "POST"                                                                                                                                                                                                                                |
+| Name                     | Type                 | Description                                                                                                                                                                                                                            | Example                                                                                       |
+| ------------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Title                    | single line of text  | The title of the button displayed to the user for this trigger.                                                                                                                                                                        | Start an approval                                                                             |
+| Trigger URL              | single line of text  | The HTTP URL with which the flow can be triggered with.                                                                                                                                                                                | https://prod-178.westeurope.logic.azure.com:443/workflows/.../triggers/manual/paths/invoke... |
+| HTTP Type                | choice               | The HTTP method to use for this trigger.                                                                                                                                                                                               | POST                                                                                          |
+| List whitelist           | fill-in multi choice | The GUIDs of the lists to whitelist for this trigger. Leave empty to whitelist all.                                                                                                                                                    | 7bc18c02-015f-49bd-a120-bb7a1dfc568f                                                          |
+| Folder whitelist         | fill-in multi choice | The list relative folder path to whitelist for this trigger. Leave empty to whitelist all.                                                                                                                                             | Deliverables/Finals                                                                           |
+| Content type blacklist   | fill-in multi choice | The (start of a) content type ID to blacklist for this trigger. See https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ms452896(v=office.14) for all content type IDs. Leave empty to blacklist none. | 0x0120 (blacklist all folders)                                                                |
+| File extension blacklist | fill-in multi choice | The file extensions to blacklist for this trigger. Leave empty to blacklist none.                                                                                                                                                      | docx                                                                                          |
+| Selection limit          | number               | The selected items limit for this trigger.                                                                                                                                                                                             | 30                                                                                            |
 
 If the command set is installed on the site and the user opens a document library or custom list (depending on the installed package) and one or more items are selected, a menu button with the text 'Trigger flow' will become visible in the menu bar (see example below). 
 ![Trigger flow button example](resources/trigger-flow-button.png "Trigger flow button example")
@@ -229,5 +233,3 @@ Once the user closes the dialog, the page will be refreshed.
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
 
 **[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0)**
-
-> Note: Upon installing the webpart, ensure the webpart is not automatically deployed to all sites. This will prevent the provisioning of the configuration list, and thus the webpart will not work. The webpart should be installed to each single site as a separate app. The modern app catalog is known to automatically deploy command sets to all sites, so deploying the webpart via the classic experience is advised!

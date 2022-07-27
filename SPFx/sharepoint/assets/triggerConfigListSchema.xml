@@ -1,0 +1,65 @@
+<List xmlns:ows="Microsoft SharePoint" Title="Enhanced Power Automate Trigger Configuration" EnableContentTypes="FALSE" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/EnhancedPowerAutomateTriggerConfiguration" BaseType="0"
+  xmlns="http://schemas.microsoft.com/sharepoint/" DisableAttachments="TRUE">
+  <MetaData>
+    <ContentTypes></ContentTypes>
+    <Fields>
+      <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="Title" Required="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" FromBaseType="TRUE" Description="The title of the button displayed to the user for this trigger. Ex: Start an approval."/>
+      <Field ID="{a41adbe7-8251-4ffd-9bc9-95299c8f472d}" Type="Text" Name="TriggerURL" DisplayName="Trigger URL" Required="TRUE" StaticName="TriggerURL" Description="The HTTP URL with which the flow can be triggered with. Ex: https://prod-178.westeurope.logic.azure.com:443/workflows/.../triggers/manual/paths/invoke..." />
+      <Field ID="{7b215765-2770-4ce6-992a-ed3cdf084033}" Type="Choice" DisplayName="HTTP Type" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="HTTPType" StaticName="HTTPType" Required="TRUE" FillInChoice="FALSE" Description="The HTTP method to use for this trigger. Ex: POST.">
+        <CHOICES>
+          <CHOICE>POST</CHOICE>
+        </CHOICES>
+        <Default>POST</Default>
+      </Field>
+      <Field ID="{46f1b8a8-e86d-4602-b82f-9d540c4843b4}" Type="MultiChoice" DisplayName="List whitelist" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="ListWhitelist" StaticName="ListWhitelist" Required="FALSE" FillInChoice="TRUE" Description="The GUIDs of the lists to whitelist for this trigger. Ex: 7bc18c02-015f-49bd-a120-bb7a1dfc568f. Leave empty to whitelist all.">
+        <CHOICES></CHOICES>
+        <Default></Default>
+      </Field>
+      <Field ID="{dd6eb047-3880-4e2f-9aa0-79f8189abc2d}" Type="MultiChoice" DisplayName="Folder whitelist" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="FolderWhitelist" StaticName="FolderWhitelist" Required="FALSE" FillInChoice="TRUE" Description="The list relative folder path to whitelist for this trigger. Ex: Deliverables/Finals. Leave empty to whitelist all.">
+        <CHOICES></CHOICES>
+        <Default></Default>
+      </Field>
+      <Field ID="{3921987e-2508-41ae-b9af-ab7672b7f94f}" Type="MultiChoice" DisplayName="Content type blacklist" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="ContentTypeBlacklist" StaticName="ContentTypeBlacklist" Required="FALSE" FillInChoice="TRUE" Description="The (start of a) content type ID to blacklist for this trigger. Ex: 0x0120 (blacklist all folders). See https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ms452896(v=office.14) for all content type IDs. Leave empty to blacklist none.">
+        <CHOICES>
+          <CHOICE>0x0120</CHOICE>
+        </CHOICES>
+        <Default>0x0120</Default>
+      </Field>
+      <Field ID="{20a9b3ff-601b-4f35-99cc-b95126ccbb60}" Type="MultiChoice" DisplayName="File extension blacklist" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="FileExtensionBlacklist" StaticName="FileExtensionBlacklist" Required="FALSE" FillInChoice="TRUE" Description="The file extensions to blacklist for this trigger. Ex: docx. Leave empty to blacklist none.">
+        <CHOICES></CHOICES>
+        <Default></Default>
+      </Field>
+      <Field ID="{2a9fd430-c7a1-43a5-b349-18fe46b7c049}" Type="Number" Name="SelectionLimit" DisplayName="Selection limit" Required="TRUE" StaticName="SelectionLimit" Description="The selected items limit for this trigger. Ex: 30.">
+        <Default>30</Default>
+      </Field>
+    </Fields>
+    <Views>
+      <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/images/generic.png" Url="AllItems.aspx">
+        <XslLink Default="TRUE">main.xsl</XslLink>
+        <JSLink>clienttemplates.js</JSLink>
+        <RowLimit Paged="TRUE">30</RowLimit>
+        <Toolbar Type="Standard" />
+        <ViewFields>
+          <FieldRef Name="Title"></FieldRef>
+          <FieldRef Name="TriggerURL"></FieldRef>
+          <FieldRef Name="HTTPType"></FieldRef>
+          <FieldRef Name="ListWhitelist"></FieldRef>
+          <FieldRef Name="FolderWhitelist"></FieldRef>
+          <FieldRef Name="ContentTypeBlacklist"></FieldRef>
+          <FieldRef Name="FileExtensionBlacklist"></FieldRef>
+          <FieldRef Name="SelectionLimit"></FieldRef>
+        </ViewFields>
+        <Query>
+          <OrderBy>
+            <FieldRef Name="Title" />
+          </OrderBy>
+        </Query>
+      </View>
+    </Views>
+    <Forms>
+      <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+      <Form Type="NewForm" Url="NewForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
+    </Forms>
+  </MetaData>
+</List>

@@ -1,0 +1,71 @@
+parameters:
+  - name: webPartName
+    type: string
+    default: ''
+  - name: nodeVersion
+    type: string
+    default: latest
+    values:
+    - latest
+    - 18.x
+    - 16.x
+    - 14.x
+    - 12.x
+    - 10.x
+    - 8.x
+    - 6.x
+  - name: targetEnvironment
+    type: string
+    default: production
+    values:
+    - production
+    - uat
+    - test
+    - development
+
+jobs:
+- job: Build
+  variables:
+      # https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsnpm
+      # Because the default path to npm's shared cache directory is not the same across all platforms, it is recommended
+      # to override the npm_config_cache environment variable to a path under $(Pipeline.Workspace). This also ensures the
+      # cache is accessible from container and non-container jobs.
+      npm_config_cache: $(Pipeline.Workspace)/.npm
+      workingDirectory: $(System.DefaultWorkingDirectory)/SPFx
+  displayName: Build WebPart ${{ parameters.webPartName }}
+  steps:
+  - task: Cache@2
+    displayName: Cache npm
+    inputs:
+      key: 'v1 | npm | "$(Agent.OS)" | $(workingDirectory)/package-lock.json'
+      restoreKeys: |
+          npm | "$(Agent.OS)"
+      path: $(npm_config_cache)
+  - task: NodeTool@0
+    displayName: Use Node ${{ parameters.nodeVersion }}
+    inputs:
+      versionSpec: ${{ parameters.nodeVersion }}
+      checkLatest: true
+  - script: npm ci --cache $(npm_config_cache)
+    displayName: npm ci for WebPart${{ parameters.webPartName }}
+    workingDirectory: $(workingDirectory)
+  - script: gulp clean
+    displayName: gulp clean for WebPart ${{ parameters.webPartName }}
+    workingDirectory: $(workingDirectory)
+  - script: gulp bundle --ship
+    displayName: gulp bundle --ship for WebPart ${{ parameters.webPartName }}
+    workingDirectory: $(workingDirectory)
+  - script: gulp package-solution --ship
+    displayName: gulp package-solution --ship for WebPart ${{ parameters.webPartName }}
+    workingDirectory: $(workingDirectory)
+  - task: CopyFiles@2
+    displayName: Copy package to artifact staging directory
+    inputs:
+      contents: $(workingDirectory)/sharepoint/**/*.sppkg
+      targetFolder: $(Build.ArtifactStagingDirectory)\${{ parameters.targetEnvironment }}
+      flattenFolders: true
+  - task: PublishBuildArtifacts@1
+    displayName: Publish artifact ${{ parameters.targetEnvironment }} to staging directory
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)\${{ parameters.targetEnvironment }}
+      artifactName: ${{ parameters.targetEnvironment }}

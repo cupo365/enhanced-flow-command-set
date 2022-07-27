@@ -1,0 +1,17 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.0",
+    "libraryName": "enhanced-power-automate-trigger",
+    "libraryId": "6a305bc9-c1e5-4995-a23e-959851d784f6",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "enhanced-power-automate-trigger",
+    "solutionShortDescription": "Trigger a Power Automate flow from SharePoint while selecting one or more items.",
+    "skipFeatureDeployment": false,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ListViewCommandSet"
+  }
+}

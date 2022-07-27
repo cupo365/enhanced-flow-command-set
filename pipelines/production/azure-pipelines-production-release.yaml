@@ -1,0 +1,45 @@
+name: Release Production - Enhanced Power Automate Trigger Command Set SPFx
+
+trigger:
+- none # explicitly set none for repositry trigger
+resources:
+  pipelines:
+  - pipeline: ProductionBuild  # Name of the pipeline resource
+    source: 'Build Production - Enhanced Power Automate Trigger Command Set SPFx' # Name of the triggering pipeline. This should match exactly!
+    trigger: 
+      branches:
+        include:
+        - main
+
+pool:
+    vmImageName: ubuntu-latest # ubuntu-latest | windows-latest | macOS-latest
+    demands:
+    - npm
+    - node.js
+
+stages:
+  - stage: Release
+    displayName: Release enhanced-power-automate-trigger to production
+    # When using the certificate authentication method, set the CLIMICROSOFT365_AADAPPID environment variable 
+    # to the ID of the Azure AD application that you want to use to authenticate the CLI for Microsoft 365 
+    # and the CLIMICROSOFT365_TENANT environment variable to the ID of your Azure AD directory.
+    # See also: https://pnp.github.io/cli-microsoft365/user-guide/connecting-office-365/#log-in-using-a-certificate
+
+    # DISABLE THESE VARIABLES WHEN USING THE CREDENTIALS AUTHENTICATION METHOD!!!
+    variables:     
+      CLIMICROSOFT365_AADAPPID: ""
+      CLIMICROSOFT365_TENANT: ""
+    jobs:
+      - template: ../azure-pipelines-release.yaml
+        parameters:
+          vmImageName: ubuntu-latest # ubuntu-latest (default) | windows-latest | macOS-latest | local-agent
+          webPartName: Enhanced Power Automate Trigger Command Set # display name of the webpart
+          packageName: enhanced-power-automate-trigger # packaged name without .sppkg
+          targetEnvironment: production # production | uat | test (default) | development
+          authenticationMethod: certificate # credentials | certificate (default)
+          certificateThumbprint: "" # the thumbnail of the .cer (only required if authentication method equals certificate)
+          certificateSecureFileName: prod # the name of the .pfx certificate private key file, ex: prod (only required if authentication method equals certificate)
+          credentialsEmail: "" # email address to login to M365 with (only required if authentication method equals credentials)
+          appCatalogUrl: https://cupo365.sharepoint.com/sites/appcatalog # full url to the SP app catalog to deploy the package to
+          variablesGroup: production-secrets # production-secrets | uat-secrets | test-secrets (default) | development-secrets
+          buildPipelineResourceName: ProductionBuild # Name of the pipeline resource

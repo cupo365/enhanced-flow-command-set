@@ -1,0 +1,130 @@
+parameters:
+  - name: vmImageName
+    type: string
+    default: ubuntu-latest
+    values:
+    - windows-latest
+    - ubuntu-latest
+    - macOS-latest
+    - local-agent
+  - name: certificateSecureFileName
+    type: string
+    default: ''
+  - name: appCatalogUrl
+    type: string
+    default: ''
+  - name: packageName
+    type: string
+    default: ''
+  - name: targetEnvironment
+    type: string
+    default: test
+    values:
+    - production
+    - uat
+    - test
+    - development
+  - name: variablesGroup
+    type: string
+    default: test-secrets
+    values:
+    - production-secrets
+    - uat-secrets
+    - test-secrets
+    - development-secrets
+  - name: webPartName
+    type: string
+    default: ''
+  - name: authenticationMethod
+    type: string
+    default: certificate
+    values:
+    - certificate
+    - credentials
+  - name: certificateThumbprint
+    type: string
+    default: ''
+  - name: credentialsEmail
+    type: string
+    default: ''
+  - name: buildPipelineResourceName
+    type: string
+    default: ''
+
+jobs:
+- deployment: Deploy
+  displayName: Deploy ${{ parameters.webPartName }} to ${{ parameters.targetEnvironment }}
+  environment: ${{ parameters.targetEnvironment }}
+  variables:
+  - group: ${{ parameters.variablesGroup }}    
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: DownloadSecureFile@1
+          name: caCertificate
+          displayName: Download ${{ parameters.targetEnvironment }} CA certificate
+          inputs:
+            secureFile: ${{ parameters.certificateSecureFileName }}.pfx
+
+        # Install m365 CLI based on OS
+        # Ubuntu or macOS
+        - script: sudo npm install --global @pnp/cli-microsoft365@3.0.0
+          displayName: Install Microsoft 365 CLI
+          condition: and(succeeded(), or(startsWith('${{ parameters.vmImageName }}', 'ubuntu'), startsWith('${{ parameters.vmImageName }}', 'macOS')))
+        # Not Ubuntu or macOS
+        - script: npm install --global @pnp/cli-microsoft365@3.0.0
+          displayName: Install Microsoft 365 CLI
+          condition: and(succeeded(), or(not(startsWith('${{ parameters.vmImageName }}', 'ubuntu')), not(startsWith('${{ parameters.vmImageName }}', 'macOS'))))
+        
+        # LOGIN USING CREDENTIALS (https://pnp.github.io/cli-microsoft365/user-guide/connecting-office-365/#log-in-using-user-name-and-password)
+        # Note: credentials with mfa enabled won't work!
+        # The way environment variables are defined varies based on the OS. Therefore, conditionally execute script based on OS.
+        # See also: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#environment-variables
+        
+        # Debug script to show all environment variables and parameters for login using credentials
+        # - script: echo appCatalogUrl = ${{ parameters.appCatalogUrl }}, email = ${{ parameters.credentialsEmail }}, password = "%CREDENTIALS_PASSWORD%"
+        #   displayName: Echo variables
+        #   env:
+        #     CREDENTIALS_PASSWORD: $(credentials-password)
+
+        # Windows/local agent
+        - script: m365 login ${{ parameters.appCatalogUrl }} --authType password --userName ${{ parameters.credentialsEmail }} --password "%CREDENTIALS_PASSWORD%"
+          displayName: Login to ${{ parameters.targetEnvironment }} M365
+          condition: and(succeeded(), and(eq('${{ parameters.authenticationMethod }}', 'credentials'), or(startsWith('${{ parameters.vmImageName }}', 'windows'), startsWith('${{ parameters.vmImageName }}', 'local'))))
+          env:
+            CREDENTIALS_PASSWORD: $(credentials-password) # the recommended way to use a secret variable is map to an env variable            
+        # Ubuntu/macOS
+        - script: m365 login ${{ parameters.appCatalogUrl }} --authType password --userName ${{ parameters.credentialsEmail }} --password "$CREDENTIALS_PASSWORD"
+          displayName: Login to ${{ parameters.targetEnvironment }} M365
+          condition: and(succeeded(), and(eq('${{ parameters.authenticationMethod }}', 'credentials'), or(startsWith('${{ parameters.vmImageName }}', 'ubuntu'), startsWith('${{ parameters.vmImageName }}', 'macOS'))))
+          env:
+            CREDENTIALS_PASSWORD: $(credentials-password) # the recommended way to use a secret variable is map to an env variable    
+
+        # LOGIN USING CERTIFICATE (https://pnp.github.io/cli-microsoft365/user-guide/connecting-office-365/#log-in-using-a-certificate)
+        # The way environment variables are defined varies based on the OS. Therefore, conditionally execute script based on OS.
+        # See also: https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#environment-variables
+
+        # Debug script to show all environment variables and parameters for login using certificate
+        # - script: echo appCatalogUrl = ${{ parameters.appCatalogUrl }}, thumbprint = ${{ parameters.certificateThumbprint }}, password = "%CERTIFICATE_PASSWORD%", certFilePath = $(caCertificate.secureFilePath)
+        #   displayName: Echo variables
+        #   env:
+        #     CERTIFICATE_PASSWORD: $(certificate-password)
+
+        # Windows/local agent
+        - script: m365 login ${{ parameters.appCatalogUrl }} --authType certificate --certificateFile $(caCertificate.secureFilePath) --thumbprint ${{ parameters.certificateThumbprint }} --password %CERTIFICATE_PASSWORD%
+          displayName: Login to ${{ parameters.targetEnvironment }} M365
+          condition: and(succeeded(), and(eq('${{ parameters.authenticationMethod }}', 'certificate'), or(startsWith('${{ parameters.vmImageName }}', 'windows'), startsWith('${{ parameters.vmImageName }}', 'local'))))
+          env:
+            CERTIFICATE_PASSWORD: $(certificate-password) # the recommended way to use a secret variable is map to an env variable
+        # Ubunto/macOS
+        - script: m365 login ${{ parameters.appCatalogUrl }} --authType certificate --certificateFile $(caCertificate.secureFilePath) --thumbprint ${{ parameters.certificateThumbprint }} --password $CERTIFICATE_PASSWORD
+          displayName: Login to ${{ parameters.targetEnvironment }} M365
+          condition: and(succeeded(), and(eq('${{ parameters.authenticationMethod }}', 'certificate'), or(startsWith('${{ parameters.vmImageName }}', 'ubuntu'), startsWith('${{ parameters.vmImageName }}', 'macOS'))))
+          env:
+            CERTIFICATE_PASSWORD: $(certificate-password) # the recommended way to use a secret variable is map to an env variable
+
+        - script: m365 spo app add --filePath "$(Agent.BuildDirectory)\${{ parameters.buildPipelineResourceName }}\${{ parameters.targetEnvironment }}\${{ parameters.packageName }}.sppkg" --scope tenant --overwrite
+          displayName: Upload SharePoint package to ${{ parameters.targetEnvironment }} tenant App Catalog
+        - script: m365 spo app deploy --name "${{ parameters.packageName }}.sppkg" --scope tenant
+          displayName: Deploy SharePoint package

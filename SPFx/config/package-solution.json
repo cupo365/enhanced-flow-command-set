@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "enhanced-power-automate-trigger-client-side-solution",
+    "id": "6a305bc9-c1e5-4995-a23e-959851d784f6",
+    "version": "1.2.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": false,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "cup o'365",
+      "websiteUrl": "https://github.com/cupo365",
+      "privacyUrl": "https://github.com/cupo365/enhanced-power-automate-command-set/blob/main/README.md",
+      "termsOfUseUrl": "https://github.com/cupo365/enhanced-power-automate-command-set/blob/main/LICENSE",
+      "mpnId": "Undefined-1.15.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more items."
+      },
+      "longDescription": {
+        "default": "Trigger a Power Automate flow from SharePoint while selecting one or more items."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Application Extension - Deployment of custom action",
+        "description": "Deploys a custom action with ClientSideComponentId association",
+        "id": "4891fcc5-7de8-4336-aea9-0957ffeb83d4",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": ["elements.xml", "ClientSideInstance.xml"],
+          "elementFiles": ["triggerConfigListSchema.xml"]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/enhanced-power-automate-trigger.sppkg"
+  }
+}

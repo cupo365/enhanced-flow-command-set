@@ -1,0 +1,29 @@
+name: Build Production - Enhanced Power Automate Trigger Command Set SPFx
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - 'SPFx/*'
+
+variables:
+  packageName: enhanced-power-automate-trigger
+  vmImageName: ubuntu-latest # ubuntu-latest | windows-latest | macOS-latest
+
+pool:
+    vmImageName: ubuntu-latest | windows-latest | macOS-latest
+    demands:
+    - npm
+    - node.js
+
+stages:
+  - stage: Build
+    displayName: Build enhanced-power-automate-trigger for production
+    jobs:
+      - template: ../azure-pipelines-build.yaml
+        parameters:
+          webPartName: Enhanced Power Automate Trigger Command Set # display name of the webpart
+          targetEnvironment: production # production | uat | test (default) | development
+          nodeVersion: 14.x # latest (default) | 18.x | 16.x | 14.x | 12.x | 10.x | 8.x | 6.x
