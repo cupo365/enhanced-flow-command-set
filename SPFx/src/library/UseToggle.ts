@@ -1,5 +1,10 @@
 import * as React from 'react';
 
+/**
+* Customized React.useState hook for toggling a boolean value
+*
+* @param defaultValue The default value of the toggle
+*/
 export const useToggle = (defaultValue: boolean): [boolean, () => void] => {
   const [value, setValue] = React.useState<boolean>(defaultValue);
 

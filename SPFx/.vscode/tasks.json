@@ -1,0 +1,167 @@
+{
+  "version": "2.0.0",
+  // See also: https://code.visualstudio.com/Docs/editor/tasks
+  "tasks": [
+    {
+      "label": "init",
+      "detail": "Installs all dependencies, bundles and serves the project",
+      "type": "npm",
+      "script": "init",
+      "isBackground": true, // This causes a prompt to come up upon execution, but this can be ignored
+      "problemMatcher": []
+    },
+    {
+      "label": "install",
+      "detail": "Installs all dependencies",
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": []
+    },
+    {
+      "label": "serve-production",
+      "detail": "Serves the SPFx command set as if in production",
+      "type": "npm",
+      "script": "run",
+      "isBackground": true, // This causes a prompt to come up upon execution, but this can be ignored
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "\\b\\B",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*Starting 'bundle'.*",
+            "endsPattern": "^.*Finished subtask 'reload'.*" // Detects the end of the background task and starts the browser
+          }
+        }
+      ]
+    },
+    {
+      "label": "serve-uat",
+      "detail": "Serves the SPFx command set as if in user acceptance testing",
+      "type": "npm",
+      "script": "run-uat",
+      "isBackground": true, // This causes a prompt to come up upon execution, but this can be ignored
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "\\b\\B",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*Starting 'bundle'.*",
+            "endsPattern": "^.*Finished subtask 'reload'.*" // Detects the end of the background task and starts the browser
+          }
+        }
+      ]
+    },
+    {
+      "label": "serve-test",
+      "detail": "Serves the SPFx command set as if in test",
+      "type": "npm",
+      "script": "run-tst",
+      "isBackground": true, // This causes a prompt to come up upon execution, but this can be ignored
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "\\b\\B",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*Starting 'bundle'.*",
+            "endsPattern": "^.*Finished subtask 'reload'.*" // Detects the end of the background task and starts the browser
+          }
+        }
+      ]
+    },
+    {
+      "label": "serve-development",
+      "detail": "Serves the SPFx command set as if in development",
+      "type": "npm",
+      "script": "run-dev",
+      "isBackground": true, // This causes a prompt to come up upon execution, but this can be ignored
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "\\b\\B",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*Starting 'bundle'.*",
+            "endsPattern": "^.*Finished subtask 'reload'.*" // Detects the end of the background task and starts the browser
+          }
+        }
+      ]
+    },
+    {
+      "label": "switch-list-type-doc",
+      "detail": "Switches the command set type to doclib",
+      "type": "npm",
+      "script": "switch-list-type-doc",
+      "problemMatcher": []
+    },
+    {
+      "label": "switch-list-type-list",
+      "detail": "Switches the command set type to custom list",
+      "type": "npm",
+      "script": "switch-list-type-list",
+      "problemMatcher": []
+    },
+    {
+      "label": "serve-doc-command",
+      "dependsOn": ["install", "switch-list-type-doc", "serve-production"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "serve-list-command",
+      "dependsOn": ["install", "switch-list-type-list", "serve-production"],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "terminate",
+      "detail": "Terminate all running tasks",
+      "type": "shell",
+      "command": "echo ${input:terminate}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
+    }
+  ]
+}

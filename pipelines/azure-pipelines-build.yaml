@@ -52,8 +52,8 @@ jobs:
   - script: gulp clean
     displayName: gulp clean for WebPart ${{ parameters.webPartName }}
     workingDirectory: $(workingDirectory)
-  - script: gulp bundle --ship
-    displayName: gulp bundle --ship for WebPart ${{ parameters.webPartName }}
+  - script: gulp bundle --ship --${{ parameters.targetEnvironment }}
+    displayName: gulp bundle --ship --${{ parameters.targetEnvironment }} for WebPart ${{ parameters.webPartName }}
     workingDirectory: $(workingDirectory)
   - script: gulp package-solution --ship
     displayName: gulp package-solution --ship for WebPart ${{ parameters.webPartName }}

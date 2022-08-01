@@ -1,3 +1,8 @@
+/**
+* Gets the value of a parameter in a URL
+*
+* @param name The name of the parameter to fetch the value for
+*/
 export function getUrlParameterByName(name: string): string {
   const url: string = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");

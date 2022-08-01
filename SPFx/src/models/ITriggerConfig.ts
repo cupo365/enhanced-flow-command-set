@@ -1,4 +1,4 @@
-import { stringIsNullOrEmpty } from "../util";
+import { stringIsNullOrEmpty } from "../library";
 
 export interface ITriggerConfig {
   title: string;
@@ -9,6 +9,7 @@ export interface ITriggerConfig {
   contentTypeBlacklist: string[] | undefined;
   fileExtensionBlacklist: string[] | undefined;
   selectionLimit: number;
+  userInput: boolean;
 }
 
 export const isTriggerConfigValid = (triggerConfig: ITriggerConfig): boolean => {

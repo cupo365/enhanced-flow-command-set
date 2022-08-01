@@ -22,5 +22,8 @@ define([], function () {
     WaitingForFlowResponseDialogSubText:
       "De werkstroom wordt gestart. Dit kan een paar seconden duren. Wees geduldig en sluit deze pagina niet af.",
     WaitingForFlowResponseDialogHeader: "De werkstroom aan het starten",
+    UserInputDialogHeader: "Meer informatie benodigd",
+    UserInputDialogSubText:
+      "De geselecteerde werkstroom benodigd meer informatie voordat deze kan worden gestart.",
   };
 });

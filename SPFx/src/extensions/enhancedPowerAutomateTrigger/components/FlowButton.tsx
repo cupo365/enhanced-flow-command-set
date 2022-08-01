@@ -7,12 +7,14 @@ import styles from "../styles/FlowButton.module.scss";
 export interface IFlowButtonProps {
   triggerConfig: ITriggerConfig;
   onTriggerInvoke(flowConfig: ITriggerConfig): Promise<void>;
+  toggleShowUserInput(): void;
+  setSelectedFlowTrigger(triggerConfig: ITriggerConfig): void;
 }
 export const FlowButton: React.FC<IFlowButtonProps> = (
   props
 ) => {
 
-  const { triggerConfig, onTriggerInvoke } = props;
+  const { triggerConfig, onTriggerInvoke, toggleShowUserInput, setSelectedFlowTrigger } = props;
 
   return (
     <div className="ms-Grid-row">
@@ -20,7 +22,9 @@ export const FlowButton: React.FC<IFlowButtonProps> = (
         text={triggerConfig.title}
         className={styles.flowButton}
         onClick={async (): Promise<void> => {
-          await onTriggerInvoke(triggerConfig);
+          setSelectedFlowTrigger(triggerConfig);
+          if (triggerConfig.userInput) toggleShowUserInput();
+          else await onTriggerInvoke(triggerConfig);
         }}
       />
     </div>

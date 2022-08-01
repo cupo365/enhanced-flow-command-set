@@ -1,11 +1,30 @@
 {
+  /**
+   * Prerequisite: install the Microsoft Edge or Chrome Debugger Extension for Visual Studio Code to debug your components with either
+   * one of these browsers. See https://docs.microsoft.com/en-us/sharepoint/dev/spfx/debug-in-vscode#prerequisites for links
+   */
   "version": "0.2.0",
   "configurations": [
+    // Command sets cannot be served locally, so we need to use a remote server
+    // {
+    //   "name": "Local serve (Edge)",
+    //   "type": "msedge",
+    //   "request": "launch",
+    //   "url": "https://localhost:4321/temp/workbench.html",
+    //   "webRoot": "${workspaceRoot}",
+    //   "sourceMaps": true,
+    //   "sourceMapPathOverrides": {
+    //     "webpack:///.././src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../../src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../../../src/*": "${webRoot}/src/*"
+    //   }
+    // },
     {
-      "name": "Hosted workbench (Edge)",
-      "type": "pwa-msedge",
+      "name": "Serve doclib command (Edge)",
+      "type": "msedge",
       "request": "launch",
-      "url": "https://{your_SharePoint_site_here}/_layouts/workbench.aspx",
+      "url": "https://mkvj.sharepoint.com/sites/mkvj?debug=true&noredir=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
       "webRoot": "${workspaceRoot}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
@@ -14,19 +33,24 @@
         "webpack:///../../../../src/*": "${webRoot}/src/*",
         "webpack:///../../../../../src/*": "${webRoot}/src/*"
       },
-      "runtimeArgs": ["--remote-debugging-port=9222", "-incognito"],
-      "preLaunchTask": "gulp serve",
-      "postDebugTask": "Terminate All Tasks",
+      // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
+      "runtimeArgs": [
+        "--remote-debugging-port=9222",
+        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        //"-incognito"
+      ],
+      "preLaunchTask": "serve-doc-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
+      "postDebugTask": "terminate",
       "presentation": {
         "group": "remote",
         "order": 1
       }
     },
     {
-      "name": "Hosted workbench (Chrome)",
-      "type": "pwa-chrome",
+      "name": "Serve custom list command (Edge)",
+      "type": "msedge",
       "request": "launch",
-      "url": "https://{your_SharePoint_site_here}/_layouts/workbench.aspx",
+      "url": "https://mkvj.sharepoint.com/sites/mkvj?debug=true&noredir=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
       "webRoot": "${workspaceRoot}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
@@ -35,12 +59,85 @@
         "webpack:///../../../../src/*": "${webRoot}/src/*",
         "webpack:///../../../../../src/*": "${webRoot}/src/*"
       },
-      "runtimeArgs": ["--remote-debugging-port=9222", "-incognito"],
-      "preLaunchTask": "gulp serve",
-      "postDebugTask": "Terminate All Tasks",
+      // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
+      "runtimeArgs": [
+        "--remote-debugging-port=9222",
+        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        //"-incognito"
+      ],
+      "preLaunchTask": "serve-list-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
+      "postDebugTask": "terminate",
       "presentation": {
         "group": "remote",
-        "order": 2
+        "order": 1
+      }
+    },
+    // Command sets cannot be served locally, so we need to use a remote server
+    // {
+    //   "name": "Local serve (Chrome)",
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "url": "https://localhost:4321/temp/workbench.html",
+    //   "webRoot": "${workspaceRoot}",
+    //   "sourceMaps": true,
+    //   "sourceMapPathOverrides": {
+    //     "webpack:///.././src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../../src/*": "${webRoot}/src/*",
+    //     "webpack:///../../../../../src/*": "${webRoot}/src/*"
+    //   },
+    //   "runtimeArgs": ["--remote-debugging-port=9222"]
+    // },
+    {
+      "name": "Serve doclib command (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://{YOUR_TENANT}.sharepoint.com/sites/{YOUR_SITE}?loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "webRoot": "${workspaceRoot}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///.././src/*": "${webRoot}/src/*",
+        "webpack:///../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../../src/*": "${webRoot}/src/*"
+      },
+      // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
+      "runtimeArgs": [
+        "--remote-debugging-port=9222",
+        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        //"-incognito"
+      ],
+      "preLaunchTask": "serve-doc-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
+      "postDebugTask": "terminate",
+      "presentation": {
+        "group": "remote",
+        "order": 1
+      }
+    },
+    {
+      "name": "Serve custom list command (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://{YOUR_TENANT}.sharepoint.com/sites/{YOUR_SITE}?loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "webRoot": "${workspaceRoot}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///.././src/*": "${webRoot}/src/*",
+        "webpack:///../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../src/*": "${webRoot}/src/*",
+        "webpack:///../../../../../src/*": "${webRoot}/src/*"
+      },
+      // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
+      "runtimeArgs": [
+        "--remote-debugging-port=9222",
+        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        //"-incognito"
+      ],
+      "preLaunchTask": "serve-list-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
+      "postDebugTask": "terminate",
+      "presentation": {
+        "group": "remote",
+        "order": 1
       }
     }
   ]

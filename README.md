@@ -26,6 +26,7 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 ![SPFx 1.15.0](https://img.shields.io/badge/SPFx-1.15.0-green.svg) ![Node.js v14.17.0](https://img.shields.io/badge/Node.js-v14.17.0-green.svg)
 ![React v16.13.1](https://img.shields.io/badge/React-v16.13.1-green.svg)
 ![Typescript v4.5](https://img.shields.io/badge/Typescript-v4.5-green.svg) ![PnP v3.5.1](https://img.shields.io/badge/PnP-v3.5.1-green.svg) 
+![PnP Logging v3.5.1](https://img.shields.io/badge/PnP%20Logging-v3.5.1-green.svg) ![dotenv v16.0.1](https://img.shields.io/badge/dotenv-v16.0.1-green.svg)
 ![Fluent UI v8.83.0](https://img.shields.io/badge/Fluent%20UI-v8.83.0-green.svg)
 
 ![Compatible with SharePoint Online](https://img.shields.io/badge/SharePoint%20Online-Compatible-green.svg) ![Does not work with SharePoint 2019](https://img.shields.io/badge/SharePoint%20Server%202019-Incompatible-red.svg) ![Does not work with SharePoint 2016 (Feature Pack 2)](https://img.shields.io/badge/SharePoint%20Server%202016%20(Feature%20Pack%202)-Incompatible-red.svg)
@@ -40,6 +41,13 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 - [Power Automate](https://powerautomate.microsoft.com/en-us/)
 - [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 - [Elegant DI in SPFx](https://ypcode.wordpress.com/2018/07/30/elegant-di-in-spfx/)
+- [Using .env files in SharePoint Framework development](https://digitalworkplace365.wordpress.com/2020/03/05/using-env-files-in-sharepoint-framework-development/)
+- [AppSettings in your SPFx solutions](https://www.portiva.nl/portiblog/blogs-cat/appsettings-in-your-spfx-solutions)
+- [Use @pnp/sp (PnPJS) v3 library with SharePoint Framework web parts](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/guidance/use-sp-pnp-js-with-spfx-web-parts)
+- [Logging with PnPJS v3 in SPFx solutions](https://pnp.github.io/pnpjs/logging/)
+- [Create a custom gulp task](https://gist.github.com/estruyf/fb444cfd0de7b3aabe4cb4711ad2118b)
+- [Debug SPFx applications via VSCode launch.json](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/debug-in-vscode#prerequisites)
+- [VSCode launch tasks](https://code.visualstudio.com/Docs/editor/tasks)
 - [Provision SharePoint assets from your client-side web part](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/provision-sp-assets-from-package)
 
 ## Prerequisites
@@ -57,12 +65,12 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ## Version history
 
-| Version                                                                                     | Date          | Comments                                                                                   |
-| ------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------ |
-| [0.9.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v0.9.0) | April 3, 2022 | Pre-release                                                                                |
-| [1.0.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.0) | July 1, 2022  | Initial release, doc lib and lists compatibility                                           |
-| [1.1.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0) | July 24, 2022 | Migration to SPFx 1.15.0 and lots of optimalizations                                       |
-| [1.2.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.2.0) | July 27, 2022 | Customizable list and folder whitelisting and content type and file extension blacklisting |
+| Version                                                                                     | Date           | Comments                                                                                   |
+| ------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------ |
+| [0.9.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v0.9.0) | April 3, 2022  | Pre-release                                                                                |
+| [1.0.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.0) | July 1, 2022   | Initial release, doc lib and lists compatibility                                           |
+| [1.1.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0) | July 24, 2022  | Migration to SPFx 1.15.0 and lots of optimalizations                                       |
+| [1.2.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.2.0) | August 1, 2022 | Customizable list and folder whitelisting and content type and file extension blacklisting |
 
 ## Supported languages
 - English
@@ -92,6 +100,7 @@ The provisioned configuration list contains the following  fields. Each item in 
 | Content type blacklist   | fill-in multi choice | The (start of a) content type ID to blacklist for this trigger. See https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ms452896(v=office.14) for all content type IDs. Leave empty to blacklist none. | 0x0120 (blacklist all folders)                                                                |
 | File extension blacklist | fill-in multi choice | The file extensions to blacklist for this trigger. Leave empty to blacklist none.                                                                                                                                                      | docx                                                                                          |
 | Selection limit          | number               | The selected items limit for this trigger.                                                                                                                                                                                             | 30                                                                                            |
+| User input               | yes/no               | Whether additional user input is required before triggering the flow. NOTE: you have to code this functionality yourself in the command set.                                                                                           | false                                                                                         |
 
 If the command set is installed on the site and the user opens a document library or custom list (depending on the installed package) and one or more items are selected, a menu button with the text 'Trigger flow' will become visible in the menu bar (see example below). 
 ![Trigger flow button example](resources/trigger-flow-button.png "Trigger flow button example")

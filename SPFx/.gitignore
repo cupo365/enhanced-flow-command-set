@@ -33,4 +33,5 @@ obj
 *.scss.ts
 
 # Environment
-*.env
+#*.env
+*.env.local

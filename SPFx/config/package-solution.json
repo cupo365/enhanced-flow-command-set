@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "enhanced-power-automate-trigger-client-side-solution",
-    "id": "6a305bc9-c1e5-4995-a23e-959851d784f6",
+    "name": "doc-enhanced-power-automate-trigger-client-side-solution",
+    "id": "5DA1DC8B-F9A4-43D4-9A0B-C2E89E2D5FBE",
     "version": "1.2.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": false,
@@ -29,16 +29,21 @@
       {
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
-        "id": "4891fcc5-7de8-4336-aea9-0957ffeb83d4",
+        "id": "2f4bcd0a-2956-4803-8024-911265601037",
         "version": "1.0.0.0",
         "assets": {
-          "elementManifests": ["elements.xml", "ClientSideInstance.xml"],
-          "elementFiles": ["triggerConfigListSchema.xml"]
+          "elementManifests": [
+            "elements.xml",
+            "ClientSideInstance.xml"
+          ],
+          "elementFiles": [
+            "triggerConfigListSchema.xml"
+          ]
         }
       }
     ]
   },
   "paths": {
-    "zippedPackage": "solution/enhanced-power-automate-trigger.sppkg"
+    "zippedPackage": "solution/releases/doc-enhanced-power-automate-trigger.sppkg"
   }
 }

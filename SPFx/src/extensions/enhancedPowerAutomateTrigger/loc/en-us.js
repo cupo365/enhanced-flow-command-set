@@ -22,5 +22,8 @@ define([], function () {
     WaitingForFlowResponseDialogSubText:
       "The workflow is being started, this could take a coulpe of seconds. Please be patient and do not navigate away.",
     WaitingForFlowResponseDialogHeader: "Starting the workflow",
+    UserInputDialogHeader: "More information required",
+    UserInputDialogSubText:
+      "The selected workflow requires more information before it can be started.",
   };
 });

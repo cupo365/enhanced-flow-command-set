@@ -7,13 +7,22 @@
   "author": "cup o'365",
   "license": "MIT",
   "scripts": {
-    "init": "npm ci && gulp bundle && gulp trust-dev-cert && gulp serve --nobrowser",
-    "run": "gulp serve --nobrowser",
+    "init": "npm i && gulp bundle --production && gulp trust-dev-cert && gulp serve --nobrowser",
+    "run": "gulp bundle --production && gulp trust-dev-cert && gulp serve --nobrowser",
+    "run-uat": "gulp bundle --uat && gulp trust-dev-cert && gulp serve --nobrowser",
+    "run-tst": "gulp bundle --test && gulp trust-dev-cert && gulp serve --nobrowser",
+    "run-dev": "gulp bundle --development && gulp trust-dev-cert && gulp serve --nobrowser",
     "clean": "gulp clean && gulp bundle",
     "switch-list-type-doc": "gulp switch-list-type --list doc",
     "switch-list-type-list": "gulp switch-list-type --list list",
-    "package-doc": "gulp switch-list-type --list doc && gulp bundle --ship && gulp package-solution --ship",
-    "package-list": "gulp switch-list-type --list list && gulp bundle --ship && gulp package-solution --ship"
+    "package-doc": "gulp switch-list-type --list doc && gulp bundle --ship --production && gulp package-solution --ship",
+    "package-list": "gulp switch-list-type --list list && gulp bundle --ship --production && gulp package-solution --ship",
+    "package-doc-uat": "gulp switch-list-type --list doc && gulp bundle --ship --uat && gulp package-solution --ship",
+    "package-list-uat": "gulp switch-list-type --list list && gulp bundle --ship --uat && gulp package-solution --ship",
+    "package-doc-tst": "gulp switch-list-type --list doc && gulp bundle --ship --test && gulp package-solution --ship",
+    "package-list-tst": "gulp switch-list-type --list list && gulp bundle --ship --test && gulp package-solution --ship",
+    "package-doc-dev": "gulp switch-list-type --list doc && gulp bundle --ship --development && gulp package-solution --ship",
+    "package-list-dev": "gulp switch-list-type --list list && gulp bundle --ship --development && gulp package-solution --ship"
   },
   "dependencies": {
     "@fluentui/react": "^8.83.0",
@@ -40,8 +49,10 @@
     "@types/react-dom": "16.9.8",
     "@types/uuid": "^8.3.4",
     "@types/webpack-env": "~1.15.2",
-    "typescript": "4.5",
     "ajv": "^6.12.5",
-    "gulp": "4.0.2"
+    "dotenv": "^16.0.1",
+    "dotenv-expand": "^8.0.3",
+    "gulp": "4.0.2",
+    "typescript": "4.5"
   }
 }

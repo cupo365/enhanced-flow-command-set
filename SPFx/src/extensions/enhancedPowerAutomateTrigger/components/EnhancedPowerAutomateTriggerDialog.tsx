@@ -1,12 +1,12 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
-import { Dialog, DialogFooter, DialogType, IDialogContentProps, IModalProps, PrimaryButton, Spinner, SpinnerSize } from "@fluentui/react";
+import { Dialog, DialogFooter, DialogType, IDialogContentProps, IModalProps, PrimaryButton, Spinner, SpinnerSize, Stack } from "@fluentui/react";
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
 import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
 import * as React from "react";
-import { FlowButton } from ".";
+import { FlowButton, UserInputForm } from ".";
+import { stringIsNullOrEmpty, useToggle, validateVisibility } from "../../../library";
 import { IFlowResponse, ITriggerConfig } from "../../../models";
 import { IFlowService } from "../../../services";
-import { stringIsNullOrEmpty, useToggle, validateVisibility } from "../../../util";
 import styles from "../styles/EnhancedPowerAutomateTriggerDialog.module.scss";
 
 export interface IEnhancedPowerAutomateTriggerDialogProps {
@@ -24,44 +24,50 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
   const [isClosedState, toggleIsClosedState] = useToggle(false);
   const [flowResponse, setFlowResponse] = React.useState<IFlowResponse>(undefined);
   const [isWaitingForResponse, toggleIsWaitingForResponse] = useToggle(false);
+  const [showUserInput, toggleShowUserInput] = useToggle(false);
+  const [selectedFlowTrigger, setSelectedFlowTrigger] = React.useState<ITriggerConfig>(undefined);
 
   const dialogContentProps: IDialogContentProps = {
     type: DialogType.normal,
     showCloseButton: !isWaitingForResponse,
     title: isWaitingForResponse
       ? strings.WaitingForFlowResponseDialogHeader
-      : flowResponse === undefined
-        ? strings.SelectFlowDialogHeader
-        : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
-          ? strings.SuccessDialogHeader
-          : strings.FailedDialogHeader,
+      : showUserInput
+        ? strings.UserInputDialogHeader
+        : flowResponse === undefined
+          ? strings.SelectFlowDialogHeader
+          : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
+            ? strings.SuccessDialogHeader
+            : strings.FailedDialogHeader,
     subText: isWaitingForResponse
       ? strings.WaitingForFlowResponseDialogSubText
-      : !flowResponse
-        ? strings.SelectFlowDialogSubText
-        : flowResponse && flowResponse?.statusCode === 202
-          ? strings.InvokedDialogSubText + " " + strings.CloseDialogUserInstruction
-          : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
-            ? !stringIsNullOrEmpty(flowResponse?.message)
-              ? strings.SuccessDialogSubTextWithMessage.replace(
-                "$message",
-                flowResponse?.message
-              ) +
-              " " +
-              strings.CloseDialogUserInstruction
-              : strings.SuccessDialogSubTextWithoutMessage +
-              " " +
-              strings.CloseDialogUserInstruction
-            : !stringIsNullOrEmpty(flowResponse?.message)
-              ? strings.FailedDialogSubTextWithMessage.replace(
-                "$message",
-                flowResponse?.message
-              ) +
-              " " +
-              strings.CloseDialogUserInstruction
-              : strings.FailedDialogSubTextWithoutMessage +
-              " " +
-              strings.CloseDialogUserInstruction,
+      : showUserInput
+        ? strings.UserInputDialogSubText
+        : !flowResponse
+          ? strings.SelectFlowDialogSubText
+          : flowResponse && flowResponse?.statusCode === 202
+            ? strings.InvokedDialogSubText + " " + strings.CloseDialogUserInstruction
+            : flowResponse && flowResponse?.statusCode?.toString().indexOf("20") > -1
+              ? !stringIsNullOrEmpty(flowResponse?.message)
+                ? strings.SuccessDialogSubTextWithMessage.replace(
+                  "$message",
+                  flowResponse?.message
+                ) +
+                " " +
+                strings.CloseDialogUserInstruction
+                : strings.SuccessDialogSubTextWithoutMessage +
+                " " +
+                strings.CloseDialogUserInstruction
+              : !stringIsNullOrEmpty(flowResponse?.message)
+                ? strings.FailedDialogSubTextWithMessage.replace(
+                  "$message",
+                  flowResponse?.message
+                ) +
+                " " +
+                strings.CloseDialogUserInstruction
+                : strings.FailedDialogSubTextWithoutMessage +
+                " " +
+                strings.CloseDialogUserInstruction,
   };
 
   const modalProps: IModalProps = {
@@ -70,7 +76,13 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
     dragOptions: null,
   };
 
+  /**
+  * Invokes the flow of the selected trigger button and handles its response
+  *
+  * @param flowConfig The selected flow to invoke
+  */
   const onTriggerInvoke = async (flowConfig: ITriggerConfig): Promise<void> => {
+    if (showUserInput) toggleShowUserInput();
     toggleIsWaitingForResponse();
     await flowService.invokeFlow(context, flowConfig, selectedItems)
       .then((response: IFlowResponse): void => {
@@ -79,14 +91,22 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
       });
   };
 
+  /**
+   * Closes the dialog and resets the state
+   */
   const onCloseDialog = (): void => {
     toggleIsClosedState();
-    setTimeout((): void =>
+    setTimeout((): void => {
       // Prevent showing the user the state change while still in dialog closing transition
-      setFlowResponse(undefined)
-      , 500);
+      setFlowResponse(undefined);
+      setSelectedFlowTrigger(undefined);
+      if (showUserInput) toggleShowUserInput();
+    }, 500);
   };
 
+  /**
+   * Renders the children of the dialog footer
+   */
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const renderDialogFooterChildren = () => {
     return (
@@ -97,13 +117,17 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
     );
   };
 
+
+  /**
+   * Renders the children of the dialog
+   */
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const renderDialogChildren = () => {
     return (
-      <div className="ms-Grid" dir="ltr">
-        <div className="ms-Grid-row">
+      <Stack>
+        <Stack tokens={{ childrenGap: 15 }}>
           {
-            flowResponse === undefined && !isWaitingForResponse &&
+            flowResponse === undefined && !showUserInput && !isWaitingForResponse &&
             triggerConfigs.map((triggerConfig: ITriggerConfig) => {
               if (validateVisibility(triggerConfig.fileExtensionBlacklist, triggerConfig.contentTypeBlacklist, triggerConfig.listWhitelist,
                 triggerConfig.folderWhitelist, triggerConfig.selectionLimit, selectedItems, currentListId)) {
@@ -111,6 +135,8 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
                   <FlowButton
                     triggerConfig={triggerConfig}
                     onTriggerInvoke={onTriggerInvoke}
+                    toggleShowUserInput={toggleShowUserInput}
+                    setSelectedFlowTrigger={setSelectedFlowTrigger}
                   />
                 )
               }
@@ -125,15 +151,23 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
             />
           }
 
-        </div>
+          {
+            showUserInput &&
+            <UserInputForm
+              selectedFlowTrigger={selectedFlowTrigger}
+              onTriggerInvoke={onTriggerInvoke}
+            />
+          }
+
+        </Stack>
 
         {
-          flowResponse !== undefined && !isWaitingForResponse &&
-          <div className="ms-Grid-row">
+          flowResponse !== undefined && !showUserInput && !isWaitingForResponse &&
+          <Stack className="ms-Grid-row">
             <DialogFooter children={renderDialogFooterChildren()} />
-          </div>
+          </Stack>
         }
-      </div>
+      </Stack>
     );
   };
 
