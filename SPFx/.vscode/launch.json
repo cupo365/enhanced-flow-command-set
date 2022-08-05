@@ -24,7 +24,7 @@
       "name": "Serve doclib command (Edge)",
       "type": "msedge",
       "request": "launch",
-      "url": "https://mkvj.sharepoint.com/sites/mkvj?debug=true&noredir=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "url": "https://{YOUR_TENANT}.sharepoint.com/sites/{YOUR_SITE}?loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
       "webRoot": "${workspaceRoot}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
@@ -36,13 +36,13 @@
       // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
       "runtimeArgs": [
         "--remote-debugging-port=9222",
-        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
-        //"-incognito"
+        //"--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        "-inprivate"
       ],
       "preLaunchTask": "serve-doc-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
       "postDebugTask": "terminate",
       "presentation": {
-        "group": "remote",
+        "group": "doclib-remote",
         "order": 1
       }
     },
@@ -50,7 +50,7 @@
       "name": "Serve custom list command (Edge)",
       "type": "msedge",
       "request": "launch",
-      "url": "https://mkvj.sharepoint.com/sites/mkvj?debug=true&noredir=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
+      "url": "https://{YOUR_TENANT}.sharepoint.com/sites/{YOUR_SITE}?loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js",
       "webRoot": "${workspaceRoot}",
       "sourceMaps": true,
       "sourceMapPathOverrides": {
@@ -62,13 +62,13 @@
       // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
       "runtimeArgs": [
         "--remote-debugging-port=9222",
-        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
-        //"-incognito"
+        //"--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        "-inprivate"
       ],
       "preLaunchTask": "serve-list-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
       "postDebugTask": "terminate",
       "presentation": {
-        "group": "remote",
+        "group": "list-remote",
         "order": 1
       }
     },
@@ -104,14 +104,14 @@
       // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
       "runtimeArgs": [
         "--remote-debugging-port=9222",
-        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
-        //"-incognito"
+        //"--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        "-incognito"
       ],
       "preLaunchTask": "serve-doc-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
       "postDebugTask": "terminate",
       "presentation": {
-        "group": "remote",
-        "order": 1
+        "group": "doclib-remote",
+        "order": 2
       }
     },
     {
@@ -130,14 +130,14 @@
       // Source: https://www.codeproject.com/Articles/1236613/Set-Which-Chrome-Profile-for-Visual-Studio-to-Use
       "runtimeArgs": [
         "--remote-debugging-port=9222",
-        "--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
-        //"-incognito"
+        //"--profile-directory='Profile 2'" // Change this to your preferred profile to open upon launching the browser
+        "-incognito"
       ],
       "preLaunchTask": "serve-list-command", // See also: https://code.visualstudio.com/Docs/editor/tasks
       "postDebugTask": "terminate",
       "presentation": {
-        "group": "remote",
-        "order": 1
+        "group": "list-remote",
+        "order": 2
       }
     }
   ]

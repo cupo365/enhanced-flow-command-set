@@ -8,12 +8,8 @@ trigger:
     include:
     - 'SPFx/*'
 
-variables:
-  packageName: enhanced-power-automate-trigger
-  vmImageName: ubuntu-latest # ubuntu-latest | windows-latest | macOS-latest
-
 pool:
-    vmImageName: ubuntu-latest | windows-latest | macOS-latest
+    vmImageName: ubuntu-latest # ubuntu-latest | windows-latest | macOS-latest
     demands:
     - npm
     - node.js

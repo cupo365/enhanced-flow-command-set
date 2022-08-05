@@ -118,10 +118,10 @@ var UpdateSettings = {
             // Update settings to stage values from the appSettings.all.json file
             if (
               packageJson.solution.webApiPermissionRequests[0].resource !==
-              inputJson.environment[targetEnv].AppResourceName
+              inputJson.environments[targetEnv].AppResourceName
             ) {
               packageJson.solution.webApiPermissionRequests[0].resource =
-                inputJson.environment[targetEnv].AppResourceName;
+                inputJson.environments[targetEnv].AppResourceName;
               packageJsonIsUpdated = true;
             }
 
