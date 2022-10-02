@@ -5,6 +5,7 @@ export interface ITriggerConfig {
   title: string;
   triggerUrl: string;
   httpMethod: string;
+  originSecret: string | undefined;
   listWhitelist: string[] | undefined;
   folderWhitelist: string[] | undefined;
   contentTypeBlacklist: string[] | undefined;

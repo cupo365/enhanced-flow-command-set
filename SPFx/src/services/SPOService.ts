@@ -56,6 +56,7 @@ export class SPOService implements ISPOService {
                   title: triggerConfigListItem?.Title,
                   triggerUrl: triggerConfigListItem?.TriggerURL,
                   httpMethod: triggerConfigListItem?.HTTPType,
+                  originSecret: triggerConfigListItem?.OriginSecret,
                   listWhitelist: triggerConfigListItem?.ListWhitelist,
                   folderWhitelist: triggerConfigListItem?.FolderWhitelist,
                   contentTypeBlacklist: triggerConfigListItem?.ContentTypeBlacklist,

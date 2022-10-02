@@ -9,6 +9,8 @@ export interface IRequestedUserInput {
   required: boolean;
   minDate: string | undefined;
   maxDate: string | undefined;
+  selectionLimit: number | undefined;
+  groupName: string | undefined;
   options: IDropdownOption[] | undefined;
 }
 
@@ -19,7 +21,8 @@ export enum SupportedInputTypes {
   Email = "Email",
   Choice = "Choice",
   Date = "Date",
-  PeoplePicker = "People picker"
+  PeoplePicker = "People picker",
+  ComboBox = "Combo box",
 }
 
 export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInput, triggerConfigTitle: string): boolean => {
@@ -48,6 +51,12 @@ export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInpu
           }
         case SupportedInputTypes.Choice:
           isValid = requestedUserInput?.options && requestedUserInput?.options.length > 0;
+          break;
+        case SupportedInputTypes.ComboBox:
+          isValid = requestedUserInput?.options && requestedUserInput?.options.length > 0;
+          break;
+        case SupportedInputTypes.PeoplePicker:
+          isValid = !isNaN(requestedUserInput?.selectionLimit) && requestedUserInput?.selectionLimit > 0;
           break;
         default:
           isValid = true;

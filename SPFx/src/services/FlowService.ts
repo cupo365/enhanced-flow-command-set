@@ -3,7 +3,6 @@ import { ServiceKey } from "@microsoft/sp-core-library";
 import { HttpClient, HttpClientResponse, IHttpClientOptions } from '@microsoft/sp-http';
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
 import { Logger } from "@pnp/logging";
-import * as AppSettings from "AppSettings";
 import { IFlowRequestBody, IFlowResponse, ISelectedItem, isTriggerConfigValid, ITriggerConfig } from "../models";
 
 export interface IFlowService {
@@ -45,7 +44,7 @@ export class FlowService implements IFlowService {
               };
             });
         case 'POST':
-          const httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems, userInput);
+          const httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(triggerConfig, context, selectedItems, userInput);
 
           if (!httpClientPostOptions) {
             throw new Error("HTTP client options are invalid.");
@@ -84,11 +83,12 @@ export class FlowService implements IFlowService {
   /**
   * Composes the request body and headers to invoke a flow with an HTTP POST request
   *
+  * @param triggerConfig The trigger config with which to trigger the flow
   * @param context The webpart context
   * @param selectedItems The selected list items
   * @param userInput object of the user input
   */
-  private _createHttpClientPostOptions = (context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[],
+  private _createHttpClientPostOptions = (triggerConfig: ITriggerConfig, context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[],
     userInput: object): IHttpClientOptions => {
     try {
       const processedSelectedItems: ISelectedItem[] = [];
@@ -109,7 +109,7 @@ export class FlowService implements IFlowService {
       requestHeaders.append('Cache-Control', 'no-cache');
 
       const requestBody: IFlowRequestBody = {
-        originSecret: AppSettings.OriginSecret,
+        originSecret: triggerConfig.originSecret,
         site: context.pageContext.site.absoluteUrl,
         tenantUrl: context.pageContext.legacyPageContext?.portalUrl,
         listId: context.pageContext.list?.id.toString(),

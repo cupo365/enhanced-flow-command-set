@@ -1,6 +1,8 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
-import { DatePicker, DayOfWeek, defaultDatePickerStrings, Dropdown, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { ComboBox, DatePicker, DayOfWeek, defaultDatePickerStrings, Dropdown, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { ListViewCommandSetContext } from "@microsoft/sp-listview-extensibility";
 import { Logger } from "@pnp/logging";
+import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
 import * as React from "react";
 import { stringIsNullOrEmpty, useToggle } from "../../../library";
@@ -10,12 +12,13 @@ import styles from "../styles/UserInputForm.module.scss";
 export interface IUserInputFormProps {
   selectedFlowTrigger: ITriggerConfig;
   onTriggerInvoke(flowConfig: ITriggerConfig, userInput: object): Promise<void>;
+  context: ListViewCommandSetContext;
 }
 export const UserInputForm: React.FC<IUserInputFormProps> = (
   props
 ) => {
 
-  const { selectedFlowTrigger, onTriggerInvoke } = props;
+  const { selectedFlowTrigger, onTriggerInvoke, context } = props;
   const [formInput, setFormInput] = React.useState<Map<string, string>>(() => {
     const map: Map<string, string> = new Map<string, string>();
     selectedFlowTrigger.requestedUserInput.forEach((input: IRequestedUserInput) => {
@@ -177,7 +180,54 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
             />
           );
         case SupportedInputTypes.PeoplePicker:
-          return (<></>); // TODO: Add people picker
+          // Known issue with PnP PeoplePicker 3.10.0: https://github.com/pnp/sp-dev-fx-controls-react/issues/1292
+          return (
+            <PeoplePicker
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              context={context as any}
+              titleText={formInputField.label}
+              personSelectionLimit={formInputField.selectionLimit}
+              groupName={formInputField.groupName ? formInputField.groupName : ""} // Leave this blank in case you want to filter from all users
+              showtooltip={false}
+              allowUnvalidated={true}
+              required={formInputField.required}
+              disabled={false}
+              errorMessage={formErrorMessages.get(formInputField.name)}
+              onChange={(selectedPersons: unknown[]) => {
+                const newInputValue: unknown[] | undefined = selectedPersons && selectedPersons.length > 0 ? selectedPersons : undefined;
+                handleOnChangeInputFieldValue(formInputField.name, null, newInputValue, selectedPersons && selectedPersons.length > 0);
+              }}
+              showHiddenInUI={false}
+              placeholder={formInputField.placeholder}
+              principalTypes={[PrincipalType.User]}
+              resolveDelay={1000} />
+          );
+        case SupportedInputTypes.ComboBox:
+          return (
+            <ComboBox
+              label={formInputField.label}
+              placeholder={formInputField.placeholder}
+              options={formInputField.options}
+              multiSelect
+              errorMessage={formErrorMessages.get(formInputField.name)}
+              required={formInputField.required}
+              onChange={(event, option?, index?, value?): void => {
+                let newInputValue: string | undefined = stringIsNullOrEmpty(option?.key.toString()) ? undefined : option.key.toString();
+                if (newInputValue && option.selected) {
+                  const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                  if (currentInputValue) {
+                    newInputValue = `${currentInputValue},${newInputValue}`;
+                  }
+                } else if (newInputValue && !option.selected) {
+                  const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                  if (currentInputValue) {
+                    newInputValue = currentInputValue.replace(`,${newInputValue}`, "").replace(newInputValue, "");
+                  }
+                }
+                handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option?.key.toString()));
+              }}
+            />
+          );
         default:
           return (<></>);
       }

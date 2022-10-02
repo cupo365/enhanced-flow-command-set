@@ -11,6 +11,7 @@
         </CHOICES>
         <Default>POST</Default>
       </Field>
+      <Field ID="{c50cf70d-8335-41bd-8e64-bab74346398b}" Type="Text" Name="OriginSecret" DisplayName="Origin secret" Required="FALSE" StaticName="OriginSecret" Description="A secret which is passed to the flow and can be used to validate the origin of the request. Ex: 0f30da5d2e4c4565bd227cedd969cddb. Leave empty to not provide an origin secret." />
       <Field ID="{46f1b8a8-e86d-4602-b82f-9d540c4843b4}" Type="MultiChoice" DisplayName="List whitelist" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="ListWhitelist" StaticName="ListWhitelist" Required="FALSE" FillInChoice="TRUE" Description="The GUIDs of the lists to whitelist for this trigger. Ex: 7bc18c02-015f-49bd-a120-bb7a1dfc568f. Leave empty to whitelist all.">
         <CHOICES></CHOICES>
         <Default></Default>
@@ -44,6 +45,7 @@
           <FieldRef Name="Title"></FieldRef>
           <FieldRef Name="TriggerURL"></FieldRef>
           <FieldRef Name="HTTPType"></FieldRef>
+          <FieldRef Name="OriginSecret"></FieldRef>
           <FieldRef Name="ListWhitelist"></FieldRef>
           <FieldRef Name="FolderWhitelist"></FieldRef>
           <FieldRef Name="ContentTypeBlacklist"></FieldRef>

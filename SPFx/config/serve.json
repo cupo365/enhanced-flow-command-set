@@ -7,7 +7,7 @@
       "pageUrl": "https://{your_SharePoint_site_here}",
       "customActions": {
         "543ef5be-c9cb-4b7b-bdaf-592c7be1493a": {
-          "location": "ClientSideExtension.ListViewCommandSet.CommandBar",
+          "location": "ClientSideExtension.ListViewCommandSet",
           "properties": {}
         }
       }
@@ -16,7 +16,7 @@
       "pageUrl": "https://{your_SharePoint_site_here}",
       "customActions": {
         "543ef5be-c9cb-4b7b-bdaf-592c7be1493a": {
-          "location": "ClientSideExtension.ListViewCommandSet.CommandBar",
+          "location": "ClientSideExtension.ListViewCommandSet",
           "properties": {}
         }
       }

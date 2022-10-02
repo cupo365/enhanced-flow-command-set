@@ -157,6 +157,7 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
             <UserInputForm
               selectedFlowTrigger={selectedFlowTrigger}
               onTriggerInvoke={onTriggerInvoke}
+              context={context}
             />
           }
 

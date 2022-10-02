@@ -67,11 +67,6 @@ var UpdateSettings = {
               `Using flow button display limit: ${inputJson.environments[targetEnv].FlowButtonDisplayLimit}`
             )
           );
-          gutil.log(
-            gutil.colors.yellow(
-              `Using origin secret: ${inputJson.environments[targetEnv].OriginSecret}`
-            )
-          );
 
           /* UPDATE APPSETTINGS.JSON */
           if (updateAppSettingsUponEnvironmentSwitch) {
@@ -98,15 +93,6 @@ var UpdateSettings = {
             ) {
               appSettings.FlowButtonDisplayLimit =
                 inputJson.environments[targetEnv].FlowButtonDisplayLimit;
-              appSettingsIsUpdated = true;
-            }
-
-            if (
-              appSettings.OriginSecret !==
-              inputJson.environments[targetEnv].OriginSecret
-            ) {
-              appSettings.OriginSecret =
-                inputJson.environments[targetEnv].OriginSecret;
               appSettingsIsUpdated = true;
             }
 
