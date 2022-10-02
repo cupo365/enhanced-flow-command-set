@@ -16,6 +16,7 @@ declare interface IEnhancedPowerAutomateTriggerCommandSetStrings {
   WaitingForFlowResponseDialogHeader: string;
   UserInputDialogHeader: string;
   UserInputDialogSubText: string;
+  UserInputErrorMessage: string;
 }
 
 declare module 'EnhancedPowerAutomateTriggerCommandSetStrings' {

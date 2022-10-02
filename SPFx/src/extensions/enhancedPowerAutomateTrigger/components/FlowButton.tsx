@@ -6,7 +6,7 @@ import styles from "../styles/FlowButton.module.scss";
 
 export interface IFlowButtonProps {
   triggerConfig: ITriggerConfig;
-  onTriggerInvoke(flowConfig: ITriggerConfig): Promise<void>;
+  onTriggerInvoke(flowConfig: ITriggerConfig, userInput: object): Promise<void>;
   toggleShowUserInput(): void;
   setSelectedFlowTrigger(triggerConfig: ITriggerConfig): void;
 }
@@ -23,8 +23,8 @@ export const FlowButton: React.FC<IFlowButtonProps> = (
         className={styles.flowButton}
         onClick={async (): Promise<void> => {
           setSelectedFlowTrigger(triggerConfig);
-          if (triggerConfig.userInput) toggleShowUserInput();
-          else await onTriggerInvoke(triggerConfig);
+          if (triggerConfig.requestedUserInput) toggleShowUserInput();
+          else await onTriggerInvoke(triggerConfig, {});
         }}
       />
     </div>

@@ -80,11 +80,12 @@ export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomate
   * Invokes the flow of the selected trigger button and handles its response
   *
   * @param flowConfig The selected flow to invoke
+  * @param userInput Dictionary type mapping of the user input
   */
-  const onTriggerInvoke = async (flowConfig: ITriggerConfig): Promise<void> => {
+  const onTriggerInvoke = async (flowConfig: ITriggerConfig, userInput: Map<string, string>): Promise<void> => {
     if (showUserInput) toggleShowUserInput();
     toggleIsWaitingForResponse();
-    await flowService.invokeFlow(context, flowConfig, selectedItems)
+    await flowService.invokeFlow(context, flowConfig, selectedItems, userInput)
       .then((response: IFlowResponse): void => {
         setFlowResponse(response);
         toggleIsWaitingForResponse();

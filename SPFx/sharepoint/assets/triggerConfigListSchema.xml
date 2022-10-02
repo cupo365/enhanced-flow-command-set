@@ -4,7 +4,7 @@
     <ContentTypes></ContentTypes>
     <Fields>
       <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="Title" Required="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" FromBaseType="TRUE" Description="The title of the button displayed to the user for this trigger. Ex: Start an approval."/>
-      <Field ID="{a41adbe7-8251-4ffd-9bc9-95299c8f472d}" Type="Text" Name="TriggerURL" DisplayName="Trigger URL" Required="TRUE" StaticName="TriggerURL" Description="The HTTP URL with which the flow can be triggered with. Ex: https://prod-178.westeurope.logic.azure.com:443/workflows/.../triggers/manual/paths/invoke..." />
+      <Field ID="{a41adbe7-8251-4ffd-9bc9-95299c8f472d}" Type="Note" Name="TriggerURL" DisplayName="Trigger URL" Required="TRUE" StaticName="TriggerURL" NumLines="10" RichText="FALSE" AppendOnly="FALSE" Description="The HTTP URL with which the flow can be triggered with. Ex: https://prod-178.westeurope.logic.azure.com:443/workflows/.../triggers/manual/paths/invoke..." />
       <Field ID="{7b215765-2770-4ce6-992a-ed3cdf084033}" Type="Choice" DisplayName="HTTP Type" EnforceUniqueValues="FALSE" Indexed="FALSE" Name="HTTPType" StaticName="HTTPType" Required="TRUE" FillInChoice="FALSE" Description="The HTTP method to use for this trigger. Ex: POST.">
         <CHOICES>
           <CHOICE>POST</CHOICE>
@@ -32,9 +32,7 @@
       <Field ID="{2a9fd430-c7a1-43a5-b349-18fe46b7c049}" Type="Number" Name="SelectionLimit" DisplayName="Selection limit" Required="TRUE" StaticName="SelectionLimit" Description="The selected items limit for this trigger. Ex: 30.">
         <Default>30</Default>
       </Field>
-      <Field ID="{2574742f-477c-4243-8f14-87048e83e6ee}" Type="Boolean" Name="UserInput" DisplayName="User input" Required="TRUE" StaticName="UserInput" Description="Whether additional user input is required before triggering the flow. NOTE: you have to code this functionality yourself in the command set.">
-        <Default>0</Default>
-      </Field>
+      <Field ID="{2574742f-477c-4243-8f14-87048e83e6ee}" Type="Note" Name="RequestedUserInput" DisplayName="Requested user input" Required="FALSE" StaticName="RequestedUserInput" NumLines="500" RichText="FALSE" AppendOnly="FALSE" Description="An array with objects of input fields to request and pass to the flow. An example value can be found here: https://github.com/cupo365/enhanced-power-automate-command-set/blob/main/resources/request-user-input-example.jsonc. Leave empty to not request any user input." />
     </Fields>
     <Views>
       <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/images/generic.png" Url="AllItems.aspx">
@@ -51,7 +49,7 @@
           <FieldRef Name="ContentTypeBlacklist"></FieldRef>
           <FieldRef Name="FileExtensionBlacklist"></FieldRef>
           <FieldRef Name="SelectionLimit"></FieldRef>
-          <FieldRef Name="UserInput"></FieldRef>
+          <FieldRef Name="RequestedUserInput"></FieldRef>
         </ViewFields>
         <Query>
           <OrderBy>

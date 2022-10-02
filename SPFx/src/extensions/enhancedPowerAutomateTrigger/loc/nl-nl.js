@@ -25,5 +25,6 @@ define([], function () {
     UserInputDialogHeader: "Meer informatie benodigd",
     UserInputDialogSubText:
       "De geselecteerde werkstroom benodigd meer informatie voordat deze kan worden gestart.",
+    UserInputErrorMessage: "Invoer is ongeldig",
   };
 });

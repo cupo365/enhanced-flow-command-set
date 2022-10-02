@@ -3,10 +3,12 @@ import { ServiceKey } from "@microsoft/sp-core-library";
 import { HttpClient, HttpClientResponse, IHttpClientOptions } from '@microsoft/sp-http';
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
 import { Logger } from "@pnp/logging";
+import * as AppSettings from "AppSettings";
 import { IFlowRequestBody, IFlowResponse, ISelectedItem, isTriggerConfigValid, ITriggerConfig } from "../models";
 
 export interface IFlowService {
-  invokeFlow(context: ListViewCommandSetContext, triggerConfig: ITriggerConfig, selectedItems: readonly RowAccessor[]): Promise<IFlowResponse>;
+  invokeFlow(context: ListViewCommandSetContext, triggerConfig: ITriggerConfig,
+    selectedItems: readonly RowAccessor[], userInput: object): Promise<IFlowResponse>;
 }
 
 export class FlowService implements IFlowService {
@@ -18,9 +20,10 @@ export class FlowService implements IFlowService {
   * @param context The webpart context
   * @param triggerConfig The trigger config with which to trigger the flow
   * @param selectedItems The selected list items
+  * @param userInput object of the user input
   */
   public invokeFlow = async (context: ListViewCommandSetContext, triggerConfig: ITriggerConfig,
-    selectedItems: readonly RowAccessor[]): Promise<IFlowResponse> => {
+    selectedItems: readonly RowAccessor[], userInput: object): Promise<IFlowResponse> => {
     try {
       if (!isTriggerConfigValid(triggerConfig)) {
         throw new Error("Flow configuration is invalid.");
@@ -42,7 +45,7 @@ export class FlowService implements IFlowService {
               };
             });
         case 'POST':
-          const httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems);
+          const httpClientPostOptions: IHttpClientOptions = this._createHttpClientPostOptions(context, selectedItems, userInput);
 
           if (!httpClientPostOptions) {
             throw new Error("HTTP client options are invalid.");
@@ -83,8 +86,10 @@ export class FlowService implements IFlowService {
   *
   * @param context The webpart context
   * @param selectedItems The selected list items
+  * @param userInput object of the user input
   */
-  private _createHttpClientPostOptions = (context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[]): IHttpClientOptions => {
+  private _createHttpClientPostOptions = (context: ListViewCommandSetContext, selectedItems: readonly RowAccessor[],
+    userInput: object): IHttpClientOptions => {
     try {
       const processedSelectedItems: ISelectedItem[] = [];
 
@@ -104,11 +109,18 @@ export class FlowService implements IFlowService {
       requestHeaders.append('Cache-Control', 'no-cache');
 
       const requestBody: IFlowRequestBody = {
+        originSecret: AppSettings.OriginSecret,
         site: context.pageContext.site.absoluteUrl,
         tenantUrl: context.pageContext.legacyPageContext?.portalUrl,
         listId: context.pageContext.list?.id.toString(),
         culture: context.pageContext.cultureInfo.currentUICultureName,
-        selectedItems: processedSelectedItems
+        selectedItems: processedSelectedItems,
+        user: {
+          loginName: context.pageContext.user.loginName,
+          displayName: context.pageContext.user.displayName,
+          email: context.pageContext.user.email,
+          input: userInput
+        }
       };
 
       const httpClientOptions: IHttpClientOptions = {

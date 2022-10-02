@@ -1,6 +1,6 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
 import { ServiceKey } from "@microsoft/sp-core-library";
-import { Logger, LogLevel } from "@pnp/logging";
+import { Logger } from "@pnp/logging";
 import { SPFI } from "@pnp/sp";
 import * as AppSettings from "AppSettings";
 import { getSP } from "../middleware";
@@ -51,22 +51,27 @@ export class SPOService implements ISPOService {
             const flowConfigs: ITriggerConfig[] = [];
 
             response.forEach((triggerConfigListItem): void => {
-              const flowConfig: ITriggerConfig = {
-                title: triggerConfigListItem?.Title,
-                triggerUrl: triggerConfigListItem?.TriggerURL,
-                httpMethod: triggerConfigListItem?.HTTPType,
-                listWhitelist: triggerConfigListItem?.ListWhitelist,
-                folderWhitelist: triggerConfigListItem?.FolderWhitelist,
-                contentTypeBlacklist: triggerConfigListItem?.ContentTypeBlacklist,
-                fileExtensionBlacklist: triggerConfigListItem?.FileExtensionBlacklist,
-                selectionLimit: triggerConfigListItem?.SelectionLimit,
-                userInput: triggerConfigListItem?.UserInput
-              };
+              try {
+                const flowConfig: ITriggerConfig = {
+                  title: triggerConfigListItem?.Title,
+                  triggerUrl: triggerConfigListItem?.TriggerURL,
+                  httpMethod: triggerConfigListItem?.HTTPType,
+                  listWhitelist: triggerConfigListItem?.ListWhitelist,
+                  folderWhitelist: triggerConfigListItem?.FolderWhitelist,
+                  contentTypeBlacklist: triggerConfigListItem?.ContentTypeBlacklist,
+                  fileExtensionBlacklist: triggerConfigListItem?.FileExtensionBlacklist,
+                  selectionLimit: triggerConfigListItem?.SelectionLimit,
+                  requestedUserInput: triggerConfigListItem?.RequestedUserInput ? JSON.parse(triggerConfigListItem?.RequestedUserInput) : undefined
+                };
 
-              if (!isTriggerConfigValid(flowConfig)) {
-                Logger.write(`Flow configuration for '${flowConfig.title}' is invalid.`, LogLevel.Warning);
-              } else {
-                flowConfigs.push(flowConfig);
+                if (!isTriggerConfigValid(flowConfig)) {
+                  throw new Error(`Flow configuration for '${flowConfig.title}' is invalid.`);
+                } else {
+                  flowConfigs.push(flowConfig);
+                }
+              }
+              catch (err) {
+                Logger.error(err);
               }
             });
             resolve(flowConfigs);

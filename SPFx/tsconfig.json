@@ -23,7 +23,8 @@
       "dom.iterable",
       "es2015.collection",
       "es2015.promise",
-      "es2016.array.include"
+      "es2016.array.include",
+      "es2017.object"
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]

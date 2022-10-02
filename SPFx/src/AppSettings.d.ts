@@ -1,6 +1,7 @@
 declare interface IAppSettings {
   ConfigListTitle: string;
   FlowButtonDisplayLimit: number;
+  OriginSecret: string;
 }
 
 declare module 'AppSettings' {

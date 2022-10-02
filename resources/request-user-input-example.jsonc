@@ -1,0 +1,12 @@
+[
+  {
+    "name": "", // Internal name of the input field. Value must be JSON key proof, so spaces or special characters are not allowed! The value of the input field will be passed to the flow in the user.input object with the key of this value
+    "label": "", // Label for input field
+    "placeholder": "", // Placeholder for input field (optional)
+    "type": "Single line text | Multi line text | Number | Email | Choice | Date | People picker", // Input field type
+    "required": true, // Whether the input field is required
+    "minDate": "", // Only required if type equals date. Minimum allowed date for date input field
+    "maxDate": "", // Only required if type equals date. Maximum allowed date for date input field
+    "options": [{ "key": "", "text": "" }] // Only required if type equals choice. The choices displayed in the dropdown input field
+  }
+]

@@ -25,5 +25,6 @@ define([], function () {
     UserInputDialogHeader: "More information required",
     UserInputDialogSubText:
       "The selected workflow requires more information before it can be started.",
+    UserInputErrorMessage: "Input is invalid",
   };
 });
