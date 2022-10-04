@@ -1,10 +1,11 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
+import { IDropdownOption } from "@fluentui/react";
 import { ServiceKey } from "@microsoft/sp-core-library";
 import { Logger } from "@pnp/logging";
 import { SPFI } from "@pnp/sp";
 import * as AppSettings from "AppSettings";
 import { getSP } from "../middleware";
-import { isTriggerConfigValid, ITriggerConfig } from "../models";
+import { IRequestedUserInput, isTriggerConfigValid, ITriggerConfig, SupportedInputTypes } from "../models";
 
 export interface ISPOService {
   getTriggerConfig(): Promise<ITriggerConfig[]>;
@@ -47,39 +48,106 @@ export class SPOService implements ISPOService {
         .getByTitle(this._configListTitle)
         .items.top(flowLimit)()
         .then((response): Promise<ITriggerConfig[]> => {
-          return new Promise((resolve, reject): void => {
-            const flowConfigs: ITriggerConfig[] = [];
+          return Promise.all(response.map(async (triggerConfigListItem) => {
+            try {
+              const flowConfig: ITriggerConfig = {
+                title: triggerConfigListItem?.Title,
+                triggerUrl: triggerConfigListItem?.TriggerURL,
+                httpMethod: triggerConfigListItem?.HTTPType,
+                originSecret: triggerConfigListItem?.OriginSecret,
+                listWhitelist: triggerConfigListItem?.ListWhitelist,
+                folderWhitelist: triggerConfigListItem?.FolderWhitelist,
+                contentTypeBlacklist: triggerConfigListItem?.ContentTypeBlacklist,
+                fileExtensionBlacklist: triggerConfigListItem?.FileExtensionBlacklist,
+                selectionLimit: triggerConfigListItem?.SelectionLimit,
+                requestedUserInput: triggerConfigListItem?.RequestedUserInput ? JSON.parse(triggerConfigListItem?.RequestedUserInput) : undefined
+              };
 
-            response.forEach((triggerConfigListItem): void => {
+              if (!isTriggerConfigValid(flowConfig)) {
+                throw new Error(`Flow configuration for '${flowConfig.title}' is invalid.`);
+              } else if (flowConfig.requestedUserInput) {
+                return await this._processRequestedUserInput(flowConfig.requestedUserInput).then((processedRequestedInput: IRequestedUserInput[]) => {
+                  flowConfig.requestedUserInput = processedRequestedInput;
+                  return Promise.resolve(flowConfig);
+                });
+              } else {
+                return Promise.resolve(flowConfig);
+              }
+            }
+            catch (err) {
+              Logger.error(err);
+              return Promise.reject();
+            }
+          }));
+        });
+    } catch (err) {
+      Logger.error(err);
+      return Promise.reject(null);
+    }
+  }
+
+  /**
+  * Processes the requested user input fields for the flow trigger.
+  * @param requestedUserInput The requested user input fields for the flow trigger.
+  */
+  private _processRequestedUserInput = async (requestedUserInput: IRequestedUserInput[]): Promise<IRequestedUserInput[]> => {
+    try {
+      return await Promise.all(requestedUserInput.map(async (requestedInput: IRequestedUserInput): Promise<IRequestedUserInput> => {
+        if (requestedInput.type === SupportedInputTypes.Lookup || requestedInput.type === SupportedInputTypes.MultiLookup) {
+          return await this._getLookupOptions(requestedInput.lookupListName, requestedInput.lookupDisplayColumn).then((options: IDropdownOption[]) => {
+            const processedRequestedInput: IRequestedUserInput = requestedInput;
+            processedRequestedInput.options = options;
+            return Promise.resolve(processedRequestedInput);
+          });
+        } else {
+          return Promise.resolve(requestedInput);
+        }
+      }));
+    } catch (err) {
+      Logger.error(err);
+      return Promise.reject(requestedUserInput);
+    }
+  }
+
+  /**
+  * Fetches the lookup options for the requested user input for the flow trigger.
+  * @param list The list to fetch the lookup options from.
+  * @param displayField The column of the lookup list to display in the option set.
+  */
+  private _getLookupOptions = async (list: string, displayField: string): Promise<IDropdownOption[]> => {
+    try {
+      if (!this._sp) {
+        throw new Error("Context is invalid.");
+      }
+
+      return await this._sp.web.lists
+        .getByTitle(list)
+        .select(`Id, ${displayField}`)
+        .items()
+        .then((response): Promise<IDropdownOption[]> => {
+          return new Promise((resolve, reject): void => {
+            const lookupOptions: IDropdownOption[] = [];
+
+            response.forEach((item): void => {
               try {
-                const flowConfig: ITriggerConfig = {
-                  title: triggerConfigListItem?.Title,
-                  triggerUrl: triggerConfigListItem?.TriggerURL,
-                  httpMethod: triggerConfigListItem?.HTTPType,
-                  originSecret: triggerConfigListItem?.OriginSecret,
-                  listWhitelist: triggerConfigListItem?.ListWhitelist,
-                  folderWhitelist: triggerConfigListItem?.FolderWhitelist,
-                  contentTypeBlacklist: triggerConfigListItem?.ContentTypeBlacklist,
-                  fileExtensionBlacklist: triggerConfigListItem?.FileExtensionBlacklist,
-                  selectionLimit: triggerConfigListItem?.SelectionLimit,
-                  requestedUserInput: triggerConfigListItem?.RequestedUserInput ? JSON.parse(triggerConfigListItem?.RequestedUserInput) : undefined
+                const lookupOption: IDropdownOption = {
+                  key: item.Id,
+                  text: item[displayField].toString()
                 };
 
-                if (!isTriggerConfigValid(flowConfig)) {
-                  throw new Error(`Flow configuration for '${flowConfig.title}' is invalid.`);
-                } else {
-                  flowConfigs.push(flowConfig);
-                }
+                lookupOptions.push(lookupOption);
               }
               catch (err) {
                 Logger.error(err);
               }
             });
-            resolve(flowConfigs);
+            resolve(lookupOptions);
           });
         });
+
     } catch (err) {
       Logger.error(err);
+      console.log(`EnhancedPowerAutomateTrigger -> Could not fetch lookup options for list '${list}'.`);
       return null
     }
   }

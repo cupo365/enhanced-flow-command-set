@@ -14,6 +14,10 @@ export interface ITriggerConfig {
   requestedUserInput: Array<IRequestedUserInput> | undefined;
 }
 
+/**
+* Validates a trigger configuration object.
+* @param triggerConfig The trigger configuration object to validate.
+*/
 export const isTriggerConfigValid = (triggerConfig: ITriggerConfig): boolean => {
   try {
     if (triggerConfig && !stringIsNullOrEmpty(triggerConfig?.title) && !stringIsNullOrEmpty(triggerConfig?.triggerUrl)

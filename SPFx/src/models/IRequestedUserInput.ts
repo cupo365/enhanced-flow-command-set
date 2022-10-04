@@ -12,6 +12,8 @@ export interface IRequestedUserInput {
   selectionLimit: number | undefined;
   groupName: string | undefined;
   options: IDropdownOption[] | undefined;
+  lookupListName: string | undefined;
+  lookupDisplayColumn: string | undefined;
 }
 
 export enum SupportedInputTypes {
@@ -23,8 +25,15 @@ export enum SupportedInputTypes {
   Date = "Date",
   PeoplePicker = "People picker",
   ComboBox = "Combo box",
+  Lookup = "Lookup",
+  MultiLookup = "Multi lookup"
 }
 
+/**
+* Validates a requested user input object.
+* @param requestedUserInput The requested user input object to validate.
+* @param triggerConfigTitle The configured title of the trigger.
+*/
 export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInput, triggerConfigTitle: string): boolean => {
   try {
     if (requestedUserInput && !stringIsNullOrEmpty(requestedUserInput?.name) && !stringIsNullOrEmpty(requestedUserInput?.label)
@@ -57,6 +66,10 @@ export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInpu
           break;
         case SupportedInputTypes.PeoplePicker:
           isValid = !isNaN(requestedUserInput?.selectionLimit) && requestedUserInput?.selectionLimit > 0;
+          break;
+        case SupportedInputTypes.Lookup:
+        case SupportedInputTypes.MultiLookup:
+          isValid = !stringIsNullOrEmpty(requestedUserInput?.lookupListName) && !stringIsNullOrEmpty(requestedUserInput?.lookupDisplayColumn);
           break;
         default:
           isValid = true;

@@ -39,7 +39,13 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
   const numberRegex: RegExp = new RegExp(/^\d+$/);;
   const emailRegex: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
-
+  /**
+  * Generic function that handles the value change of a form input field and revalidates the form input validity.
+  * @param inputFieldName The name of the input field with a changed value.
+  * @param event The input field change event.
+  * @param newValue The new value of the input field after the change.
+  * @param newValueIsEmpty Whether the new value of the input field is empty.
+  */
   const handleOnChangeInputFieldValue = (inputFieldName: string, event, newValue, newValueIsEmpty: boolean): void => {
     try {
       // Set input field error message
@@ -84,6 +90,10 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
     }
   }
 
+  /**
+  * Renders a form input field.
+  * @param formInputField The requested user input object to generate a form input field for.
+  */
   const renderFormInputField = (formInputField: IRequestedUserInput): JSX.Element => {
     try {
       switch (formInputField.type) {
@@ -145,6 +155,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
             />
           );
         case SupportedInputTypes.Choice:
+        case SupportedInputTypes.Lookup:
           return (
             <Dropdown
               label={formInputField.label}
@@ -203,6 +214,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
               resolveDelay={1000} />
           );
         case SupportedInputTypes.ComboBox:
+        case SupportedInputTypes.MultiLookup:
           return (
             <ComboBox
               label={formInputField.label}
@@ -237,6 +249,9 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
     }
   }
 
+  /**
+ * Parses the form input object state from a Map to a JSON object.
+ */
   const parseFormInput = (): object => {
     try {
       const formInputObject: object = {};
