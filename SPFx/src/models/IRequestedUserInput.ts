@@ -79,10 +79,10 @@ export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInpu
           break;
       }
 
-      if (!isValid) throw new Error(`EnhancedPowerAutomateTrigger -> Requested user input for trigger configuration '${triggerConfigTitle}' is invalid.`);
+      if (!isValid) throw new Error(`EnhancedFlowTrigger -> Requested user input for trigger configuration '${triggerConfigTitle}' is invalid.`);
       return isValid;
     } else {
-      throw new Error(`EnhancedPowerAutomateTrigger -> Requested user input for trigger configuration '${triggerConfigTitle}' is invalid.`);
+      throw new Error(`EnhancedFlowTrigger -> Requested user input for trigger configuration '${triggerConfigTitle}' is invalid.`);
     }
   } catch (err) {
     console.log(err);

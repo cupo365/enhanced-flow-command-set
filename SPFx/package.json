@@ -1,9 +1,9 @@
 {
-  "name": "enhanced-power-automate-trigger",
+  "name": "enhanced-flow-trigger",
   "version": "1.5.0",
   "private": true,
   "main": "lib/index.js",
-  "description": "Trigger a Power Automate flow from SharePoint while selecting one or more items.",
+  "description": "Trigger a Power Automate or Azure Logic Apps flow from SharePoint while selecting one or more items.",
   "author": "cup o'365",
   "license": "MIT",
   "scripts": {

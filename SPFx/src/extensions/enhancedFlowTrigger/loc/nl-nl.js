@@ -26,5 +26,6 @@ define([], function () {
     WaitingForFlowResponseDialogHeader: "De werkstroom aan het starten",
     FormInputErrorMessage: "Invoer is ongeldig",
     StartFlowButtonText: "Start werkstroom",
+    InternalServerErrorMessage: "Er is een interne serverfout opgetreden.",
   };
 });

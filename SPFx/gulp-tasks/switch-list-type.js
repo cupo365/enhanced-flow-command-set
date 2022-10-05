@@ -22,8 +22,8 @@ const clientSideInstanceComponentIdSearchString = 'ComponentId="';
 const packageSolutionJsonPath = "./config/package-solution.json";
 const serveJsonPath = "./config/serve.json";
 const yoRcJsonPath = "./.yo-rc.json";
-const enhancedPowerAutomateTriggerCommandSetManifestJsonPath =
-  "./src/extensions/enhancedPowerAutomateTrigger/EnhancedPowerAutomateTriggerCommandSet.manifest.json";
+const enhancedFlowTriggerCommandSetManifestJsonPath =
+  "./src/extensions/enhancedFlowTrigger/EnhancedFlowTriggerCommandSet.manifest.json";
 const listTemplateIdLength = 3;
 const guidLength = 36;
 const customListId = 100;
@@ -42,13 +42,11 @@ build.task("switch-list-type", {
         let yoRcJson = fs.existsSync(yoRcJsonPath)
           ? JSON.parse(fs.readFileSync(yoRcJsonPath))
           : undefined;
-        let enhancedPowerAutomateTriggerCommandSetManifestJson = fs.existsSync(
-          enhancedPowerAutomateTriggerCommandSetManifestJsonPath
+        let enhancedFlowTriggerCommandSetManifestJson = fs.existsSync(
+          enhancedFlowTriggerCommandSetManifestJsonPath
         )
           ? JSON.parse(
-              fs.readFileSync(
-                enhancedPowerAutomateTriggerCommandSetManifestJsonPath
-              )
+              fs.readFileSync(enhancedFlowTriggerCommandSetManifestJsonPath)
             )
           : undefined;
         let serveJson = fs.existsSync(serveJsonPath)
@@ -69,8 +67,8 @@ build.task("switch-list-type", {
           throw "Could not fetch the yo-rc JSON file content. Check the yoRcJson file path.";
         }
 
-        if (!enhancedPowerAutomateTriggerCommandSetManifestJson) {
-          throw "Could not fetch the enhancedPowerAutomateTriggerCommandSet Manifest JSON file content. Check the enhancedPowerAutomateTriggerCommandSetManifestJson file path.";
+        if (!enhancedFlowTriggerCommandSetManifestJson) {
+          throw "Could not fetch the enhancedFlowTriggerCommandSet Manifest JSON file content. Check the enhancedFlowTriggerCommandSetManifestJson file path.";
         }
 
         if (!serveJson) {
@@ -269,25 +267,21 @@ build.task("switch-list-type", {
         // Update .yo-rc.json
         fs.writeFileSync(yoRcJsonPath, JSON.stringify(yoRcJson, null, 2));
 
-        // EnhancedPowerAutomateTriggerCommandSet.manifest.json
+        // EnhancedFlowTriggerCommandSet.manifest.json
         gutil.log(
           gutil.colors.magenta(
-            "Updating EnhancedPowerAutomateTriggerCommandSet.manifest.json..."
+            "Updating EnhancedFlowTriggerCommandSet.manifest.json..."
           )
         );
-        enhancedPowerAutomateTriggerCommandSetManifestJson.id =
+        enhancedFlowTriggerCommandSetManifestJson.id =
           listType === "doc"
             ? process.env.SPFX_DOC_COMMAND_COMPONENT_ID
             : process.env.SPFX_LIST_COMMAND_COMPONENT_ID;
 
-        // Update EnhancedPowerAutomateTriggerCommandSet.manifest.json
+        // Update EnhancedFlowTriggerCommandSet.manifest.json
         fs.writeFileSync(
-          enhancedPowerAutomateTriggerCommandSetManifestJsonPath,
-          JSON.stringify(
-            enhancedPowerAutomateTriggerCommandSetManifestJson,
-            null,
-            2
-          )
+          enhancedFlowTriggerCommandSetManifestJsonPath,
+          JSON.stringify(enhancedFlowTriggerCommandSetManifestJson, null, 2)
         );
 
         // SERVE.JSON
@@ -303,7 +297,7 @@ build.task("switch-list-type", {
             .replace(process.env.SPFX_DOC_COMMAND_COMPONENT_ID, newComponentId)
             .replace(process.env.SPFX_DEV_COMMAND_COMPONENT_ID, newComponentId)
         );
-        serveJson.serveConfigurations.enhancedPowerAutomateTrigger.customActions =
+        serveJson.serveConfigurations.enhancedFlowTrigger.customActions =
           JSON.parse(
             JSON.stringify(serveJson.serveConfigurations.default.customActions)
               .replace(

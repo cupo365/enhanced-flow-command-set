@@ -1,4 +1,4 @@
-# ![Enhanced SharePoint Power Automate Trigger Command Set icon](resources/extension-icon-small.png "Enhanced SharePoint Power Automate Trigger Command Set icon") Enhanced SharePoint Power Automate Trigger Command Set
+# ![Enhanced Flow Trigger Command Set icon](resources/extension-icon-small.png "Enhanced Flow Trigger Command Set icon") Enhanced Flow Trigger Command Set
 
 ## Table of Contents
   - [Summary](#summary)
@@ -13,13 +13,13 @@
 
 ## Summary
 
-My colleague [MrAutomate33](https://github.com/mrautomate33) and I have been longing for a solution that supports triggering Power Automate flows while selecting multiple files in a SharePoint document library or multiple list items in a SharePoint custom list. Now, finally it's here! <br />
+My colleague [MrAutomate33](https://github.com/mrautomate33) and I have been longing for a solution that supports triggering Power Automate and/or Azure Logic Apps flows while selecting multiple files in a SharePoint document library or multiple list items in a SharePoint custom list. Now, finally it's here! <br />
 <br />
 This SPFx (SharePoint Framework) command set expands on the existing 'trigger a flow' menu button in SharePoint, and allows you to configure one or more HTTP request triggered flows and serve the user with a choice on which flow to execute when selecting one or more items by injecting a menu lint and context button upon loading the page. A sppkg for both SharePoint document libaries and custom lists are available.
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v2.0.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v2.0.0)**
 
 ## Compatibility
 
@@ -33,12 +33,15 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ![Compatible with SharePoint document libraries](https://img.shields.io/badge/Document%20libraries-Compatible-green.svg) ![Compatible with SharePoint custom lists](https://img.shields.io/badge/Custom%20lists-Compatible-green.svg)
 
-![Compatible with Microsoft Edge](https://img.shields.io/badge/MS%20Edge-Compatible-green.svg) ![Compatible with Google Chrome](https://img.shields.io/badge/Google%20Chrome-Compatible-green.svg) ![Compatible with Mozilla Firefox](https://img.shields.io/badge/Mozilla%20Firefox-Compatible-green.svg) ![Responsive UI](https://img.shields.io/badge/Mobile-Compatible-green.svg)
+![Compatible with Power Automate](https://img.shields.io/badge/Power%20Automate-Compatible-green.svg) ![Compatible with Azure Logic Apps](https://img.shields.io/badge/Azure%20Logic%20Apps-Compatible-green.svg) ![Compatible with custom API's](https://img.shields.io/badge/Custom%20APIs-Compatible-green.svg)
+
+![Compatible with Microsoft Edge](https://img.shields.io/badge/MS%20Edge-Compatible-green.svg) ![Compatible with Google Chrome](https://img.shields.io/badge/Google%20Chrome-Compatible-green.svg) ![Compatible with Mozilla Firefox](https://img.shields.io/badge/Mozilla%20Firefox-Compatible-green.svg) ![Compatible with mobile](https://img.shields.io/badge/Mobile-Compatible-green.svg)
 
 ## Applies to
 
 - [SharePoint Framework](https://aka.ms/spfx)
 - [Power Automate](https://powerautomate.microsoft.com/en-us/)
+- [Azure Logic Apps](https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-overview)
 - [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 - [Elegant DI in SPFx](https://ypcode.wordpress.com/2018/07/30/elegant-di-in-spfx/)
 - [Using .env files in SharePoint Framework development](https://digitalworkplace365.wordpress.com/2020/03/05/using-env-files-in-sharepoint-framework-development/)
@@ -53,27 +56,27 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 ## Prerequisites
 
 > - Node.js v12/14/16
-> - A Power Automate per user or per flow plan that allows you to use the Request (HTTP) connector (see [Power Automate pricing](https://powerautomate.microsoft.com/en-us/pricing/))
+> - (If using Power Automate) A Power Automate per user or per flow plan that allows you to use the Request (HTTP) connector (see [Power Automate pricing](https://powerautomate.microsoft.com/en-us/pricing/))
 > - (optional) An M365 account. Get your own free Microsoft 365 tenant from [M365 developer program](https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 
 ## Solution
 
-| Solution                                                       | Author(s)                                     |
-| -------------------------------------------------------------- | --------------------------------------------- |
-| Document Libraries Enhanced Power Automate Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg)) |
-| Custom Lists Enhanced Power Automate Trigger Command Set       | cup o'365 ([contact](mailto:info@cupo365.gg)) |
+| Solution                                             | Author(s)                                     |
+| ---------------------------------------------------- | --------------------------------------------- |
+| Document Libraries Enhanced Flow Trigger Command Set | cup o'365 ([contact](mailto:info@cupo365.gg)) |
+| Custom Lists Enhanced Flow Trigger Command Set       | cup o'365 ([contact](mailto:info@cupo365.gg)) |
 
 ## Version history
 
-| Version                                                                                     | Date            | Comments                                                                                   |
-| ------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------ |
-| [0.9.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v0.9.0) | April 3, 2022   | Pre-release                                                                                |
-| [1.0.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.0.0) | July 1, 2022    | Initial release, doc lib and lists compatibility                                           |
-| [1.1.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.1.0) | July 24, 2022   | Migration to SPFx 1.15.0 and lots of optimalizations                                       |
-| [1.2.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.2.1) | August 1, 2022  | Customizable list and folder whitelisting and content type and file extension blacklisting |
-| [1.3.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.3.0) | October 2, 2022 | Dynamic user input form                                                                    |
-| [1.4.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0) | October 4, 2022 | Support lookup as user input                                                               |
-| [1.5.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0) | October 5, 2022 | UI and dynamic input form optimalizations                                                  |
+| Version                                                                           | Date            | Comments                                                                                   |
+| --------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------ |
+| [0.9.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v0.9.0) | April 3, 2022   | Pre-release                                                                                |
+| [1.0.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v1.0.0) | July 1, 2022    | Initial release, doc lib and lists compatibility                                           |
+| [1.1.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v1.1.0) | July 24, 2022   | Migration to SPFx 1.15.0 and lots of optimalizations                                       |
+| [1.2.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v1.2.1) | August 1, 2022  | Customizable list and folder whitelisting and content type and file extension blacklisting |
+| [1.3.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v1.3.0) | October 2, 2022 | Dynamic user input form                                                                    |
+| [1.4.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v1.4.0) | October 4, 2022 | Support lookup as user input                                                               |
+| [2.0.0](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v2.0.0) | October 5, 2022 | Rebranding and UI and dynamic input form optimalizations                                   |
 
 ## Supported languages
 - English
@@ -85,10 +88,10 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 Unlike SPFx web parts, command sets do not support configuration via a property panel. To ensure customization to this solution is still possible, a workaround has been implemented. 
 
-Upon installing the web part on a SharePoint site, a Power Automate trigger configuration custom list will be automatically provisioned with the name ````Enhanced Power Automate Trigger Configuration````.
+Upon installing the web part on a SharePoint site, a flow trigger configuration custom list will be automatically provisioned with the name ````Enhanced Flow Trigger Configuration````.
 
-Upon initialization, the web part will fetch all items in this provisioned list and use the information stored in it to create flow configuration, which is then presented to the user as a choice which flow to trigger. If the web part succeeds in fetching and composing the configuration, a console message will be logged with the name of the provisioned list. This message looks like ````EnhancedPowerAutomateTriggerCommandSet -> Initialized! Listening to config list: Enhanced Power Automate Trigger Configuration````.
-If it fails, a console message will be logged. This message looks like ````EnhancedPowerAutomateTriggerCommandSet -> Error while initializing````.
+Upon initialization, the web part will fetch all items in this provisioned list and use the information stored in it to create flow configuration, which is then presented to the user as a choice which flow to trigger. If the web part succeeds in fetching and composing the configuration, a console message will be logged with the name of the provisioned list. This message looks like ````EnhancedFlowTriggerCommandSet -> Initialized! Listening to config list: Enhanced Flow Trigger Configuration````.
+If it fails, a console message will be logged. This message looks like ````EnhancedFlowTriggerCommandSet -> Error while initializing````.
 
 The web part will call the flow by using the information in the composed flow configuration selected by the user.
 The provisioned configuration list contains the following  fields. Each item in this list represents a flow the user may call from the list/document library:
@@ -172,7 +175,7 @@ An example of the request body is outlined below:
 }
 ````
 
-This request body translates to the following Power Automate body schema:
+This request body translates to the following flow body schema:
 ````
 {
     "type": "object",
@@ -265,7 +268,7 @@ The command set also supports showing the user a custom message via the flow res
 } 
 ````
 
-This translates to the following Power Automate body schema:
+This translates to the following flow body schema:
 ````
 {
     "type": "object",
@@ -282,6 +285,6 @@ If a message is present, it will be displayed in the dialog that is shown to the
 
 ## Download the web part packages
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v2.0.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-flow-command-set/releases/tag/v2.0.0)**

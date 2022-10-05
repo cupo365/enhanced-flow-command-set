@@ -25,13 +25,13 @@ export const isTriggerConfigValid = (triggerConfig: ITriggerConfig): boolean => 
       if (triggerConfig?.requestedUserInput && triggerConfig?.requestedUserInput.length > 0) {
         return triggerConfig?.requestedUserInput.every((requestedUserInput: IRequestedUserInput): boolean => {
           if (triggerConfig.requestedUserInput.filter(x => x.name === requestedUserInput.name).length > 1) {
-            throw new Error(`EnhancedPowerAutomateTrigger -> Trigger configuration for '${triggerConfig?.title}' is invalid.`);
+            throw new Error(`EnhancedFlowTrigger -> Trigger configuration for '${triggerConfig?.title}' is invalid.`);
           }
           return isRequestedUserInputValid(requestedUserInput, triggerConfig.title);
         });
       } else return true;
     } else {
-      throw new Error(`EnhancedPowerAutomateTrigger -> Trigger configuration for '${triggerConfig?.title}' is invalid.`);
+      throw new Error(`EnhancedFlowTrigger -> Trigger configuration for '${triggerConfig?.title}' is invalid.`);
     }
   } catch (err) {
     console.log(err);

@@ -1,7 +1,7 @@
 import { ServiceScope } from "@microsoft/sp-core-library";
 import { BaseListViewCommandSet, Command, IListViewCommandSetExecuteEventParameters, ListViewStateChangedEventArgs } from "@microsoft/sp-listview-extensibility";
 import { ConsoleListener, ILogListener, Logger, LogLevel } from "@pnp/logging";
-import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
+import * as strings from "EnhancedFlowTriggerCommandSetStrings";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { v4 } from "uuid";
@@ -10,14 +10,14 @@ import { validateVisibility } from "../../library";
 import { getLogSource, getSP, isServedFromLocalHost } from "../../middleware";
 import { ITriggerConfig } from "../../models";
 import { FlowService, FlowServiceKey, IFlowService, ISPOService, SPOService, SPOServiceKey } from "../../services";
-import { EnhancedPowerAutomateTriggerDialog, IEnhancedPowerAutomateTriggerDialogProps } from "./components";
+import { EnhancedFlowTriggerDialog, IEnhancedFlowTriggerDialogProps } from "./components";
 
-export interface IEnhancedPowerAutomateTriggerCommandSetProps {
+export interface IEnhancedFlowTriggerCommandSetProps {
 
 }
 
-export default class EnhancedPowerAutomateTriggerCommandSet
-  extends BaseListViewCommandSet<IEnhancedPowerAutomateTriggerCommandSetProps> {
+export default class EnhancedFlowTriggerCommandSet
+  extends BaseListViewCommandSet<IEnhancedFlowTriggerCommandSetProps> {
   private _triggerConfigs: ITriggerConfig[];
   private _dialogPlaceHolder: HTMLDivElement = null;
   private _currentListId: string | undefined;
@@ -118,7 +118,7 @@ export default class EnhancedPowerAutomateTriggerCommandSet
     try {
       switch (event.itemId) {
         case 'TRIGGER_FLOW':
-          this._renderEnhancedPowerAutomateTriggerDialog(event);
+          this._renderEnhancedFlowTriggerDialog(event);
           break;
         default:
           throw new Error('Unknown command');
@@ -156,15 +156,15 @@ export default class EnhancedPowerAutomateTriggerCommandSet
   *
   * @param event Click event context
   */
-  private _renderEnhancedPowerAutomateTriggerDialog(
+  private _renderEnhancedFlowTriggerDialog(
     event: IListViewCommandSetExecuteEventParameters
   ): void {
     try {
       // Use a new id to create a new element every time it opens: otherwise state is maintained from previous dialog
       // This is probably not the correct way: state should be maintained, but every time the dialog opens the closed state should be reset.
       const newKey: string = v4();
-      const dialog: React.FunctionComponentElement<IEnhancedPowerAutomateTriggerDialogProps> =
-        React.createElement(EnhancedPowerAutomateTriggerDialog, {
+      const dialog: React.FunctionComponentElement<IEnhancedFlowTriggerDialogProps> =
+        React.createElement(EnhancedFlowTriggerDialog, {
           key: newKey,
           flowService: this._flowService,
           selectedItems: event.selectedRows,

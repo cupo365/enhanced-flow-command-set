@@ -3,7 +3,7 @@ import { ComboBox, DatePicker, DayOfWeek, defaultDatePickerStrings, Dropdown, Pr
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
 import { Logger } from "@pnp/logging";
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
-import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
+import * as strings from "EnhancedFlowTriggerCommandSetStrings";
 import * as React from "react";
 import { stringIsNullOrEmpty, useToggle } from "../../../library";
 import { IFlowResponse, IRequestedUserInput, ITriggerConfig, SupportedInputTypes } from "../../../models";
@@ -28,6 +28,9 @@ export const FlowInputForm: React.FC<IFlowInputFormProps> = (
     setFlowResponse, toggleIsWaitingForResponse, context,
     reValidateInputForm, toggleReValidateInputForm } = props;
 
+  /**
+   * Initializes a dynamic mapping object of all requested user input fields
+   */
   const initializeFormInput = (): Map<string, string> | undefined => {
     try {
       const map: Map<string, string> = new Map<string, string>();
@@ -45,6 +48,9 @@ export const FlowInputForm: React.FC<IFlowInputFormProps> = (
   const [formInput, setFormInput] = React.useState<Map<string, string>>(initializeFormInput());
   const [inputErrorMessages, setInputErrorMessages] = React.useState<Map<string, string>>(initializeFormInput());
 
+  /**
+   * Validates the flow input form field values
+   */
   const validateForm = (): boolean => {
     try {
       if (!formInput) return false;
@@ -73,9 +79,10 @@ export const FlowInputForm: React.FC<IFlowInputFormProps> = (
 
   const [formIsValid, toggleFormIsValid] = useToggle(false);
 
-
+  /**
+   * Resets the component upon selected flow trigger change
+   */
   React.useEffect(() => {
-    // Reset form state
     setFormInput(initializeFormInput());
     setInputErrorMessages(initializeFormInput());
     if (formHasErrors) toggleFormHasErrors();
@@ -83,8 +90,10 @@ export const FlowInputForm: React.FC<IFlowInputFormProps> = (
     toggleReValidateInputForm();
   }, [selectedFlowTrigger]);
 
+  /**
+   * Revalidates the entire form upon revalidation request
+   */
   React.useEffect(() => {
-    // Re-validate entire form
     const formValidationResult: boolean = validateForm();
     if (formIsValid && !formValidationResult) toggleFormIsValid();
     else if (!formIsValid && formValidationResult) toggleFormIsValid();
@@ -147,7 +156,7 @@ export const FlowInputForm: React.FC<IFlowInputFormProps> = (
         });
     } catch (err) {
       Logger.error(err);
-      setFlowResponse({ statusCode: 500, message: "Internal server error" });
+      setFlowResponse({ statusCode: 500, message: strings.InternalServerErrorMessage });
       toggleIsWaitingForResponse();
     }
   };

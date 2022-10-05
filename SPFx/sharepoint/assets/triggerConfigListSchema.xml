@@ -1,5 +1,5 @@
-<List xmlns:ows="Microsoft SharePoint" Title="Enhanced Power Automate Trigger Configuration" EnableContentTypes="FALSE" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/EnhancedPowerAutomateTriggerConfiguration" BaseType="0"
-  xmlns="http://schemas.microsoft.com/sharepoint/" DisableAttachments="TRUE" Description="Configure flow triggers for the Enhanced Power Automate Trigger Command Set.">
+<List xmlns:ows="Microsoft SharePoint" Title="Enhanced Flow Trigger Configuration" EnableContentTypes="FALSE" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/EnhancedFlowTriggerConfiguration" BaseType="0"
+  xmlns="http://schemas.microsoft.com/sharepoint/" DisableAttachments="TRUE" Description="Configure flow triggers for the Enhanced Flow Trigger Command Set.">
   <MetaData>
     <ContentTypes></ContentTypes>
     <Fields>
@@ -33,7 +33,7 @@
       <Field ID="{2a9fd430-c7a1-43a5-b349-18fe46b7c049}" Type="Number" Name="SelectionLimit" DisplayName="Selection limit" Required="TRUE" StaticName="SelectionLimit" Description="The selected items limit for this trigger. Ex: 30.">
         <Default>30</Default>
       </Field>
-      <Field ID="{2574742f-477c-4243-8f14-87048e83e6ee}" Type="Note" Name="RequestedUserInput" DisplayName="Requested user input" Required="FALSE" StaticName="RequestedUserInput" NumLines="500" RichText="FALSE" AppendOnly="FALSE" Description="An array with objects of input fields to request and pass to the flow. An example value can be found here: https://github.com/cupo365/enhanced-power-automate-command-set/blob/main/resources/request-user-input-example.jsonc. Leave empty to not request any user input." />
+      <Field ID="{2574742f-477c-4243-8f14-87048e83e6ee}" Type="Note" Name="RequestedUserInput" DisplayName="Requested user input" Required="FALSE" StaticName="RequestedUserInput" NumLines="500" RichText="FALSE" AppendOnly="FALSE" Description="An array with objects of input fields to request and pass to the flow. An example value can be found here: https://github.com/cupo365/enhanced-flow-command-set/blob/main/resources/request-user-input-example.jsonc. Leave empty to not request any user input." />
     </Fields>
     <Views>
       <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/images/generic.png" Url="AllItems.aspx">

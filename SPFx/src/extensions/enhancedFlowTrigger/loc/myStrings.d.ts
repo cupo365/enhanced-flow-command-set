@@ -1,4 +1,4 @@
-declare interface IEnhancedPowerAutomateTriggerCommandSetStrings {
+declare interface IEnhancedFlowTriggerCommandSetStrings {
   TriggerFlowCommandText: string;
   SuccessDialogHeader: string;
   FailedDialogHeader: string;
@@ -18,9 +18,10 @@ declare interface IEnhancedPowerAutomateTriggerCommandSetStrings {
   WaitingForFlowResponseDialogHeader: string;
   FormInputErrorMessage: string;
   StartFlowButtonText: string;
+  InternalServerErrorMessage: string;
 }
 
-declare module 'EnhancedPowerAutomateTriggerCommandSetStrings' {
-  const strings: IEnhancedPowerAutomateTriggerCommandSetStrings;
+declare module 'EnhancedFlowTriggerCommandSetStrings' {
+  const strings: IEnhancedFlowTriggerCommandSetStrings;
   export = strings;
 }

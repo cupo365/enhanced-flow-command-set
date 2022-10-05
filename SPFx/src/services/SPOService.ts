@@ -147,7 +147,7 @@ export class SPOService implements ISPOService {
 
     } catch (err) {
       Logger.error(err);
-      console.log(`EnhancedPowerAutomateTrigger -> Could not fetch lookup options for list '${list}'.`);
+      console.log(`EnhancedFlowTrigger -> Could not fetch lookup options for list '${list}'.`);
       return null
     }
   }

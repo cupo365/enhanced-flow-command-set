@@ -29,5 +29,6 @@ define([], function () {
     WaitingForFlowResponseDialogHeader: "Starting the workflow",
     FormInputErrorMessage: "Input is invalid",
     StartFlowButtonText: "Start workflow",
+    InternalServerErrorMessage: "An internal server error occurred.",
   };
 });

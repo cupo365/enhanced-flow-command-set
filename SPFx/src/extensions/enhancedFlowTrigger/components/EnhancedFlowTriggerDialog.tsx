@@ -1,15 +1,15 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
 import { Dialog, DialogFooter, DialogType, Dropdown, IDialogContentProps, IDropdownOption, IModalProps, PrimaryButton, Spinner, SpinnerSize, Stack } from "@fluentui/react";
 import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
-import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
+import * as strings from "EnhancedFlowTriggerCommandSetStrings";
 import * as React from "react";
 import { FlowInputForm } from ".";
 import { stringIsNullOrEmpty, useToggle, validateVisibility } from "../../../library";
 import { IFlowResponse, ITriggerConfig } from "../../../models";
 import { IFlowService } from "../../../services";
-import styles from "../styles/EnhancedPowerAutomateTriggerDialog.module.scss";
+import styles from "../styles/EnhancedFlowTriggerDialog.module.scss";
 
-export interface IEnhancedPowerAutomateTriggerDialogProps {
+export interface IEnhancedFlowTriggerDialogProps {
   flowService: IFlowService;
   selectedItems: readonly RowAccessor[];
   triggerConfigs: ITriggerConfig[];
@@ -17,7 +17,7 @@ export interface IEnhancedPowerAutomateTriggerDialogProps {
   context: ListViewCommandSetContext;
 }
 
-export const EnhancedPowerAutomateTriggerDialog: React.FC<IEnhancedPowerAutomateTriggerDialogProps> = (
+export const EnhancedFlowTriggerDialog: React.FC<IEnhancedFlowTriggerDialogProps> = (
   props
 ) => {
   const { flowService, selectedItems, triggerConfigs, currentListId, context } = props;
