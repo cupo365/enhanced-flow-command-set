@@ -1,40 +1,97 @@
 /* eslint-disable @microsoft/spfx/no-async-await */
 import { ComboBox, DatePicker, DayOfWeek, defaultDatePickerStrings, Dropdown, PrimaryButton, Stack, TextField } from "@fluentui/react";
-import { ListViewCommandSetContext } from "@microsoft/sp-listview-extensibility";
+import { ListViewCommandSetContext, RowAccessor } from "@microsoft/sp-listview-extensibility";
 import { Logger } from "@pnp/logging";
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 import * as strings from "EnhancedPowerAutomateTriggerCommandSetStrings";
 import * as React from "react";
 import { stringIsNullOrEmpty, useToggle } from "../../../library";
-import { IRequestedUserInput, ITriggerConfig, SupportedInputTypes } from "../../../models";
-import styles from "../styles/UserInputForm.module.scss";
+import { IFlowResponse, IRequestedUserInput, ITriggerConfig, SupportedInputTypes } from "../../../models";
+import { IFlowService } from "../../../services";
+import styles from "../styles/FormInputForm.module.scss";
 
-export interface IUserInputFormProps {
+export interface IFlowInputFormProps {
   selectedFlowTrigger: ITriggerConfig;
-  onTriggerInvoke(flowConfig: ITriggerConfig, userInput: object): Promise<void>;
+  flowService: IFlowService;
+  selectedItems: readonly RowAccessor[];
+  setFlowResponse(flowResponse: IFlowResponse): void;
+  toggleIsWaitingForResponse(): void;
   context: ListViewCommandSetContext;
+  reValidateInputForm: boolean;
+  toggleReValidateInputForm(): void;
 }
-export const UserInputForm: React.FC<IUserInputFormProps> = (
+export const FlowInputForm: React.FC<IFlowInputFormProps> = (
   props
 ) => {
 
-  const { selectedFlowTrigger, onTriggerInvoke, context } = props;
-  const [formInput, setFormInput] = React.useState<Map<string, string>>(() => {
-    const map: Map<string, string> = new Map<string, string>();
-    selectedFlowTrigger.requestedUserInput.forEach((input: IRequestedUserInput) => {
-      map.set(input.name, undefined);
-    });
-    return map;
-  });
-  const [formErrorMessages, setFormErrorMessages] = React.useState<Map<string, string>>(() => {
-    const map: Map<string, string> = new Map<string, string>();
-    selectedFlowTrigger.requestedUserInput.forEach((input: IRequestedUserInput) => {
-      map.set(input.name, undefined);
-    });
-    return map;
-  });
-  const [formIsValid, toggleFormIsValid] = useToggle(false);
+  const { selectedFlowTrigger, flowService, selectedItems,
+    setFlowResponse, toggleIsWaitingForResponse, context,
+    reValidateInputForm, toggleReValidateInputForm } = props;
+
+  const initializeFormInput = (): Map<string, string> | undefined => {
+    try {
+      const map: Map<string, string> = new Map<string, string>();
+      selectedFlowTrigger?.requestedUserInput?.forEach((input: IRequestedUserInput) => {
+        map.set(input.name, undefined);
+      });
+      return map;
+    } catch (err) {
+      Logger.error(err);
+      return undefined;
+    }
+  }
+
   const [formHasErrors, toggleFormHasErrors] = useToggle(false);
+  const [formInput, setFormInput] = React.useState<Map<string, string>>(initializeFormInput());
+  const [inputErrorMessages, setInputErrorMessages] = React.useState<Map<string, string>>(initializeFormInput());
+
+  const validateForm = (): boolean => {
+    try {
+      if (!formInput) return false;
+      if (formInput.size === 0) return true;
+
+      const formInputIsValid: boolean = Array.from(formInput.keys()).every((key: string): boolean => {
+        if (selectedFlowTrigger.requestedUserInput.filter(x => x.name === key)[0].required) {
+          return formInput.get(key) !== undefined;
+        }
+        return true;
+      });
+      const formHasNoErrorMessages: boolean = Array.from(inputErrorMessages.keys()).every((key: string): boolean => {
+        return inputErrorMessages.get(key) === undefined;
+      });
+
+      if (!formHasErrors && !formHasNoErrorMessages) toggleFormHasErrors();
+      else if (formHasErrors && formHasNoErrorMessages) toggleFormHasErrors();
+
+      if (formInputIsValid && formHasNoErrorMessages) return true;
+      else return false;
+    } catch (err) {
+      Logger.error(err);
+      return false;
+    }
+  }
+
+  const [formIsValid, toggleFormIsValid] = useToggle(false);
+
+
+  React.useEffect(() => {
+    // Reset form state
+    setFormInput(initializeFormInput());
+    setInputErrorMessages(initializeFormInput());
+    if (formHasErrors) toggleFormHasErrors();
+    if (formIsValid) toggleFormIsValid();
+    toggleReValidateInputForm();
+  }, [selectedFlowTrigger]);
+
+  React.useEffect(() => {
+    // Re-validate entire form
+    const formValidationResult: boolean = validateForm();
+    if (formIsValid && !formValidationResult) toggleFormIsValid();
+    else if (!formIsValid && formValidationResult) toggleFormIsValid();
+  },
+    // Changes within an array or map won't trigger a re-render.
+    // Therefore, we need to use a separate state variable to trigger a re-render.
+    [reValidateInputForm]);
 
   const numberRegex: RegExp = new RegExp(/^\d+$/);;
   const emailRegex: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -50,45 +107,50 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
     try {
       // Set input field error message
       if (!newValue && newValueIsEmpty && selectedFlowTrigger.requestedUserInput.find((input: IRequestedUserInput) => input.name === inputFieldName).required) {
-        const newFormErrorMessages: Map<string, string> = formErrorMessages;
-        newFormErrorMessages.set(inputFieldName, strings.UserInputErrorMessage);
-        setFormErrorMessages(newFormErrorMessages);
+        const newinputErrorMessages: Map<string, string> = inputErrorMessages;
+        newinputErrorMessages.set(inputFieldName, strings.FormInputErrorMessage);
+        setInputErrorMessages(newinputErrorMessages);
       } else if (!newValue && !newValueIsEmpty) {
-        const newFormErrorMessages: Map<string, string> = formErrorMessages;
-        newFormErrorMessages.set(inputFieldName, strings.UserInputErrorMessage);
-        setFormErrorMessages(newFormErrorMessages);
+        const newinputErrorMessages: Map<string, string> = inputErrorMessages;
+        newinputErrorMessages.set(inputFieldName, strings.FormInputErrorMessage);
+        setInputErrorMessages(newinputErrorMessages);
       } else {
-        const newFormErrorMessages: Map<string, string> = formErrorMessages;
-        newFormErrorMessages.set(inputFieldName, undefined);
-        setFormErrorMessages(newFormErrorMessages);
+        const newinputErrorMessages: Map<string, string> = inputErrorMessages;
+        newinputErrorMessages.set(inputFieldName, undefined);
+        setInputErrorMessages(newinputErrorMessages);
       }
 
       // Set input field value
       const newUserInput: Map<string, string> = formInput;
       newUserInput.set(inputFieldName, newValue);
       setFormInput(newUserInput);
-
-      // Set input fields validity
-      const formInputIsValid: boolean = Array.from(formInput.keys()).every((key: string): boolean => {
-        if (selectedFlowTrigger.requestedUserInput.filter(x => x.name === key)[0].required) {
-          return formInput.get(key) !== undefined;
-        }
-        return true;
-      });
-      const formHasNoErrorMessages: boolean = Array.from(formErrorMessages.keys()).every((key: string): boolean => {
-        return formErrorMessages.get(key) === undefined;
-      });
-
-      if (!formHasErrors && !formHasNoErrorMessages) toggleFormHasErrors();
-      else if (formHasErrors && formHasNoErrorMessages) toggleFormHasErrors();
-
-      if (formInputIsValid && formHasNoErrorMessages && !formIsValid) toggleFormIsValid();
-      else if (!formInputIsValid && formIsValid) toggleFormIsValid();
-      else if (!formHasNoErrorMessages && formIsValid) toggleFormIsValid();
+      // Trigger re-render
+      toggleReValidateInputForm();
     } catch (err) {
       Logger.error(err);
     }
   }
+
+  /**
+  * Invokes the flow of the selected trigger button and handles its response
+  *
+  * @param formInput Object with key-value mapping of the flow form input
+  */
+  const onFlowInvoke = async (formInput: object): Promise<void> => {
+    try {
+      toggleIsWaitingForResponse();
+
+      await flowService.invokeFlow(context, selectedFlowTrigger, selectedItems, formInput)
+        .then((response: IFlowResponse): void => {
+          setFlowResponse(response);
+          toggleIsWaitingForResponse();
+        });
+    } catch (err) {
+      Logger.error(err);
+      setFlowResponse({ statusCode: 500, message: "Internal server error" });
+      toggleIsWaitingForResponse();
+    }
+  };
 
   /**
   * Renders a form input field.
@@ -106,7 +168,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
                 const newInputValue: string = stringIsNullOrEmpty(newValue) ? undefined : newValue;
                 handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(newValue));
               }}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
             />
           );
@@ -119,7 +181,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
                 const newInputValue: string | undefined = stringIsNullOrEmpty(newValue) ? undefined : newValue;
                 handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(newValue));
               }}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
               multiline
               rows={3}
@@ -136,7 +198,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
                   : !numberRegex.test(newValue) ? undefined : parseInt(newValue);
                 handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(newValue));
               }}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
             />
           );
@@ -150,22 +212,39 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
                   : !emailRegex.test(newValue) ? undefined : newValue;
                 handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(newValue));
               }}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
             />
           );
-        case SupportedInputTypes.Choice:
+        case SupportedInputTypes.Dropdown:
         case SupportedInputTypes.Lookup:
+        case SupportedInputTypes.MultiLookup:
           return (
             <Dropdown
               label={formInputField.label}
               placeholder={formInputField.placeholder}
               options={formInputField.options}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              multiSelect={formInputField.multiSelect}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
               onChange={(event, option, index) => {
-                const newInputValue: string | undefined = stringIsNullOrEmpty(option.key.toString()) ? undefined : option.key.toString();
-                handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option.key.toString()));
+                let newInputValue: string | undefined = stringIsNullOrEmpty(option?.key.toString()) ? undefined : option.key.toString();
+
+                if (formInputField.multiSelect) {
+
+                  if (newInputValue && option.selected) {
+                    const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                    if (currentInputValue) {
+                      newInputValue = `${currentInputValue},${newInputValue}`;
+                    }
+                  } else if (newInputValue && !option.selected) {
+                    const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                    if (currentInputValue) {
+                      newInputValue = currentInputValue.replace(`,${newInputValue}`, "").replace(newInputValue, "");
+                    }
+                  }
+                  handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option?.key.toString()));
+                } else handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option.key.toString()));
               }}
             />
           );
@@ -203,7 +282,7 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
               allowUnvalidated={true}
               required={formInputField.required}
               disabled={false}
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               onChange={(selectedPersons: unknown[]) => {
                 const newInputValue: unknown[] | undefined = selectedPersons && selectedPersons.length > 0 ? selectedPersons : undefined;
                 handleOnChangeInputFieldValue(formInputField.name, null, newInputValue, selectedPersons && selectedPersons.length > 0);
@@ -214,29 +293,32 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
               resolveDelay={1000} />
           );
         case SupportedInputTypes.ComboBox:
-        case SupportedInputTypes.MultiLookup:
           return (
             <ComboBox
               label={formInputField.label}
               placeholder={formInputField.placeholder}
               options={formInputField.options}
-              multiSelect
-              errorMessage={formErrorMessages.get(formInputField.name)}
+              multiSelect={formInputField.multiSelect}
+              errorMessage={inputErrorMessages.get(formInputField.name)}
               required={formInputField.required}
               onChange={(event, option?, index?, value?): void => {
                 let newInputValue: string | undefined = stringIsNullOrEmpty(option?.key.toString()) ? undefined : option.key.toString();
-                if (newInputValue && option.selected) {
-                  const currentInputValue: string | undefined = formInput.get(formInputField.name);
-                  if (currentInputValue) {
-                    newInputValue = `${currentInputValue},${newInputValue}`;
+
+                if (formInputField.multiSelect) {
+
+                  if (newInputValue && option.selected) {
+                    const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                    if (currentInputValue) {
+                      newInputValue = `${currentInputValue},${newInputValue}`;
+                    }
+                  } else if (newInputValue && !option.selected) {
+                    const currentInputValue: string | undefined = formInput.get(formInputField.name);
+                    if (currentInputValue) {
+                      newInputValue = currentInputValue.replace(`,${newInputValue}`, "").replace(newInputValue, "");
+                    }
                   }
-                } else if (newInputValue && !option.selected) {
-                  const currentInputValue: string | undefined = formInput.get(formInputField.name);
-                  if (currentInputValue) {
-                    newInputValue = currentInputValue.replace(`,${newInputValue}`, "").replace(newInputValue, "");
-                  }
-                }
-                handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option?.key.toString()));
+                  handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option?.key.toString()));
+                } else handleOnChangeInputFieldValue(formInputField.name, event, newInputValue, stringIsNullOrEmpty(option.key.toString()));
               }}
             />
           );
@@ -267,24 +349,27 @@ export const UserInputForm: React.FC<IUserInputFormProps> = (
   }
 
   return (
-    <Stack>
+    <div>
+      {
+        selectedFlowTrigger?.requestedUserInput && selectedFlowTrigger?.requestedUserInput?.length > 0 && (
+          <hr />
+        )
+      }
       <Stack tokens={{ childrenGap: 5 }}>
         {
-          selectedFlowTrigger.requestedUserInput.map((formInputField: IRequestedUserInput) => {
+          selectedFlowTrigger?.requestedUserInput?.map((formInputField: IRequestedUserInput) => {
             return renderFormInputField(formInputField);
           })
         }
       </Stack>
       <Stack>
         <PrimaryButton
-          text={selectedFlowTrigger.title}
+          text={strings.StartFlowButtonText}
           className={styles.submitButton}
           disabled={!formIsValid}
-          onClick={async (): Promise<void> => {
-            await onTriggerInvoke(selectedFlowTrigger, parseFormInput());
-          }}
+          onClick={async (): Promise<void> => await onFlowInvoke(parseFormInput())}
         />
       </Stack>
-    </Stack>
+    </div>
   );
 };

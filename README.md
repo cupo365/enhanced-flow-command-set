@@ -17,9 +17,9 @@ My colleague [MrAutomate33](https://github.com/mrautomate33) and I have been lon
 <br />
 This SPFx (SharePoint Framework) command set expands on the existing 'trigger a flow' menu button in SharePoint, and allows you to configure one or more HTTP request triggered flows and serve the user with a choice on which flow to execute when selecting one or more items by injecting a menu lint and context button upon loading the page. A sppkg for both SharePoint document libaries and custom lists are available.
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
 
 ## Compatibility
 
@@ -33,7 +33,7 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 
 ![Compatible with SharePoint document libraries](https://img.shields.io/badge/Document%20libraries-Compatible-green.svg) ![Compatible with SharePoint custom lists](https://img.shields.io/badge/Custom%20lists-Compatible-green.svg)
 
-![Compatible with Microsoft Edge](https://img.shields.io/badge/MS%20Edge-Compatible-green.svg) ![Compatible with Google Chrome](https://img.shields.io/badge/Google%20Chrome-Compatible-green.svg) ![Compatible with Mozilla Firefox](https://img.shields.io/badge/Mozilla%20Firefox-Compatible-green.svg)
+![Compatible with Microsoft Edge](https://img.shields.io/badge/MS%20Edge-Compatible-green.svg) ![Compatible with Google Chrome](https://img.shields.io/badge/Google%20Chrome-Compatible-green.svg) ![Compatible with Mozilla Firefox](https://img.shields.io/badge/Mozilla%20Firefox-Compatible-green.svg) ![Responsive UI](https://img.shields.io/badge/Mobile-Compatible-green.svg)
 
 ## Applies to
 
@@ -73,6 +73,7 @@ This SPFx (SharePoint Framework) command set expands on the existing 'trigger a 
 | [1.2.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.2.1) | August 1, 2022  | Customizable list and folder whitelisting and content type and file extension blacklisting |
 | [1.3.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.3.0) | October 2, 2022 | Dynamic user input form                                                                    |
 | [1.4.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0) | October 4, 2022 | Support lookup as user input                                                               |
+| [1.5.0](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0) | October 5, 2022 | UI and dynamic input form optimalizations                                                  |
 
 ## Supported languages
 - English
@@ -110,7 +111,11 @@ If the command set is installed on the site and the user opens a document librar
 
 Upon pressing the menu button, a dialog will appear, displaying choices for every configured flow in the provisioned configuration list. The user will be able to choose which flow they want to trigger (see example below).
 ![Select flow dialog example](resources/select-flow-dialog.png "Select flow dialog example")
-> Note that the web part and its components is SharePoint theme-aware.
+
+If requested user input has been configured for the selected flow, the webpart will dynamically build the input fields and display them to the user, requesting their input. Based on the presence of required fields, the button to trigger the flow will be disabled until all required field maintain a valid value (see example below). ![Dynamic flow input form example](resources/dynamic-flow-input-form.png "Dynamic flow input form example")
+
+If no requested user input has been configured, the webpart will simply show the button to trigger the flow with (see example below). ![No user input configured](resources/no-user-input-configured.png "No user input configured example")
+> Note that the web part and its components are SharePoint theme-aware.
 
 If the configured flow uses a POST method, the command set will pass a request body JSON-object to the flow with the following properties:
 | Name             | Type    | Description                                                                                                                           | Example                                                          |
@@ -238,6 +243,7 @@ This request body translates to the following Power Automate body schema:
     }
 }
 ````
+> Note that inserting the user input schema into the HTTP trigger body is not required. The input field values will still be available to you in your flow, but just not as a dynamic content property
 > Note that flows configured with a GET method <u>will not</u> receive a request body, since that is not supported within the Power Automate response (HTTP) trigger.
 
 <br />
@@ -276,6 +282,6 @@ If a message is present, it will be displayed in the dialog that is shown to the
 
 ## Download the web part packages
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for custom lists here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**
 
-**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.4.0)**
+**[<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Froyal-blue%2Fdata-transfer-download-xxl.png&f=1&nofb=1" alt="Download .sppkg file" style="width:15px;margin-right:10px;"/><u>Download the .sppkg file for document libraries here!</u>](https://github.com/cupo365/enhanced-power-automate-command-set/releases/tag/v1.5.0)**

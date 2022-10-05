@@ -14,6 +14,7 @@ export interface IRequestedUserInput {
   options: IDropdownOption[] | undefined;
   lookupListName: string | undefined;
   lookupDisplayColumn: string | undefined;
+  multiSelect: boolean;
 }
 
 export enum SupportedInputTypes {
@@ -21,7 +22,7 @@ export enum SupportedInputTypes {
   MultiLineText = "Multi line text",
   Number = "Number",
   Email = "Email",
-  Choice = "Choice",
+  Dropdown = "Dropdown",
   Date = "Date",
   PeoplePicker = "People picker",
   ComboBox = "Combo box",
@@ -58,7 +59,7 @@ export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInpu
           } catch (err) {
             break;
           }
-        case SupportedInputTypes.Choice:
+        case SupportedInputTypes.Dropdown:
           isValid = requestedUserInput?.options && requestedUserInput?.options.length > 0;
           break;
         case SupportedInputTypes.ComboBox:
@@ -68,8 +69,10 @@ export const isRequestedUserInputValid = (requestedUserInput: IRequestedUserInpu
           isValid = !isNaN(requestedUserInput?.selectionLimit) && requestedUserInput?.selectionLimit > 0;
           break;
         case SupportedInputTypes.Lookup:
-        case SupportedInputTypes.MultiLookup:
           isValid = !stringIsNullOrEmpty(requestedUserInput?.lookupListName) && !stringIsNullOrEmpty(requestedUserInput?.lookupDisplayColumn);
+          break;
+        case SupportedInputTypes.MultiLookup:
+          isValid = !stringIsNullOrEmpty(requestedUserInput?.lookupListName) && !stringIsNullOrEmpty(requestedUserInput?.lookupDisplayColumn) && requestedUserInput.multiSelect === true;
           break;
         default:
           isValid = true;

@@ -7,16 +7,17 @@ declare interface IEnhancedPowerAutomateTriggerCommandSetStrings {
   FailedDialogSubTextWithMessage: string;
   FailedDialogSubTextWithoutMessage: string;
   CloseDialogButtonText: string;
-  SelectFlowDialogHeader: string;
-  SelectFlowDialogSubText: string;
+  SelectFlowDropdownLabel: string;
+  SelectFlowDropdownPlaceholder: string;
+  DefaultDialogHeader: string;
+  DefaultDialogSubtext: string;
   InvokedDialogSubText: string;
   CloseDialogUserInstruction: string;
   WaitingForFlowResponseSpinnerText: string;
   WaitingForFlowResponseDialogSubText: string;
   WaitingForFlowResponseDialogHeader: string;
-  UserInputDialogHeader: string;
-  UserInputDialogSubText: string;
-  UserInputErrorMessage: string;
+  FormInputErrorMessage: string;
+  StartFlowButtonText: string;
 }
 
 declare module 'EnhancedPowerAutomateTriggerCommandSetStrings' {

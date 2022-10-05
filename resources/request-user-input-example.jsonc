@@ -4,15 +4,16 @@
     "name": "", // Internal name of the input field. Value must be JSON key proof, so spaces or special characters are not allowed! The value of the input field will be passed to the flow in the user.input object with the key of this value
     "label": "", // Label for input field
     "placeholder": "", // Placeholder for input field (optional)
-    "type": "Single line text | Multi line text | Number | Email | Choice | Date | People picker | Combo box | Lookup | Multi lookup", // Input field type
+    "type": "Single line text | Multi line text | Number | Email | Dropdown | Date | People picker | Combo box | Lookup | Multi lookup", // Input field type
     "required": true, // Whether the input field is required
     "minDate": "", // Only required if type equals date. Minimum allowed date for date input field
     "maxDate": "", // Only required if type equals date. Maximum allowed date for date input field
     "selectionLimit": 1, // Only required if type equals people picker. Maximum number of people that can be selected for this input field
     "groupName": "", // Optional and only used if type equals people picker. Name of the SharePoint group out of which people can be selected in the input field
-    "options": [{ "key": "", "text": "" }], // Only required if type equals choice or combo box. The choices displayed in the dropdown input field
+    "options": [{ "key": "", "text": "" }], // Only required if type equals dropdown or combo box. The choices displayed in the dropdown input field
     "lookupListName": "", // Only required if type equals lookup or multi lookup. Name of the SharePoint list out of which items can be selected in the input field
-    "lookupDisplayColumn": "" // Only required if type equals lookup or multi lookup. Name of the column in the SharePoint list that should be displayed in the input field
+    "lookupDisplayColumn": "", // Only required if type equals lookup or multi lookup. Name of the column in the SharePoint list that should be displayed in the input field
+    "multiSelect": true // Only required if type equals dropdown, combo box, lookup or multi lookup. This should be true if type equals multi lookup. Whether multiple items can be selected in the input field
   },
   /* EXAMPLES */
   {
@@ -58,12 +59,13 @@
     "name": "status",
     "label": "Status",
     "placeholder": "Select an option",
-    "type": "Choice",
+    "type": "Dropdown",
     "required": true,
     "options": [
       { "key": "approved", "text": "Approve" },
       { "key": "rejected", "text": "Reject" }
-    ]
+    ],
+    "multiSelect": true
   },
   {
     "name": "tags",
@@ -77,7 +79,8 @@
       { "key": "C", "text": "Tag C" },
       { "key": "D", "text": "Tag D" },
       { "key": "E", "text": "Tag E" }
-    ]
+    ],
+    "multiSelect": false
   },
   {
     "name": "customer",
@@ -86,7 +89,8 @@
     "type": "Lookup",
     "required": false,
     "lookupListName": "Customers",
-    "lookupDisplayColumn": "Name"
+    "lookupDisplayColumn": "Name",
+    "multiSelect": false
   },
   {
     "name": "departments",
@@ -95,7 +99,8 @@
     "type": "Multi lookup",
     "required": false,
     "lookupListName": "Departments",
-    "lookupDisplayColumn": "Title"
+    "lookupDisplayColumn": "Title",
+    "multiSelect": true
   },
   {
     "name": "comments",

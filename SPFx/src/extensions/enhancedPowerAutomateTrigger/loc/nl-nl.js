@@ -11,8 +11,10 @@ define([], function () {
     FailedDialogSubTextWithoutMessage:
       "De werkstroom is gestart, maar faalde vervolgens. Probeer het opnieuw.",
     CloseDialogButtonText: "Sluiten",
-    SelectFlowDialogHeader: "Selecteer een werkstroom",
-    SelectFlowDialogSubText:
+    SelectFlowDropdownLabel: "Selecteer een werkstroom",
+    SelectFlowDropdownPlaceholder: "Selecteer een optie",
+    DefaultDialogHeader: "Start een werkstroom",
+    DefaultDialogSubtext:
       "Selecteer welke werkstroom je wilt starten voor de geselecteerde item(s):",
     InvokedDialogSubText:
       "De geselecteerde werkstroom is gestart en wordt op de achtergrond uitgevoerd.",
@@ -22,9 +24,7 @@ define([], function () {
     WaitingForFlowResponseDialogSubText:
       "De werkstroom wordt gestart. Dit kan een paar seconden duren. Wees geduldig en sluit deze pagina niet af.",
     WaitingForFlowResponseDialogHeader: "De werkstroom aan het starten",
-    UserInputDialogHeader: "Meer informatie benodigd",
-    UserInputDialogSubText:
-      "De geselecteerde werkstroom benodigd meer informatie voordat deze kan worden gestart.",
-    UserInputErrorMessage: "Invoer is ongeldig",
+    FormInputErrorMessage: "Invoer is ongeldig",
+    StartFlowButtonText: "Start werkstroom",
   };
 });

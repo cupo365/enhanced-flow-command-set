@@ -15,6 +15,11 @@ define([], function () {
     SelectFlowDialogHeader: "Select a workflow",
     SelectFlowDialogSubText:
       "Please select which workflow you would like to start for your selected item(s):",
+    SelectFlowDropdownLabel: "Select a workflow",
+    SelectFlowDropdownPlaceholder: "Select an option",
+    DefaultDialogHeader: "Start a workflow",
+    DefaultDialogSubtext:
+      "Please select which workflow you would like to start for your selected item(s):",
     InvokedDialogSubText:
       "The selected workflow has been successfully started. It will run in the background.",
     CloseDialogUserInstruction: "You may close this dialog now.",
@@ -22,9 +27,7 @@ define([], function () {
     WaitingForFlowResponseDialogSubText:
       "The workflow is being started, this could take a coulpe of seconds. Please be patient and do not navigate away.",
     WaitingForFlowResponseDialogHeader: "Starting the workflow",
-    UserInputDialogHeader: "More information required",
-    UserInputDialogSubText:
-      "The selected workflow requires more information before it can be started.",
-    UserInputErrorMessage: "Input is invalid",
+    FormInputErrorMessage: "Input is invalid",
+    StartFlowButtonText: "Start workflow",
   };
 });

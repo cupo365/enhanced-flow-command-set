@@ -5,7 +5,7 @@ import * as React from 'react';
 *
 * @param defaultValue The default value of the toggle
 */
-export const useToggle = (defaultValue: boolean): [boolean, () => void] => {
+export const useToggle = (defaultValue: boolean | (() => boolean)): [boolean, () => void] => {
   const [value, setValue] = React.useState<boolean>(defaultValue);
 
   const toggleValue = (): void => {
